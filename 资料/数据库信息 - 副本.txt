@@ -1,0 +1,72 @@
+create table admin(
+	admin_id mediumint(9) AUTO_INCREMENT COMMENT '管理员ID',
+	admin_name char(20) NOT NULL COMMENT '管理员用户名',
+	password char(32) NOT NULL COMMENT '登录密码',
+	level enum('超级管理员','高级管理员','普通管理员') COMMENT '管理员级别',
+	status enum('停用','启用') COMMENT '管理员ID', #0未激活，1激活
+	created_at int(11) NOT NULL COMMENT '创建时间',
+	updated_at int(11) NOT NULL COMMENT '更新时间',
+	lastloginip varchar(15) COMMENT '最后一次登录IP',
+	lastlogintime int(11) COMMENT '最后一次登录时间',
+	email varchar(64) NOT NULL COMMENT '管理员邮箱',
+	phone int(12) NOT NULL COMMENT '手机号码',
+	PRIMARY KEY(admin_id)
+)ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='管理员表';
+//超级管理员有所有权限
+//高级管理员可修改用户信息可查看高级及以下用户信息及其关键词信息（排名信息和历史信息），对关键词出查看外无其他数据库操作权限
+//普通管理员只能查看、修改普通用户信息以及查看关键词信息（排名信息和历史信息），对关键词出查看外无其他数据库操作权限
+
+create table user(
+	user_id mediumint(9) AUTO_INCREMENT COMMENT '用户ID',
+	user_name char(20) NOT NULL COMMENT '用户名',
+	url_id varchar(128) NOT NULL COMMENT '用户域名',
+	level enum('超级VIP用户','高级VIP用户','普通用户') COMMENT '用户级别',
+        status enum('停用','启用') COMMENT '用户状态',
+	created_at int(11) NOT NULL COMMENT '创建时间',
+	updated_at int(11) NOT NULL COMMENT '更新时间',
+	lastloginip varchar(15) COMMENT '最后一次登录IP',
+	lastlogintime int(11) COMMENT '最后一次登录时间',
+	email varchar(64) NOT NULL COMMENT '用户邮箱',
+	phone int(12) NOT NULL COMMENT '用户手机号码',
+	PRIMARY KEY(user_id)
+)ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='用户表';
+//普通用户10个词，包含删除词，只能查看1个月内的历史排名记录
+//高级用户50个词，包含删除词，最多可查看3个月内历史排名记录
+//超级VIP词数无限制，可查看半年内历史排名记录（系统只记录半年内排名记录）
+（新增一张user权限表：普通权限（查看自己的信息），高级权限（可查看同行信息））
+（新增一张行业类别表）
+
+create table url(
+	url_id mediumint(9) AUTO_INCREMENT COMMENT '域名ID',
+	user_id mediumint(9) NOT NULL COMMENT '用户ID',
+	url_name varchar(128) NOT NULL COMMENT '域名名',
+	word_num int(3) NOT NULL DEFAULT 0 COMMENT '关键词数量',
+	word_branked_num int(3) NOT NULL default 0 COMMENT '已有排名关键词数',
+	ftpip varchar(64) COMMENT 'FTP地址',
+	ftpname varchar(32) COMMENT 'FTP登录名',
+	ftppwd varchar(32) COMMENT 'FTP登录密码', 
+	PRIMARY KEY(url_id),
+	FOREIGN key(user_id) references user(user_id)
+)ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='域名表';
+（新增历史监控关键词列表字段）
+
+CREATE TABLE keywords(
+	word_id int(10) AUTO_INCREMENT COMMENT 'ID',
+	url_id mediumint(9) NOT NULL COMMENT 'urlID',
+	word_name varchar(32) NOT NULL COMMENT '关键词名',
+	word_status enum('未监控','监控') COMMENT '关键词状态', 
+	created_at int(11) NOT NULL COMMENT '创建时间',
+	updated_at int(11) NOT NULL COMMENT '更新时间',
+	word_branked varchar(32) DEFAULT 0 COMMENT '关键词排名',
+        PRIMARY KEY(word_id),
+        FOREIGN key(url_id) references url(url_id)
+)ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='关键词表';
+
+create table history_branked(
+	id int(12) AUTO_INCREMENT COMMENT 'ID',
+	word_id int(10) NOT NULL COMMENT '关键词ID',
+	old_branked varchar(32) DEFAULT 0 COMMENT '关键词历史排名',
+	updated_at int(11) NOT NULL COMMENT '排名时间',
+	PRIMARY KEY(id),
+        FOREIGN key(word_id) references keywords(word_id)
+)ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='关键词历史排名表';
