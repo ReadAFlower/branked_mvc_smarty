@@ -19,7 +19,6 @@ create table admin(
 create table user(
 	user_id mediumint(9) AUTO_INCREMENT COMMENT '用户ID',
 	type_num int(5) NOT NULL COMMENT '行业编号',
-	url_id varchar(128) NOT NULL COMMENT '用户域名ID',
 	user_name char(20) NOT NULL COMMENT '用户名',
 	level enum('超级VIP用户','高级VIP用户','普通用户') COMMENT '用户级别',
         status enum('停用','启用') COMMENT '用户状态',
@@ -30,8 +29,7 @@ create table user(
 	email varchar(64) NOT NULL COMMENT '用户邮箱',
 	phone int(12) NOT NULL COMMENT '用户手机号码',
 	PRIMARY KEY(user_id),
-	FOREIGN key(type_num) references industry_type(type_num),
-	FOREIGN key(url_id) references url(url_id),
+	FOREIGN key(type_num) references industry_type(type_num)
 )ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='用户表';
 //普通用户10个词，包含删除词，只能查看1个月内的历史排名记录
 //高级用户50个词，包含删除词，最多可查看3个月内历史排名记录
@@ -48,12 +46,14 @@ create table industry_type(
 
 create table user_url(
 	url_id mediumint(9) AUTO_INCREMENT COMMENT '域名ID',
+	user_id mediumint(9) NOT NULL COMMENT '用户ID',
 	url_name varchar(128) NOT NULL COMMENT '域名名',
 	word_num int(3) NOT NULL DEFAULT 0 COMMENT '关键词数量',
 	word_branked_num int(3) NOT NULL default 0 COMMENT '已有排名关键词数',
 	word_list varchar(512) COMMENT '高级及以下用户所有关键词列表',
 	url_note varchar(512) COMMENT '备注信息', 
-	PRIMARY KEY(url_id)
+	PRIMARY KEY(url_id),
+	FOREIGN key(user_id) references user(user_id)
 )ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='域名表，user的附属表';
 （新增历史监控关键词列表字段）
 
@@ -67,7 +67,7 @@ CREATE TABLE keywords(
 	updated_at int(11) NOT NULL COMMENT '更新时间',
 	word_branked varchar(32) DEFAULT 0 COMMENT '关键词排名',
         PRIMARY KEY(word_id),
-        FOREIGN key(url_id) references url(url_id)
+        FOREIGN key(url_id) references user_url(url_id)
 )ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='关键词表';
 
 create table history_branked(
