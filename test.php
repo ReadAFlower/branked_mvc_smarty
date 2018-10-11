@@ -6,8 +6,7 @@
 require_once 'owncms\libs\classes\branked.class.php';
 use \owncms\libs\classes\branked;
 $word = 'seo';
-$url ='www.huifachina.com';
-$branked = new branked($word,$url);
+$url = 'www.xiaohaiseo.com';
+$branked = new branked($word, $url);
 
-$branked->contentDeal();
-
+var_dump($branked->getBranked());
