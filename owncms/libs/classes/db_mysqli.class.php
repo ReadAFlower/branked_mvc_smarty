@@ -26,7 +26,9 @@ final class db_mysqli
 	* 数据库连接
 	*/
 	public function connect() {
-		$this->link = new mysqli($this->config['hostname'], $this->config['username'], $this->config['password'], $this->config['database'], $this->config['port']?intval($this->config['port']):3306);
+
+		$this->link = new \mysqli($this->config['hostname'], $this->config['username'], $this->config['password'], $this->config['database'], $this->config['port']?intval($this->config['port']):3306);
+
 		if(mysqli_connect_error()){
 			$this->halt('Can not connect to MySQL server');
 			return false;
@@ -45,7 +47,6 @@ final class db_mysqli
 		if(!is_object($this->link)) {
 			$this->connect();
 		}
-
 		$this->lastqueryid = $this->link->query($sql) or $this->halt($this->link->error, $sql);
 
 		return $this->lastqueryid;
@@ -407,31 +408,3 @@ final class db_mysqli
 	}
 
 }
-
-$db = new db_mysqli();
-
-// $insetData=[
-// 	'admin_name'=>'test2',
-// 	'password'=>md5(123456),
-// 	'level'=>1,
-// 	'status'=>2,
-// 	'created_at'=>time(),
-// 	'updated_at'=>time(),
-// 	'lastloginip'=>'127.0.0.1',
-// 	'lastlogintime'=>time(),
-// 	'email'=>'test2@admin.com',
-// 	'phone'=>'13512345678'
-// ];
-
-// $db->insert($insetData,'admin');
-// $updateDate = 'phone = "13512345678"';
-// $where = 'admin_id=20';
-// $db->update($updateDate,'admin',$where);
-
-$where = 'admin_id=22';
-
-$db->delete('admin',$where);
-
-$res = $db->select('*','admin');
-
-var_dump($res);
