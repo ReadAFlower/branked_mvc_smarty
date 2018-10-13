@@ -1,10 +1,12 @@
 <?php
-namespace owncms\controllers;
-
 /**
  * 基础控制器
  */
-class basesController
-{
 
+class baseController
+{
+        public function __construct()
+        {
+            $db = pcBase::loadSysClass('db_mysqli');
+        }
 }

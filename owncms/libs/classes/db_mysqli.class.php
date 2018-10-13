@@ -1,5 +1,5 @@
 <?php
-namespace owncms\libs\classes;
+
 /**
  * 数据库基类
  */
@@ -16,9 +16,9 @@ final class db_mysqli
 	
 	function __construct()
 	{
-		$db=require_once($_SERVER['DOCUMENT_ROOT'].'/configs/database.php');
-
-		$this->config=$db['db'];
+		//$db=require_once($_SERVER['DOCUMENT_ROOT'].'/configs/database.php');
+        $db = \pcBase::loadConfig('database');
+		$this->config = $db['db'];
 
 	}
 

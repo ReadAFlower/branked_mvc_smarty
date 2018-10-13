@@ -1,7 +1,7 @@
 <?php
 
 return array (
-	'db' => array (
+	'db' => [
 		'hostname' => 'localhost',
 		'port' => 3306,
 		'database' => 'brankedmvc',
@@ -13,7 +13,7 @@ return array (
 		'debug' => true,
 		'pconnect' => 0,
 		'autoconnect' => 0
-		),
+		]
 );
 
 ?>
