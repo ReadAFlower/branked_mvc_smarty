@@ -5,43 +5,43 @@
     $menu=[
       'manager'=>[
         'manager'=>'管理员管理',
-        'manager_url'=>'',
+        'manager_url'=>'/index.php?m=admin&c=admin&e=index',
         'manager_child'=>[
             [
                 'manager_list'=>'管理员列表',
-                'manager_list_url'=>'',
+                'manager_list_url'=>'/index.php?m=admin&c=admin&e=list',
             ],
             [
                 'manager_add'=>'添加管理员',
-                'manager_add_url'=>'',
+                'manager_add_url'=>'/index.php?m=admin&c=admin&e=add',
             ],
         ]
       ],
       'user'=>[
           'user'=>'用户管理',
-          'user_url'=>'',
+          'user_url'=>'/index.php?m=user&c=user&e=index',
           'user_child'=>[
               [
                   'user_list'=>'管理员列表',
-                  'user_list_url'=>'',
+                  'user_list_url'=>'/index.php?m=user&c=user&e=list',
               ],
               [
                   'user_add'=>'添加管理员',
-                  'user_add_url'=>'',
+                  'user_add_url'=>'/index.php?m=user&c=user&e=add',
               ],
           ]
       ],
       'keywords'=>[
           'keywords'=>'关键词管理',
-          'keywords_url'=>'',
+          'keywords_url'=>'/index.php?m=keywords&c=keywords&e=index',
           'keywords_child'=>[
               [
                   'keywords_list'=>'管理员列表',
-                  'keywords_list_url'=>'',
+                  'keywords_list_url'=>'/index.php?m=keywords&c=keywords&e=list',
               ],
               [
                   'keywords_add'=>'添加管理员',
-                  'keywords_add_url'=>'',
+                  'keywords_add_url'=>'/index.php?m=keywords&c=keywords&e=add',
               ],
           ]
       ]

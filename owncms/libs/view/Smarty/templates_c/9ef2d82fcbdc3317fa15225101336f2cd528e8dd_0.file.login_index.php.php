@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2018-10-13 18:15:40
+/* Smarty version 3.1.33, created on 2018-10-16 18:06:51
   from 'D:\phpstudy\WWW\mvc.branked.com\owncms\libs\view\Smarty\templates\login_index.php' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5bc1c5ccbad390_00912337',
+  'unifunc' => 'content_5bc5b83b881064_14992286',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '9ef2d82fcbdc3317fa15225101336f2cd528e8dd' => 
     array (
       0 => 'D:\\phpstudy\\WWW\\mvc.branked.com\\owncms\\libs\\view\\Smarty\\templates\\login_index.php',
-      1 => 1539078514,
+      1 => 1539684388,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5bc1c5ccbad390_00912337 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5bc5b83b881064_14992286 (Smarty_Internal_Template $_smarty_tpl) {
 ?><html>
 <head>
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
@@ -37,7 +37,20 @@ function content_5bc1c5ccbad390_00912337 (Smarty_Internal_Template $_smarty_tpl)
 </head>
 <body>
     <header class="login_header">
-
+        <div class="header_left"></div>
+        <div class="header_right">
+            <ul>
+                <li><a href="/index.php?m=<?php echo $_smarty_tpl->tpl_vars['m']->value;?>
+&c=<?php echo $_smarty_tpl->tpl_vars['c']->value;?>
+&e=loginOut">安全退出</a></li>
+                <li><a href="/index.php?m=<?php echo $_smarty_tpl->tpl_vars['m']->value;?>
+&c=<?php echo $_smarty_tpl->tpl_vars['c']->value;?>
+&e=loginOut">安全退出</a></li>
+                <li><a href="/index.php?m=<?php echo $_smarty_tpl->tpl_vars['m']->value;?>
+&c=<?php echo $_smarty_tpl->tpl_vars['c']->value;?>
+&e=loginOut">安全退出</a></li>
+            </ul>
+        </div>
     </header>
     <div class="login_content">
         <div class="login_left">
@@ -54,6 +67,7 @@ function content_5bc1c5ccbad390_00912337 (Smarty_Internal_Template $_smarty_tpl)
         </div>
         <div class="login_right">
             <div class="login_right_header"></div>
+
             <!--
             <form action="" method="post" id="act_form">
                 <input type="hidden" name="" value="">
@@ -81,7 +95,7 @@ function content_5bc1c5ccbad390_00912337 (Smarty_Internal_Template $_smarty_tpl)
                 </div>
             </form>-->
 
-            <!---->
+            <!--
             <div class="list_pages">
                 <span>共X条记录/X页</span>
                 <span><a href="#">首页</a></span>
@@ -98,7 +112,8 @@ function content_5bc1c5ccbad390_00912337 (Smarty_Internal_Template $_smarty_tpl)
                 <span><a href="#">10</a> </span>
                 <span><a href="#">下一页</a></span>
                 <span><a href="#" >末页</a></span>
-            </div>
+            </div>-->
+
         </div>
     </div>
 </body>

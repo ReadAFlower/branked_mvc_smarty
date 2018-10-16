@@ -1,7 +1,7 @@
 create table admin(
 	admin_id mediumint(9) AUTO_INCREMENT COMMENT '管理员ID',
 	admin_name char(20) NOT NULL COMMENT '管理员用户名',
-	password char(32) NOT NULL COMMENT '登录密码',
+	password char(24) NOT NULL COMMENT '登录密码',
 	level enum('超级管理员','高级管理员','普通管理员') COMMENT '管理员级别',
 	status enum('停用','启用') COMMENT '管理员ID', #0未激活，1激活
 	created_at int(11) NOT NULL COMMENT '创建时间',
@@ -20,6 +20,7 @@ create table user(
 	user_id mediumint(9) AUTO_INCREMENT COMMENT '用户ID',
 	type_num int(5) NOT NULL COMMENT '行业编号',
 	user_name char(20) NOT NULL COMMENT '用户名',
+	password char(24) NOT NULL COMMENT '登录密码',
 	level enum('超级VIP用户','高级VIP用户','普通用户') COMMENT '用户级别',
         status enum('停用','启用') COMMENT '用户状态',
 	created_at int(11) NOT NULL COMMENT '创建时间',

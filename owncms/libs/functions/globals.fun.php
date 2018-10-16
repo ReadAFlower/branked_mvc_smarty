@@ -205,3 +205,11 @@
         $string = addslashes(str_replace(array("\r", "\n", "\t"), array('', '', ''), $string));
         return $isjs ? 'document.write("'.$string.'");' : $string;
     }
+
+    function checkCode($code){
+        if (strcasecmp($code,$_SESSION['codeCnt'])==0){
+            return true;
+        }else{
+            return false;
+        }
+    }

@@ -1,6 +1,8 @@
 <?php
 
 define('HASH_IP', str_replace('.', '0' ,$_SERVER['REMOTE_ADDR']));
+define('LOGIN_ADMIN', 'http://'.SITE_URL.'/index.php?m=admin&c=admin&e=login&dosubmit=admin');
+define('LOGIN_USER', 'http://'.SITE_URL.'/index.php?m=user&c=user&e=login&dosubmit=user');
 
 class APPlication
 {
@@ -8,18 +10,19 @@ class APPlication
         $param = pcBase::loadSysClass('param');
         define('ROUTE_M', $param->getModel());
 		define('ROUTE_C', $param->getController());
-		define('ROUTE_A', $param->getEvent());
+		define('ROUTE_E', $param->getEvent());
 		$this->init();
     }
 
     private function init()
     {
+        if (!session_id()) session_start();
         $controller = $this->loadController();
-        if (method_exists($controller, ROUTE_A)) {
-            if (preg_match('/^[_]/i', ROUTE_A)) {
+        if (method_exists($controller, ROUTE_E)) {
+            if (preg_match('/^[_]/i', ROUTE_E)) {
                 exit('You are visiting the action is to protect the private action');
             } else {
-                call_user_func(array($controller, ROUTE_A));
+                call_user_func(array($controller, ROUTE_E));
             }
         } else {
             exit('Action does not exist.');

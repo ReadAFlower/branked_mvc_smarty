@@ -18,12 +18,26 @@ define('SYS_START_TIME', microtime());
 //系统时间
 define('SYS_TIME', time());
 
+//style
+define('STYLE_PATH', SITE_URL.'/style/');
+
+//css
+define('CSS_PATH', SITE_URL.'/style/css/');
+
+//img
+define('IMG_PATH', SITE_URL.'/style/images/');
+
+//js
+define('JS_PATH', SITE_URL.'/style/js/');
+
+//font
+define('FONT_PATH', SITE_URL.'/style/fonts/');
+
 //加载公用函数库
 pcBase::loadGlobalSysFun('functions');
 
 //加载公用函数库
 pcBase::loadGlobalSysClass('classes');
-
 
 
 class pcBase
@@ -138,7 +152,7 @@ class pcBase
         $pluginClass = pcBase::loadClass($classname, $path, $initialize);
         if(isset($configs) && !empty($configs)){
             foreach ($configs as $key => $value) {
-                $pluginClass->$key = PC_PATH.$value;
+                $pluginClass->$key = $value;
             }
         }
         return $pluginClass;

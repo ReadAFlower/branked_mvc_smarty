@@ -5,7 +5,6 @@ define('APP_PATH', str_replace('\\','/',dirname(__FILE__).DIRECTORY_SEPARATOR));
 
 require_once APP_PATH.'owncms/base.php';
 
-
 pcBase::createApp();
 //require_once 'owncms/libs/view/Smarty/Smarty.class.php';
 //$smarty = new Smarty();
@@ -40,4 +39,4 @@ pcBase::createApp();
 //echo $newPage->getPageNav($pageNow);
 
 ?>
-<!--<img src="/owncms/libs/functions/codeImg.php">-->
+

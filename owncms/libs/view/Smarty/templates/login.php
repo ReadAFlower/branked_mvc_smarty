@@ -16,8 +16,8 @@ require_once ('../../../functions/globals.fun.php');
 	<div class="login_box">
         <h1>后 台 管 理</h1>
         <p>&nbsp;</p>
-		<form action="" method="post" id="login_form">
-			<input type="hidden" name="login_type" value="1">
+		<form action="/index.php?m={$m}&c={$c}&e=login&dosubmit={$loginType}" method="post" id="login_form">
+			<input type="hidden" name="login_type" value="{$loginType}">
 			<div class="login_input uname">
 				<i class="icon iconfont icon-icon"></i>
 				<input type="text" name="uname" id="uname" placeholder="用户名">
@@ -39,6 +39,6 @@ require_once ('../../../functions/globals.fun.php');
 			</div>
 		</form>
 	</div>
-    <script type="text/javascript" src="/style/js/checkform.js">    </script>
+   <!-- <script type="text/javascript" src="/style/js/checkform.js">    </script> -->
 </body>
 </html>

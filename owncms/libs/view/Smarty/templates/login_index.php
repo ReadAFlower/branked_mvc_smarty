@@ -10,7 +10,14 @@
 </head>
 <body>
     <header class="login_header">
-
+        <div class="header_left"></div>
+        <div class="header_right">
+            <ul>
+                <li><a href="/index.php?m={$m}&c={$c}&e=loginOut">安全退出</a></li>
+                <li><a href="/index.php?m={$m}&c={$c}&e=loginOut">安全退出</a></li>
+                <li><a href="/index.php?m={$m}&c={$c}&e=loginOut">安全退出</a></li>
+            </ul>
+        </div>
     </header>
     <div class="login_content">
         <div class="login_left">
@@ -27,6 +34,7 @@
         </div>
         <div class="login_right">
             <div class="login_right_header"></div>
+
             <!--
             <form action="" method="post" id="act_form">
                 <input type="hidden" name="" value="">
@@ -54,7 +62,7 @@
                 </div>
             </form>-->
 
-            <!---->
+            <!--
             <div class="list_pages">
                 <span>共X条记录/X页</span>
                 <span><a href="#">首页</a></span>
@@ -71,7 +79,8 @@
                 <span><a href="#">10</a> </span>
                 <span><a href="#">下一页</a></span>
                 <span><a href="#" >末页</a></span>
-            </div>
+            </div>-->
+
         </div>
     </div>
 </body>

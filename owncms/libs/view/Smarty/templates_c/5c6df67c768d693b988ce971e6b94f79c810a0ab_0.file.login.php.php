@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2018-10-13 18:15:58
+/* Smarty version 3.1.33, created on 2018-10-16 16:12:09
   from 'D:\phpstudy\WWW\mvc.branked.com\owncms\libs\view\Smarty\templates\login.php' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5bc1c5de928c57_92686604',
+  'unifunc' => 'content_5bc59d5958c9f7_88545370',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '5c6df67c768d693b988ce971e6b94f79c810a0ab' => 
     array (
       0 => 'D:\\phpstudy\\WWW\\mvc.branked.com\\owncms\\libs\\view\\Smarty\\templates\\login.php',
-      1 => 1538291445,
+      1 => 1539677513,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5bc1c5de928c57_92686604 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5bc59d5958c9f7_88545370 (Smarty_Internal_Template $_smarty_tpl) {
 echo '<?php
 
 ';?>require_once ('../../../functions/globals.fun.php');
@@ -41,8 +41,12 @@ echo '<?php
 	<div class="login_box">
         <h1>后 台 管 理</h1>
         <p>&nbsp;</p>
-		<form action="" method="post" id="login_form">
-			<input type="hidden" name="login_type" value="1">
+		<form action="/index.php?m=<?php echo $_smarty_tpl->tpl_vars['m']->value;?>
+&c=<?php echo $_smarty_tpl->tpl_vars['c']->value;?>
+&e=login&dosubmit=<?php echo $_smarty_tpl->tpl_vars['loginType']->value;?>
+" method="post" id="login_form">
+			<input type="hidden" name="login_type" value="<?php echo $_smarty_tpl->tpl_vars['loginType']->value;?>
+">
 			<div class="login_input uname">
 				<i class="icon iconfont icon-icon"></i>
 				<input type="text" name="uname" id="uname" placeholder="用户名">
@@ -64,9 +68,9 @@ echo '<?php
 			</div>
 		</form>
 	</div>
-    <?php echo '<script'; ?>
+   <!-- <?php echo '<script'; ?>
  type="text/javascript" src="/style/js/checkform.js">    <?php echo '</script'; ?>
->
+> -->
 </body>
 </html><?php }
 }

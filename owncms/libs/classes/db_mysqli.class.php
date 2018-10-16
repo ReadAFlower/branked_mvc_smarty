@@ -6,19 +6,16 @@
 final class db_mysqli
 {
 	//数据库配置信息
-	private $config = null;
+	protected $config = null;
 
 	//数据库连接资源句柄
-	private $link=null;
+	protected $link=null;
 
 	//最近一次查询资源句柄
 	public $lastqueryid = null;
 	
 	function __construct()
 	{
-		//$db=require_once($_SERVER['DOCUMENT_ROOT'].'/configs/database.php');
-        $db = \pcBase::loadConfig('database');
-		$this->config = $db['db'];
 
 	}
 
@@ -26,8 +23,8 @@ final class db_mysqli
 	* 数据库连接
 	*/
 	public function connect() {
-
-		$this->link = new \mysqli($this->config['hostname'], $this->config['username'], $this->config['password'], $this->config['database'], $this->config['port']?intval($this->config['port']):3306);
+        $this->config = pcBase::loadConfig('database');
+		$this->link = new \mysqli($this->config['db']['hostname'], $this->config['db']['username'], $this->config['db']['password'], $this->config['db']['database']);
 
 		if(mysqli_connect_error()){
 			$this->halt('Can not connect to MySQL server');
@@ -63,7 +60,7 @@ final class db_mysqli
 		array_walk($field, array($this, 'add_special_char'));
 		$data = implode(',', $field);
 
-		$sql = 'SELECT '.$data.' FROM `'.$this->config['database'].'`.`'.$table.'`'.$where.$group.$order.$limit;
+		$sql = 'SELECT '.$data.' FROM `'.$this->config['db']['database'].'`.`'.$table.'`'.$where.$group.$order.$limit;
 		$this->execute($sql);
 		if(!is_object($this->lastqueryid)) {
 			return $this->lastqueryid;
@@ -99,6 +96,7 @@ final class db_mysqli
      * @param $group 		分组方式	[默认为空]
      * @return array/null	数据查询结果集,如果不存在，则返回空
      */
+    //('admin_id', $tableName, 'password = "'.$userPassword.'"')
     public function get_one($data, $table, $where = '', $order = '', $group = '') {
         $where = $where == '' ? '' : ' WHERE '.$where;
         $order = $order == '' ? '' : ' ORDER BY '.$order;
@@ -108,10 +106,12 @@ final class db_mysqli
         array_walk($field, array($this, 'add_special_char'));
         $data = implode(',', $field);
 
-        $sql = 'SELECT '.$data.' FROM `'.$this->config['database'].'`.`'.$table.'`'.$where.$group.$order.$limit;
+        $sql = 'SELECT '.$data.' FROM `'.$table.'`'.$where.$group.$order.$limit;
+
         $this->execute($sql);
         $res = $this->fetch_next();
         $this->free_result();
+
         return $res;
     }
 
@@ -135,7 +135,7 @@ final class db_mysqli
 		$value = implode (',', $valuedata);
 
 		$cmd = $replace ? 'REPLACE INTO' : 'INSERT INTO';
-		$sql = $cmd.' `'.$this->config['database'].'`.`'.$table.'`('.$field.') VALUES ('.$value.')';
+		$sql = $cmd.' `'.$this->config['db']['database'].'`.`'.$table.'`('.$field.') VALUES ('.$value.')';
 		$return = $this->execute($sql);
 		return $return_insert_id ? $this->insert_id() : $return;
 	}
@@ -152,7 +152,7 @@ final class db_mysqli
 	}
 
 	public function halt($message = '', $sql = '') {
-		if($this->config['debug']) {
+		if($this->config['db']['debug']) {
 			$this->errormsg = "<b>MySQL Query : </b> $sql <br /><b> MySQL Error : </b>".$this->error()." <br /> <b>MySQL Errno : </b>".$this->errno()." <br /><b> Message : </b> $message <br /><a href='http://faq.phpcms.cn/?errno=".$this->errno()."&msg=".urlencode($this->error())."' target='_blank' style='color:red'>Need Help?</a>";
 			$msg = $this->errormsg;
 			echo '<div style="font-size:12px;text-align:left; border:1px solid #9cc9e0; padding:1px 4px;color:#000000;font-family:Arial, Helvetica,sans-serif;"><span>'.$msg.'</span></div>';
@@ -212,7 +212,7 @@ final class db_mysqli
 			return false;
 		}
 
-		$sql = 'UPDATE `'.$this->config['database'].'`.`'.$table.'` SET '.$field.$where;
+		$sql = 'UPDATE `'.$this->config['db']['database'].'`.`'.$table.'` SET '.$field.$where;
 		return $this->execute($sql);
 	}
 
@@ -228,7 +228,7 @@ final class db_mysqli
 			return false;
 		}
 		$where = ' WHERE '.$where;
-		$sql = 'DELETE FROM `'.$this->config['database'].'`.`'.$table.'`'.$where;
+		$sql = 'DELETE FROM `'.$this->config['db']['database'].'`.`'.$table.'`'.$where;
 		return $this->execute($sql);
 	}
 
@@ -300,7 +300,7 @@ final class db_mysqli
 		$tables = array();
 		$this->execute("SHOW TABLES");
 		while($r = $this->fetch_next()) {
-			$tables[] = $r['Tables_in_'.$this->config['database']];
+			$tables[] = $r['Tables_in_'.$this->config['db']['database']];
 		}
 		return $tables;
 	}
@@ -406,5 +406,13 @@ final class db_mysqli
 		}
 		return $this->link->real_escape_string($str);
 	}
+
+	public function setConfig($config){
+	    return $this->config = $config;
+    }
+
+    public function getConfig(){
+	    return $this->config;
+    }
 
 }

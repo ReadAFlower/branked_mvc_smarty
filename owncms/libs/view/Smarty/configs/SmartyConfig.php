@@ -1,6 +1,6 @@
 <?php
 
-    define('SMARTY', 'libs/view/Smarty/');
+    define('SMARTY', PC_PATH.'libs/view/Smarty/');
 
     return $arry = [
           'template_dir' => SMARTY.'templates/',
