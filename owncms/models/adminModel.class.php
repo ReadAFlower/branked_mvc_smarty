@@ -4,6 +4,7 @@
  * admin MODEL
  */
 pcBase::loadSysClass('baseModel','models/',0);
+
 class adminModel extends baseModel
 {
     public function __construct()
@@ -17,6 +18,7 @@ class adminModel extends baseModel
     }
 
     /**
+     * 管理员名验证
      * adminName验证
      * @param $adminName
      * @return array
@@ -45,6 +47,7 @@ class adminModel extends baseModel
     }
 
     /**
+     * 管理员登录
      * 用户名和密码一致性验证
      * @param $name
      * @param $password
@@ -54,11 +57,13 @@ class adminModel extends baseModel
 
         $name = safe_replace($name);
         $password = safe_replace($password);
-        $name = $this->getAdminName($name);
-        $password = $this->gerAdminPassword($password);
+        $nameAdminID = $this->getAdminName($name);
+        $passwordAdminID = $this->gerAdminPassword($password);
 
+        if ($nameAdminID==$passwordAdminID){
+            $_SESSION['adminid'.HASH_IP] = $nameAdminID['admin_id'];
+            $_SESSION['adminname'.HASH_IP] = $name ;
 
-        if ($name==$password){
             return $name;
         }else{
             return false;
@@ -137,9 +142,45 @@ class adminModel extends baseModel
         return $this->isLogin();
     }
 
-    public function getLevel($adminName){
+    /**
+     * 管理员权限查询
+     * @param $adminID
+     * @return bool
+     */
+    public function getLevel(){
+        $adminID = $this->getAdminId();
+        if ($adminID){
+            $level = $this->db->get_one('level', $this->tableName, 'admin_id = '.intval($adminID).' and status = 2');
+
+            if ($level){
+                return $level['level'];
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
 
     }
 
+    /**
+     * 获取管理员ID
+     * @return bool
+     */
+    public function getAdminId(){
+
+        if (isset($_SESSION['adminid'.HASH_IP]) && !empty($_SESSION['adminid'.HASH_IP])){
+            $adminID = safe_replace($_SESSION['adminid'.HASH_IP]);
+            $adminId =  $this->db->get_one('admin_id', $this->tableName, 'admin_id = '.intval($adminID).' and status = 2');
+
+            if($adminId){
+                return $adminId['admin_id'];
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
 
 }

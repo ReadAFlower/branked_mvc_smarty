@@ -13,28 +13,52 @@
         <div class="header_left"></div>
         <div class="header_right">
             <ul>
-                <li><a href="/index.php?m={$m}&c={$c}&e=loginOut">安全退出</a></li>
-                <li><a href="/index.php?m={$m}&c={$c}&e=loginOut">安全退出</a></li>
-                <li><a href="/index.php?m={$m}&c={$c}&e=loginOut">安全退出</a></li>
+                <li><a href="/index.php?m={$smarty.session.{'m'|cat:''|cat:$smarty.session.haship}}&c={$smarty.session.{'c'|cat:''|cat:$smarty.session.haship}}&e=index">系统首页</a></li>
+                <li><a href="/index.php?m={$smarty.session.{'m'|cat:''|cat:$smarty.session.haship}}&c={$smarty.session.{'c'|cat:''|cat:$smarty.session.haship}}&e=loginOut">安全退出</a></li>
             </ul>
         </div>
     </header>
     <div class="login_content">
         <div class="login_left">
             <ul class="login_nav">
-                <li><span class="login_nav_active"><a href="#">管理员管理</a><i class="icon iconfont icon-you"></i></span>
-                    <ul class="login_child_nav">
-                        <li><span><a href="#">管理员列表</a></span></li>
-                        <li><span><a href="#">添加管理员</a></span></li>
+                <li><span {if 'menuIndex'==$smarty.get.e}class="login_nav_active"{/if}><a href="/index.php?m=menu&c=menu&e=menuIndex">菜单管理</a><i class="icon iconfont {if 'menu'==$smarty.get.m}icon-zhankai{else}icon-you{/if}"></i></span>
+                    <ul class="login_child_nav" {if 'menu'==$smarty.get.m}style="display: block;"{else}icon-you{/if}>
+                        <li><span {if 'menuList'==$smarty.get.e}class="login_nav_active"{/if}><a href="/index.php?m=menu&c=menu&e=menuList">菜单列表</a></span></li>
+                        <li><span {if 'menuAdd'==$smarty.get.e}class="login_nav_active"{/if}><a href="/index.php?m=menu&c=menu&e=menuAdd">添加菜单</a></span></li>
                     </ul>
                 </li>
-                <li><span><a href="#">用户管理</a><i class="icon iconfont icon-you"></i></span></li>
-                <li><span><a href="#">关键词管理</a><i class="icon iconfont icon-you"></i></span></li>
+
+                {foreach from=$smarty.session.{'menu'|cat:""|cat:$smarty.session.haship} key=i item=list}
+                    {if $list.parentID==0}
+                <li><span {if $list.e==$smarty.get.e}class="login_nav_active"{/if}><a href="/index.php?m={$list.m}&c={$list.c}&e={$list.e}{$list.data}">{$list.zh_name}</a><i class="icon iconfont {if $list.m==$smarty.get.m}icon-zhankai{else}icon-you{/if}"></i></span>
+                    <ul class="login_child_nav" {if $list.m==$smarty.get.m}style="display: block;"{else}icon-you{/if}>
+                        {foreach from=$smarty.session.{'menu'|cat:""|cat:$smarty.session.haship} key=k item=list2}
+                        {if $list2.parentID==$list.id}
+                        <li><span {if $list2.e==$smarty.get.e}class="login_nav_active"{/if}><a href="/index.php?m={$list2.m}&c={$list2.c}&e={$list2.e}{$list2.data}">{$list2.zh_name}</a></span></li>
+                        {/if}
+                        {/foreach}
+                    </ul>
+                </li>
+                    {/if}
+                {/foreach}
+
             </ul>
         </div>
         <div class="login_right">
-            <div class="login_right_header"></div>
 
+
+            <div class="login_right_header"></div>
+            {if isset($smarty.session.{'level'|cat:""|cat:$smarty.session.haship})}
+                {if  $smarty.get.e=='menuList'}
+                    {include 'menuList.tpl'}
+                {elseif $smarty.get.e=='menuAdd'}
+                    {include 'menuAdd.tpl'}
+                {elseif $smarty.get.e=='industryList'}
+                    {include 'industryList.tpl'}
+                {elseif $smarty.get.e=='addIndustry' }
+                    {include 'industryAdd.tpl' }
+                {/if}
+            {/if}
             <!--
             <form action="" method="post" id="act_form">
                 <input type="hidden" name="" value="">

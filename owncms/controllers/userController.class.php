@@ -74,7 +74,7 @@ class userController extends baseController
     }
 
 
-    public function index()
+    public function userIndex()
     {
         $view = viewEngine();
         $userModel = new userModel();

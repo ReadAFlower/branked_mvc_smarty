@@ -79,3 +79,17 @@ create table history_branked(
 	PRIMARY KEY(id),
         FOREIGN key(word_id) references keywords(word_id)
 )ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='关键词历史排名表';
+
+create table menu(
+	id smallint(6) AUTO_INCREMENT COMMENT '菜单ID',
+	parentID smallint(6) default 0 COMMENT '父级ID',
+	cn_name varchar(32) NOT NULL COMMENT '英文名',
+	zh_name varchar(32) NOT NULL COMMENT '中文名',
+	level enum('超级权限','高级权限','普通权限') NOT NULL COMMENT '权限等级',
+	m varchar(32) NOT NULL COMMENT '模块名',
+	c varchar(32) NOT NULL COMMENT '控制器',
+	e varchar(32) NOT NULL COMMENT '方法名',
+	data varchar(32) COMMENT '附加参数',
+	PRIMARY KEY(ID),
+	UNIQUE KEY(cn_name)
+)ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='菜单表';

@@ -206,6 +206,10 @@
         return $isjs ? 'document.write("'.$string.'");' : $string;
     }
 
+    /**验证码验证
+     * @param $code
+     * @return bool
+     */
     function checkCode($code){
         if (strcasecmp($code,$_SESSION['codeCnt'])==0){
             return true;

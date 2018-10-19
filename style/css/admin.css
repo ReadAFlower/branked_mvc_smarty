@@ -1,4 +1,4 @@
-html,body,div,form,h1,input,span,p,a,img,h1,ul,li,table,tr,td,th{margin: 0;padding: 0;}
+html,body,div,form,h1,input,span,p,a,img,h1,ul,li,table,tr,td,th,select,option{margin: 0;padding: 0;}
 body{width: 100%;height:100%;}
 li{list-style: none;}
 a{text-decoration: none;color:#666;}
@@ -7,7 +7,7 @@ a:hover{color: #ff0000;}
 * 后台登录页面
  */
 
-.login_box{width: 40%;height: 50%;margin-top:7%;margin-left: 30%;background: rgba(255,255,255,0.3);box-shadow: 0px 0px 5px 2px rgba(255,255,255,0.6);text-align: center;}
+.login_box{width: 40%;height: 50%;margin-top:12%;margin-left: 30%;background: rgba(255,255,255,0.3);box-shadow: 0px 0px 5px 2px rgba(255,255,255,0.6);text-align: center;}
 h1{display:inline-block;text-align: center;padding-top:10px;padding-bottom: 10px;height: 50px;line-height: 50px;color:#fff;border-bottom: 2px solid #fff;}
 hr{width:76%;border: 1px double #fff;margin: 10px auto;}
 #login_form{width: 95%;height: 90%;margin:5% auto;}
@@ -27,8 +27,8 @@ hr{width:76%;border: 1px double #fff;margin: 10px auto;}
 .login_header{width: 100%;height: 15%;background:#4d91db;box-shadow: 0 2px 1px rgba(77,145,219,1);font-family: "Adobe 楷体 Std R"; }
 .header_left{float: left;height: 100%;width: 75%;}
 .header_right{float: left;height: 100%;width: 25%;}
-.header_right ul{width: 80%;width:25%;position: absolute;top: 8%;}
-.header_right ul li{float: left;width: 30%;margin-right: 3%;}
+.header_right ul{width:10%;position: absolute;top: 9%;right: 1%;}
+.header_right ul li{float: left;width:47%;margin-right: 3%;}
 .header_right ul li a{font-size: 14px;color: #fff;}
 
 
@@ -39,6 +39,8 @@ hr{width:76%;border: 1px double #fff;margin: 10px auto;}
 .login_nav{width: 100%;margin: 0 auto;font-family: "Adobe 楷体 Std R";font-size: 16px;}
 .login_nav li{clear:both;width: 100%;min-height: 30px;line-height: 30px;margin: 10px auto;text-indent: 0.8em;}
 .login_nav li span{display:block;width: 100%;height: 30px;line-height: 30px;}
+.login_nav li span:hover{background: #4d91db;color:#fff;}
+.login_nav li span a:hover{color:#fff;}
 .login_nav_active{background: #4d91db;color:#fff;}
 .login_nav_active a{background: #4d91db;color:#fff;}
 .login_nav li a{display:block;float:left;height: 30px;width: 75%;border-bottom: #eee 1px solid;margin-bottom: 10px;}
@@ -78,3 +80,29 @@ hr{width:76%;border: 1px double #fff;margin: 10px auto;}
 .list_pages .cur{background: #0C96DB; color: #ffffff;}
 .form_submit{font-family: "Adobe 宋体 Std L";font-size: 14px;clear: both; height:24px; line-height: 24px; width: 20%; position: absolute;bottom: 30px;left:42%;}
 .form_submit input{border: none; display: block;float: left;width: 20%;margin-left: 20%;height: 24px;line-height: 24px; background: #0C96DB; box-shadow: 0 0 1px 2px rgba(12,150,219,1);color: #ffffff;cursor:pointer;}
+
+/*right menu*/
+.login_right .right_menu_list .menu_id{width: 10%;}
+.login_right .right_menu_list .menu_zh_name{width: 30%;}
+.login_right .right_menu_list .menu_cn_name{width: 30%;}
+.login_right .right_menu_list .menu_do{width: 30%;}
+.login_right .right_menu_list td{border-bottom: solid 1px #eee;}
+.login_right .right_menu_list .menu_name{text-align: left;text-indent: 4em;}
+
+/*menu add*/
+.login_right .right_menu_add .add_title{width: 20%;text-align: right;padding-right: 10px;}
+.login_right .right_menu_add .add_value{width: 80%;text-align: left;paddingleft: 10px;}
+.login_right .right_menu_add td{border-bottom: solid 1px #eee;}
+.login_right .right_menu_add select,.login_right .right_menu_add option,.login_right .right_menu_add input{height: 30px;line-height: 30px;width: 30%;}
+.login_right .right_menu_add td span{color: red;}
+#menu_add .form_submit{bottom: 100px;left: 20%;}
+
+.right_res{display:block;color: #ff0000;font-family: "Adobe 楷体 Std R";text-indent: 1.5em;margin-bottom: 10px;}
+
+/*right industry*/
+.login_right .industry_box{width:100%;height: 430px;overflow-y: auto; overflow-x:hidden;}
+.login_right .right_industry_list .industry_id{width: 10%;}
+.login_right .right_industry_list .industry_name{width: 30%;text-align: center;}
+.login_right .right_industry_list .industry_num{width: 30%;}
+.login_right .right_industry_list .industry_do{width: 30%;}
+.login_right .right_industry_list td{border-bottom: solid 1px #eee;}

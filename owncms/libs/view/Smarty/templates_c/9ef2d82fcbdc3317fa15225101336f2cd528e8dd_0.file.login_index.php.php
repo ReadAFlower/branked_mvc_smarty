@@ -1,26 +1,28 @@
 <?php
-/* Smarty version 3.1.33, created on 2018-10-16 18:06:51
+/* Smarty version 3.1.33, created on 2018-10-17 16:12:31
   from 'D:\phpstudy\WWW\mvc.branked.com\owncms\libs\view\Smarty\templates\login_index.php' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5bc5b83b881064_14992286',
+  'unifunc' => 'content_5bc6eeef9acbb5_67984581',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '9ef2d82fcbdc3317fa15225101336f2cd528e8dd' => 
     array (
       0 => 'D:\\phpstudy\\WWW\\mvc.branked.com\\owncms\\libs\\view\\Smarty\\templates\\login_index.php',
-      1 => 1539684388,
+      1 => 1539763446,
       2 => 'file',
     ),
   ),
   'includes' => 
   array (
+    'file:menuList.php' => 1,
+    'file:menuAdd.php' => 1,
   ),
 ),false)) {
-function content_5bc5b83b881064_14992286 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5bc6eeef9acbb5_67984581 (Smarty_Internal_Template $_smarty_tpl) {
 ?><html>
 <head>
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
@@ -36,18 +38,21 @@ function content_5bc5b83b881064_14992286 (Smarty_Internal_Template $_smarty_tpl)
 
 </head>
 <body>
+<!--<?php echo (('123').('')).('456');?>
+
+<?php echo var_dump($_SESSION[(('menu').('')).($_SESSION['haship'])]);?>
+
+<?php echo var_dump($_SESSION);?>
+-->
     <header class="login_header">
         <div class="header_left"></div>
         <div class="header_right">
             <ul>
-                <li><a href="/index.php?m=<?php echo $_smarty_tpl->tpl_vars['m']->value;?>
-&c=<?php echo $_smarty_tpl->tpl_vars['c']->value;?>
-&e=loginOut">安全退出</a></li>
-                <li><a href="/index.php?m=<?php echo $_smarty_tpl->tpl_vars['m']->value;?>
-&c=<?php echo $_smarty_tpl->tpl_vars['c']->value;?>
-&e=loginOut">安全退出</a></li>
-                <li><a href="/index.php?m=<?php echo $_smarty_tpl->tpl_vars['m']->value;?>
-&c=<?php echo $_smarty_tpl->tpl_vars['c']->value;?>
+                <li><a href="/index.php?m=<?php echo $_SESSION[(('m').('')).($_SESSION['haship'])];?>
+&c=<?php echo $_SESSION[(('c').('')).($_SESSION['haship'])];?>
+&e=index">系统首页</a></li>
+                <li><a href="/index.php?m=<?php echo $_SESSION[(('m').('')).($_SESSION['haship'])];?>
+&c=<?php echo $_SESSION[(('c').('')).($_SESSION['haship'])];?>
 &e=loginOut">安全退出</a></li>
             </ul>
         </div>
@@ -55,19 +60,75 @@ function content_5bc5b83b881064_14992286 (Smarty_Internal_Template $_smarty_tpl)
     <div class="login_content">
         <div class="login_left">
             <ul class="login_nav">
-                <li><span class="login_nav_active"><a href="#">管理员管理</a><i class="icon iconfont icon-you"></i></span>
+                <li><span class="login_nav_active"><a href="/index.php?m=menu&c=menu&e=menuList">菜单管理</a><i class="icon iconfont icon-you"></i></span>
+                    <ul class="login_child_nav">
+                        <li><span ><a href="/index.php?m=menu&c=menu&e=menuList">菜单列表</a></span></li>
+                        <li><span><a href="/index.php?m=menu&c=menu&e=menuAdd">添加菜单</a></span></li>
+                    </ul>
+                </li>
+                <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_SESSION[(('menu').('')).($_SESSION['haship'])], 'list', false, 'i');
+if ($_from !== null) {
+foreach ($_from as $_smarty_tpl->tpl_vars['i']->value => $_smarty_tpl->tpl_vars['list']->value) {
+?>
+                    <?php if ($_smarty_tpl->tpl_vars['list']->value['parentID'] == 0) {?>
+                <li><span <?php if ($_smarty_tpl->tpl_vars['list']->value['e'] == $_GET['e']) {?>class="login_nav_active"<?php }?>><a href="/index.php?m=<?php echo $_smarty_tpl->tpl_vars['list']->value['m'];?>
+&c=<?php echo $_smarty_tpl->tpl_vars['list']->value['c'];?>
+&e=<?php echo $_smarty_tpl->tpl_vars['list']->value['e'];
+echo $_smarty_tpl->tpl_vars['list']->value['data'];?>
+"><?php echo $_smarty_tpl->tpl_vars['list']->value['zh_name'];?>
+</a><i class="icon iconfont <?php if ($_smarty_tpl->tpl_vars['list']->value['m'] == $_GET['m']) {?>icon-zhankai<?php } else { ?>icon-you<?php }?>"></i></span>
+                    <ul class="login_child_nav">
+                        <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_SESSION[(('menu').('')).($_SESSION['haship'])], 'list2', false, 'k');
+if ($_from !== null) {
+foreach ($_from as $_smarty_tpl->tpl_vars['k']->value => $_smarty_tpl->tpl_vars['list2']->value) {
+?>
+                        <?php if ($_smarty_tpl->tpl_vars['list2']->value['parentID'] == $_smarty_tpl->tpl_vars['list']->value['id']) {?>
+                        <li><span <?php if ($_smarty_tpl->tpl_vars['list2']->value['e'] == $_GET['e']) {?>class="login_nav_active"<?php }?>><a href="/index.php?m=<?php echo $_smarty_tpl->tpl_vars['list2']->value['m'];?>
+&c=<?php echo $_smarty_tpl->tpl_vars['list2']->value['c'];?>
+&e=<?php echo $_smarty_tpl->tpl_vars['list2']->value['e'];
+echo $_smarty_tpl->tpl_vars['list2']->value['data'];?>
+"><?php echo $_smarty_tpl->tpl_vars['list2']->value['zh_name'];?>
+</a></span></li>
+                        <?php }?>
+                        <?php
+}
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+                    </ul>
+                </li>
+                    <?php }?>
+                <?php
+}
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+                <li><span><a href="#">管理员管理</a><i class="icon iconfont icon-you"></i></span>
                     <ul class="login_child_nav">
                         <li><span><a href="#">管理员列表</a></span></li>
                         <li><span><a href="#">添加管理员</a></span></li>
                     </ul>
                 </li>
-                <li><span><a href="#">用户管理</a><i class="icon iconfont icon-you"></i></span></li>
+                <li><span><a href="#">用户管理</a><i class="icon iconfont icon-you"></i></span>
+                    <ul class="login_child_nav">
+                        <li><span><a href="#">管理员列表</a></span></li>
+                        <li><span><a href="#">添加管理员</a></span></li>
+                    </ul>
+                </li>
                 <li><span><a href="#">关键词管理</a><i class="icon iconfont icon-you"></i></span></li>
             </ul>
         </div>
         <div class="login_right">
-            <div class="login_right_header"></div>
 
+
+            <div class="login_right_header"></div>
+            <?php if ((($_SESSION[(('level').('')).($_SESSION['haship'])] !== null )) && $_GET['e'] == 'menuList') {?>
+                <?php $_smarty_tpl->_subTemplateRender('file:menuList.php', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+            <?php } elseif ((($_SESSION[(('level').('')).($_SESSION['haship'])] !== null )) && $_GET['e'] == 'menuAdd') {?>
+                <?php $_smarty_tpl->_subTemplateRender('file:menuAdd.php', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+            <?php }?>
             <!--
             <form action="" method="post" id="act_form">
                 <input type="hidden" name="" value="">

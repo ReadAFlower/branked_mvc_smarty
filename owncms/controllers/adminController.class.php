@@ -6,6 +6,7 @@
 
 pcBase::loadSysClass('baseController','controllers/',0);
 pcBase::loadSysClass('adminModel','models/',0);
+pcBase::loadSysClass('menuModel','models/',0);
 class adminController extends baseController
 {
     public function __construct()
@@ -36,47 +37,51 @@ class adminController extends baseController
      */
     public function login()
     {
-        if(isset($_POST['login_type']) && !empty($_POST['login_type'])){
-
-            $type = safe_replace($_POST['login_type']);
-
-            if ($type!='admin'){
-                header('location:'.LOGIN_ADMIN);
-                exit();
-            }
-            $adminName = safe_replace($_POST['uname']);
-            $password = safe_replace($_POST['pwd']);
-            $code = safe_replace($_POST['code']);
-            $adminModel = new adminModel();
-            $adminID = $adminModel->checkAdmin($adminName, $password, $code);
-
-            if ($adminID){
-                $_SESSION['adminid'.HASH_IP] = $adminID['admin_id'];
-                $_SESSION['adminname'.HASH_IP] = $adminName ;
-
-                header('location:/index.php?m=admin&c=admin&e=index');
-                exit();
-            }else{
-                header('location:'.LOGIN_ADMIN);
-                exit();
-            }
-
+        $adminModel = new adminModel();
+        if ($adminModel->isLogin()){
+            header('location:/index.php?m=admin&c=admin&e=index');
+            exit();
         }else{
-            if (isset($_GET['dosubmit']) && !empty($_GET['dosubmit'])){
-                $view = viewEngine();
-                $loginType = safe_replace($_GET['dosubmit']);
-                $m = safe_replace($_GET['m']);
-                $c = safe_replace($_GET['c']);
-                $view -> assign('loginType', $loginType);
-                $view -> assign('m', $m);
-                $view -> assign('c', $c);
-                $view->display('login.php');
-            }else{
-                header('location:'.LOGIN_ADMIN);
-                exit();
-            }
+            if(isset($_POST['login_type']) && !empty($_POST['login_type'])){
 
+                $type = safe_replace($_POST['login_type']);
+
+                if ($type!='admin'){
+                    header('location:'.LOGIN_ADMIN);
+                    exit();
+                }
+                $adminName = safe_replace($_POST['uname']);
+                $password = safe_replace($_POST['pwd']);
+                $code = safe_replace($_POST['code']);
+                $adminModel = new adminModel();
+                $adminID = $adminModel->checkAdmin($adminName, $password, $code);
+
+                if ($adminID){
+                    header('location:/index.php?m=admin&c=admin&e=index');
+                    exit();
+                }else{
+                    header('location:'.LOGIN_ADMIN);
+                    exit();
+                }
+
+            }else{
+                if (isset($_GET['dosubmit']) && !empty($_GET['dosubmit'])){
+                    $view = viewEngine();
+                    $loginType = safe_replace($_GET['dosubmit']);
+                    $m = safe_replace($_GET['m']);
+                    $c = safe_replace($_GET['c']);
+                    $view -> assign('loginType', $loginType);
+                    $view -> assign('m', $m);
+                    $view -> assign('c', $c);
+                    $view->display('login.tpl');
+                }else{
+                    header('location:'.LOGIN_ADMIN);
+                    exit();
+                }
+
+            }
         }
+
 
     }
 
@@ -85,13 +90,24 @@ class adminController extends baseController
     {
         $view = viewEngine();
         $adminModel = new adminModel();
-        $level = $adminModel->getLevel($_SESSION['adminname'.HASH_IP]);
+        $level = $adminModel->getLevel();
+        $menuModel = new menuModel();
+        $levelNum = $menuModel->levelToNum($level);
+        $menu = $menuModel->getMenuList($level);
+        $view -> assign('menu', $menu);
         $m = safe_replace($_GET['m']);
         $c = safe_replace($_GET['c']);
         $view -> assign('m', $m);
         $view -> assign('c', $c);
         $view->assign('level','');
-        $view->display('login_index.php');
+
+        $_SESSION['level'.HASH_IP] = $levelNum;
+        $_SESSION['m'.HASH_IP] = $m;
+        $_SESSION['c'.HASH_IP] = $c;
+        $_SESSION['menu'.HASH_IP] = $menu;
+        $_SESSION['haship'] = HASH_IP;
+
+        $view->display('login_index.tpl');
     }
 
     /**
@@ -106,4 +122,10 @@ class adminController extends baseController
         }
     }
 
+    /**
+     * 管理员管理
+     */
+    public function managerIndex(){
+
+    }
 }

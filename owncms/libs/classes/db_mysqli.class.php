@@ -23,9 +23,9 @@ final class db_mysqli
 	* 数据库连接
 	*/
 	public function connect() {
-        $this->config = pcBase::loadConfig('database');
-		$this->link = new \mysqli($this->config['db']['hostname'], $this->config['db']['username'], $this->config['db']['password'], $this->config['db']['database']);
-
+//        $this->config = pcBase::loadConfig('database');
+//		$this->link = new \mysqli($this->config['db']['hostname'], $this->config['db']['username'], $this->config['db']['password'], $this->config['db']['database']);
+        $this->link = new \mysqli('localhost', 'root', 'root', 'brankedmvc');
 		if(mysqli_connect_error()){
 			$this->halt('Can not connect to MySQL server');
 			return false;
@@ -44,6 +44,7 @@ final class db_mysqli
 		if(!is_object($this->link)) {
 			$this->connect();
 		}
+
 		$this->lastqueryid = $this->link->query($sql) or $this->halt($this->link->error, $sql);
 
 		return $this->lastqueryid;
@@ -60,7 +61,8 @@ final class db_mysqli
 		array_walk($field, array($this, 'add_special_char'));
 		$data = implode(',', $field);
 
-		$sql = 'SELECT '.$data.' FROM `'.$this->config['db']['database'].'`.`'.$table.'`'.$where.$group.$order.$limit;
+		$sql = 'SELECT '.$data.' FROM `'.$table.'`'.$where.$group.$order.$limit;
+
 		$this->execute($sql);
 		if(!is_object($this->lastqueryid)) {
 			return $this->lastqueryid;
@@ -135,7 +137,8 @@ final class db_mysqli
 		$value = implode (',', $valuedata);
 
 		$cmd = $replace ? 'REPLACE INTO' : 'INSERT INTO';
-		$sql = $cmd.' `'.$this->config['db']['database'].'`.`'.$table.'`('.$field.') VALUES ('.$value.')';
+		$sql = $cmd.' `'.$table.'`('.$field.') VALUES ('.$value.')';
+
 		$return = $this->execute($sql);
 		return $return_insert_id ? $this->insert_id() : $return;
 	}
@@ -228,7 +231,8 @@ final class db_mysqli
 			return false;
 		}
 		$where = ' WHERE '.$where;
-		$sql = 'DELETE FROM `'.$this->config['db']['database'].'`.`'.$table.'`'.$where;
+		$sql = 'DELETE FROM `'.$table.'`'.$where;
+
 		return $this->execute($sql);
 	}
 

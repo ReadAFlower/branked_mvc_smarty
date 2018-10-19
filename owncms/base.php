@@ -85,7 +85,7 @@ class pcBase
 
     /**
      * 加载公共系统类函数库
-     * @param $class    恭喜类库配置文件
+     * @param $class    公共类库配置文件
      */
     public static function loadGlobalSysClass($class){
         return self::loadIncludeConfig($class);
