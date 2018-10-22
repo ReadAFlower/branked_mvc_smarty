@@ -57,6 +57,12 @@
                     {include 'industryList.tpl'}
                 {elseif $smarty.get.e=='addIndustry' }
                     {include 'industryAdd.tpl' }
+                {elseif $smarty.get.e=='menuUpdate' }
+                    {include 'menuUpdate.tpl' }
+                {elseif $smarty.get.e=='managerList' }
+                    {include 'managerList.tpl' }
+                {elseif $smarty.get.e=='managerAdd' }
+                    {include 'managerAdd.tpl' }
                 {/if}
             {/if}
             <!--

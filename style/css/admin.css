@@ -106,3 +106,20 @@ hr{width:76%;border: 1px double #fff;margin: 10px auto;}
 .login_right .right_industry_list .industry_num{width: 30%;}
 .login_right .right_industry_list .industry_do{width: 30%;}
 .login_right .right_industry_list td{border-bottom: solid 1px #eee;}
+
+/*menu update*/
+.login_right .right_menu_update .update_title{width: 20%;text-align: right;padding-right: 10px;}
+.login_right .right_menu_update .update_value{width: 80%;text-align: left;paddingleft: 10px;}
+.login_right .right_menu_update td{border-bottom: solid 1px #eee;}
+.login_right .right_menu_update select,.login_right .right_menu_update option,.login_right .right_menu_update input{height: 30px;line-height: 30px;width: 30%;}
+.login_right .right_menu_update td span{color: red;}
+#menu_update .form_submit{bottom: 100px;left: 20%;}
+.login_right .menu_box{width:100%;height: 430px;overflow-y: auto; overflow-x:hidden;}
+
+/*manager add*/
+.login_right .right_manager_add .add_title{width: 20%;text-align: right;padding-right: 10px;}
+.login_right .right_manager_add .add_value{width: 80%;text-align: left;paddingleft: 10px;}
+.login_right .right_manager_add td{border-bottom: solid 1px #eee;}
+.login_right .right_manager_add select,.login_right .right_manager_add option,.login_right .right_manager_add input{height: 30px;line-height: 30px;width: 30%;}
+.login_right .right_manager_add td span{color: red;}
+#manager_add .form_submit{bottom: 100px;left: 20%;}

@@ -1,7 +1,7 @@
 <?php
 
 pcBase::loadSysClass('baseModel','models/',0);
-
+pcBase::loadSysClass('adminModel','models/',0);
 class menuModel extends baseModel
 {
     public function __construct()
@@ -20,36 +20,15 @@ class menuModel extends baseModel
         if (is_numeric($level)){
             $num = intval($level);
         }else{
-            $num = $this->levelToNum($level);
+            $adminModel = new adminModel();
+            $num = $adminModel->levelToNum($level);
         }
         $menuData = $this->db -> select('*', $this->tableName, 'level > '.intval($num));
 
         return $menuData;
     }
 
-    /**
-     * 权限转数字
-     * @param $level
-     * @return int
-     */
-    public function levelToNum($level){
-        switch ($level){
-            case '超级管理员';
-                $num = 0;
-                break;
-            case '高级管理员':
-                $num = 1;
-                break;
-            case '普通管理员':
-                $num = 2;
-                break;
-            default:
-                $num = 3;
-                break;
-        }
 
-        return intval($num);
-    }
 
     /**
      * 添加菜单
@@ -118,4 +97,50 @@ class menuModel extends baseModel
 
     }
 
+    /**
+     * 菜单信息修改
+     * @param $data 修改数据
+     * @param $id   信息id
+     * @return bool
+     */
+    public function updateMenu($data,$id)
+    {
+        if (isset($id) && !empty($id)){
+            $where = ' id = '.$id;
+            $res = $this->db->update($data, $this->tableName,$where);
+            if ($res){
+                return $res;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * 获取单条信息
+     * @param $id
+     */
+    public function getOne($id)
+    {
+        $id = safe_replace($id);
+        $where = ' id = '.$id;
+        $res = $this->db->get_one('*',$this->tableName,$where);
+
+        if ($res){
+            $where = ' id = '.$res['parentID'];
+            $resParent = $this->db->get_one('zh_name',$this->tableName,$where);
+            if ($resParent){
+                $res['parentName'] = $resParent['zh_name'];
+            }else{
+                $res['parentName'] = '无';
+            }
+            return $res;
+        }else{
+            return false;
+        }
+
+
+    }
 }

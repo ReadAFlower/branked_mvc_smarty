@@ -31,8 +31,7 @@ define('IMG_PATH', SITE_URL.'/style/images/');
 define('JS_PATH', SITE_URL.'/style/js/');
 
 //font
-define('FONT_PATH', SITE_URL.'/style/fonts/');
-
+define('FONT_PATH', APP_PATH.'style/fonts/');
 //加载公用函数库
 pcBase::loadGlobalSysFun('functions');
 

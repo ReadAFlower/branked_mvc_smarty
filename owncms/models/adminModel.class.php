@@ -164,6 +164,30 @@ class adminModel extends baseModel
     }
 
     /**
+     * 权限转数字
+     * @param $level
+     * @return int
+     */
+    public function levelToNum($level){
+        switch ($level){
+            case '超级管理员';
+                $num = 0;
+                break;
+            case '高级管理员':
+                $num = 1;
+                break;
+            case '普通管理员':
+                $num = 2;
+                break;
+            default:
+                $num = 3;
+                break;
+        }
+
+        return intval($num);
+    }
+
+    /**
      * 获取管理员ID
      * @return bool
      */
@@ -183,4 +207,26 @@ class adminModel extends baseModel
         }
     }
 
+    /**
+     * 只有超级管理员才有权限获取
+     * 获取管理员列表
+     */
+    public function getManagerList()
+    {
+        $level = $this->getLevel();
+        $levelNum = intval($this->levelToNum($level));
+
+        if ($levelNum===0){
+            $data = 'admin_id,admin_name,level,status,lastlogintime,created_at,email,phone';
+            $managerList = $this->db->select($data,$this->tableName);
+
+            return $managerList;
+        }else{
+            return false;
+        }
+
+
+
+
+    }
 }

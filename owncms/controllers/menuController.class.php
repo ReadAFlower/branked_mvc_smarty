@@ -90,16 +90,71 @@ class menuController extends baseController
     }
 
     public function menuUpdate(){
+        $menuModel = new menuModel();
+        $view = viewEngine();
 
+        if (isset($_POST['cn_name']) && !empty($_POST['cn_name'])){
+
+            $data = null;
+            $updateID = safe_replace($_POST['update_id']);
+            $data['parentID'] = safe_replace($_POST['parentID']);
+            $data['zh_name'] = safe_replace($_POST['zh_name']);
+            $data['cn_name'] = safe_replace($_POST['cn_name']);
+            $data['level'] = intval(safe_replace($_POST['level']))+1;
+            $data['m'] = safe_replace($_POST['m']);
+            $data['c'] = safe_replace($_POST['c']);
+            $data['e'] = safe_replace($_POST['e']);
+            $data['data'] = safe_replace($_POST['data']);
+
+            $res = $menuModel->updateMenu($data,$updateID);
+
+            if($res){
+                $menuUpdateRes = '修改成功';
+            }else{
+                $menuUpdateRes = '修改失败';
+            }
+
+            $view->assign('menuUpdateRes', $menuUpdateRes);
+
+            $view->display('login_index.tpl');
+
+        }elseif (isset($_GET['id']) && !empty($_GET['id'])){
+
+            $id = intval($_GET['id']);
+
+            $adminModel = new adminModel();
+            $level = $adminModel->getLevel();
+            $menuList = $menuModel->getMenuList($level);
+            $view->assign('menuList', $menuList);
+
+            $allLevel = $menuModel->getAllLevel();
+            $view->assign('allLevel', $allLevel);
+
+            $updateData = $menuModel->getOne($id);
+
+            if($updateData){
+                $view->assign('updateDate', $updateData);
+
+                $view->display('login_index.tpl');
+            }else{
+                header('location:/index.php?m=menu&c=menu&e=menuList');
+                exit();
+            }
+
+        }else{
+            header('location:/index.php?m=menu&c=menu&e=menuList');
+            exit();
+        }
     }
 
     //添加菜单
     public function add(){
-        if($_POST){
+        if($_POST['cn_name']){
             $data = null;
             $data['parentID'] = safe_replace($_POST['parentID']);
             $data['zh_name'] = safe_replace($_POST['zh_name']);
             $data['cn_name'] = safe_replace($_POST['cn_name']);
+            $data['level'] = intval(safe_replace($_POST['level']))+1;
             $data['m'] = safe_replace($_POST['m']);
             $data['c'] = safe_replace($_POST['c']);
             $data['e'] = safe_replace($_POST['e']);
@@ -119,4 +174,5 @@ class menuController extends baseController
         }
 
     }
+
 }

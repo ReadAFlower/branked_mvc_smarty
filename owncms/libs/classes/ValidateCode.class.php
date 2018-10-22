@@ -59,17 +59,21 @@ class ValidateCode
 	//生成验证码并存入session
 	private function getCode(){
 		$tempX=0.05*$this->width;
-		$tempY='';
+
 		for($i=0;$i<$this->codeLen;$i++){
 			$newColor=$this->createColor();
 			$fontsize=5;
 			$fontcolor=imagecolorallocate($this->img,$newColor['red'],$newColor['green'],$newColor['blue']);
 			$tempX=rand(($tempX+10),$tempX+($this->width-$tempX)/3);
-			$tempY=rand(0.2*$this->height,0.4*$this->height);
+            $tempY=rand(0.2*$this->height,0.4*$this->height);
 			$valNow=$this->codeVal[rand(0,$this->CodeValLen-1)];
 			imagestring($this->img, $fontsize, $tempX, $tempY, $valNow, $fontcolor);
-//            $fontfile = FONT_PATH.'simkai.ttf';
-//            imagettftext($this->img, $fontsize, rand(-30,30),$tempX, $tempY, $fontcolor, $fontfile, $valNow);
+            //$fontfile = FONT_PATH.'times.ttf';
+            //$fontfile = 'D:/phpstudy/WWW/mvc.branked.com/style/fonts/times.ttf';
+//            var_dump(imagettftext($this->img, $fontsize, rand(-30,30),$tempX, $tempY, $fontcolor, $fontfile, $valNow));
+//            exit();
+            //imagettftext($this->img, $fontsize, rand(-30,30),$tempX, $tempY, $fontcolor, $fontfile, $valNow);
+
 
 			$this->codeCnt.=$valNow;
 		}

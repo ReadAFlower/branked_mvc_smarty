@@ -92,7 +92,7 @@ class adminController extends baseController
         $adminModel = new adminModel();
         $level = $adminModel->getLevel();
         $menuModel = new menuModel();
-        $levelNum = $menuModel->levelToNum($level);
+        $levelNum = $adminModel->levelToNum($level);
         $menu = $menuModel->getMenuList($level);
         $view -> assign('menu', $menu);
         $m = safe_replace($_GET['m']);
@@ -113,7 +113,8 @@ class adminController extends baseController
     /**
      * 安全退出处理
      */
-    public function loginOut(){
+    public function loginOut()
+    {
         $adminModel = new adminModel();
 
         if(!$adminModel->loginOut()){
@@ -125,7 +126,38 @@ class adminController extends baseController
     /**
      * 管理员管理
      */
-    public function managerIndex(){
+    public function managerIndex()
+    {
+        $view = viewEngine();
+        $view->display('login_index.tpl');
+        exit();
+    }
 
+    /**
+     * 管理员列表
+     */
+    public function managerList()
+    {
+        $adminModel = new adminModel();
+        $adminList = $adminModel->getManagerList();
+        $view = viewEngine();
+        if ($adminList){
+            $view ->assign('adminList', $adminList);
+        }else{
+            $adminListRes = '对不起，您无权限获取管理员列表';
+            $view->assign('adminListRes',$adminListRes);
+        }
+
+        $view->display('login_index.tpl');
+    }
+
+    /**
+     * 添加管理员
+     */
+    public function managerAdd()
+    {
+        $view = viewEngine();
+
+        $view->display('login_index.tpl');
     }
 }

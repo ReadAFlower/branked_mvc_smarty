@@ -215,7 +215,8 @@ final class db_mysqli
 			return false;
 		}
 
-		$sql = 'UPDATE `'.$this->config['db']['database'].'`.`'.$table.'` SET '.$field.$where;
+		$sql = 'UPDATE `'.$table.'` SET '.$field.$where;
+
 		return $this->execute($sql);
 	}
 
