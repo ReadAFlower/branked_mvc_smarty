@@ -1,5 +1,10 @@
+{assign var="managerDel" value='managerDel'|cat:''|cat:$smarty.session.haship }
+{if isset($smarty.session.{$managerDel}) && !empty($smarty.session.{$managerDel})}
+    <span class="right_res">{$smarty.session.{$managerDel}}</span>
+    {myunset var=$managerDel}
+{/if}
 {if isset($managerListRes)  && !empty($managerListRes)}
-<span class="right_res">{$managerListRes}</span>
+    <span class="right_res">{$managerListRes}</span>
 {elseif isset($adminList) && !empty($adminList)}
 <!-- manager list -->
 <table border="1" cellpadding="0" cellspacing="0">

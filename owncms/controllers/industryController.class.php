@@ -23,6 +23,9 @@ class industryController extends baseController
         exit();
     }
 
+    /**
+     * 行业分类
+     */
     public function industryList()
     {
         $industryModel = new industryModel();
@@ -40,6 +43,9 @@ class industryController extends baseController
 
     }
 
+    /**
+     * 添加行业
+     */
     public function addIndustry()
     {
         $industry = new industryModel();
@@ -63,6 +69,9 @@ class industryController extends baseController
         $view->display('login_index.tpl');
     }
 
+    /**
+     * 删除行业
+     */
     public function industryDel(){
         if (isset($_GET['id']) && !empty($_GET['id'])){
             $typeId = $_GET['id'];
@@ -82,5 +91,39 @@ class industryController extends baseController
 
 
         }
+    }
+
+    public function industryUpdate()
+    {
+        $industryModel = new industryModel();
+        $view = viewEngine();
+        if(isset($_POST['type_id']) && !empty($_POST['type_id'])){
+            $data = null;
+            $typeID = intval(safe_replace($_POST['type_id']));
+            $data['type_name'] = safe_replace($_POST['type_name']);
+            $data['type_num'] = intval(safe_replace($_POST['type_num']));
+
+            $res = $industryModel->updateIndustryList($data, $typeID);
+
+            if ($res){
+                $industryUpdateRes = '行业信息修改成功';
+            }else{
+                $industryUpdateRes = '行业信息修改失败';
+            }
+
+        }elseif(isset($_GET['id']) && !empty($_GET['id'])){
+            $typeID = intval(safe_replace($_GET['id']));
+
+            $industryRes = $industryModel->getIndustryRes($typeID);
+            if ($industryRes){
+                $view->assign('industryRes',$industryRes);
+            }else{
+                $industryUpdateRes = '行业信息获取失败';
+            }
+        }
+        if (isset($industryUpdateRes) && !empty($industryUpdateRes)){
+            $view->assign('industryUpdateRes',$industryUpdateRes);
+        }
+        $view->display('login_index.tpl');
     }
 }

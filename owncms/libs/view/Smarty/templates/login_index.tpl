@@ -49,6 +49,7 @@
 
             <div class="login_right_header"></div>
             {if isset($smarty.session.{'level'|cat:""|cat:$smarty.session.haship})}
+
                 {if  $smarty.get.e=='menuList'}
                     {include 'menuList.tpl'}
                 {elseif $smarty.get.e=='menuAdd'}
@@ -57,12 +58,28 @@
                     {include 'industryList.tpl'}
                 {elseif $smarty.get.e=='addIndustry' }
                     {include 'industryAdd.tpl' }
+                {elseif $smarty.get.e=='industryUpdate' }
+                    {include 'industryUpdate.tpl' }
                 {elseif $smarty.get.e=='menuUpdate' }
                     {include 'menuUpdate.tpl' }
                 {elseif $smarty.get.e=='managerList' }
                     {include 'managerList.tpl' }
                 {elseif $smarty.get.e=='managerAdd' }
                     {include 'managerAdd.tpl' }
+                {elseif $smarty.get.e=='managerUpdate' }
+                    {include 'managerUpdate.tpl' }
+                {elseif $smarty.get.e=='userList' }
+                    {include 'userList.tpl' }
+                {elseif $smarty.get.e=='userAdd' }
+                    {include 'userAdd.tpl' }
+                {elseif $smarty.get.e=='addURL' }
+                    {include 'urlAdd.tpl' }
+                {elseif $smarty.get.e=='wordList' }
+                    {include 'wordList.tpl' }
+                {elseif $smarty.get.e=='wordsAdd' }
+                    {include 'wordAdd.tpl' }
+                {elseif $smarty.get.e=='keywordsList' }
+                    {include 'allKeywordsList.tpl' }
                 {/if}
             {/if}
             <!--

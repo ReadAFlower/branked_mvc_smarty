@@ -37,10 +37,8 @@ class adminModel extends baseModel
      * @return array
      */
     private function gerAdminPassword($adminPassword){
-        $adminPassword = safe_replace($adminPassword);
-        $adminPassword = substr(md5($adminPassword), 12,18);
-        $hash = substr('owmcms', 3, 12);
-        $adminPassword = substr(md5($adminPassword.$hash),5,24);
+        $adminPassword = $this->createPWD($adminPassword);
+
         $adminId = $this -> db -> get_one('admin_id', $this->tableName, 'password = "'.$adminPassword.'"');
 
         return $adminId;
@@ -225,8 +223,124 @@ class adminModel extends baseModel
             return false;
         }
 
+    }
 
+    /**
+     * 获取单条管理员信息
+     * @param $id
+     */
+    public function getManagerRes($id)
+    {
+        $level = $this->getLevel();
+        $levelNum = intval($this->levelToNum($level));
+        if ($levelNum===0){
+            if (is_numeric($id)){
+                $id = intval(ceil($id));
+                $data = 'admin_id,admin_name,level,status,email,phone';
+                $where = ' admin_id = '.$id;
+                $managerRes = $this->db->select($data, $this->tableName, $where);
+                return $managerRes[0];
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
 
+    /**
+     * 添加管理员
+     * @param $data
+     * @return bool
+     */
+    public function addManager($data)
+    {
+        if (isset($data) && !empty($data)){
+            $data['status'] = 2;
+            $data['created_at'] = time();
+            $data['updated_at'] = time();
+            $data['password'] = $this->createPWD($data['password']);
+            $data['level'] = $data['level']+1;
 
+            $res = $this->db->insert($data, $this->tableName);
+            if ($res){
+                return $res;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * 删除管理员
+     * @param $id
+     * @return bool
+     */
+    public function managerDel($id){
+        if (is_numeric($id)){
+            $id = intval(ceil($id));
+            $where = 'admin_id = '.$id;
+            $res = $this->db->delete($this->tableName, $where);
+            if ($res){
+                return $res;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+    public function managerUpdate($data,$id)
+    {
+        if (is_numeric($id)){
+            $id = intval(ceil($id));
+            $data['updated_at'] = time();
+            $data['level'] = $data['level']+1;
+            if (isset($data['password']) && !empty($data['password'])) $data['password'] = $this->createPWD($data['password']);
+            $where = ' admin_id = '.$id;
+            $res = $this->db->update($data,$this->tableName,$where);
+
+            if ($res){
+                return $res;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * 权限等级列表
+     * @return array
+     */
+    public function getAllLevel(){
+        $sql = 'show columns from '.$this->tableName.' like "level"';
+        $res = $this -> db -> query($sql);
+        while ($arr = mysqli_fetch_assoc($res)){
+            $resLevel = $arr['Type'];
+        }
+        $resLevel = str_replace(["enum",")","(","'"],'',$resLevel);
+        $level = explode(',',$resLevel);
+
+        return $level;
+    }
+
+    /**
+     * 密码加密生成
+     * @param $pwd
+     * @return bool|string
+     */
+    public function createPWD($pwd)
+    {
+        $pwd = safe_replace($pwd);
+        $pwd = substr(md5($pwd), 12,18);
+        $hash = substr('owmcms', 3, 12);
+        $pwd = substr(md5($pwd.$hash),5,24);
+
+        return $pwd;
     }
 }

@@ -78,7 +78,6 @@ class adminController extends baseController
                     header('location:'.LOGIN_ADMIN);
                     exit();
                 }
-
             }
         }
 
@@ -156,8 +155,103 @@ class adminController extends baseController
      */
     public function managerAdd()
     {
+        $adminModel = new adminModel();
         $view = viewEngine();
+        $allLevel = $adminModel->getAllLevel();
+        $view->assign('allLevel', $allLevel);
+        if (isset($_POST['admin_name']) && !empty($_POST['admin_name'])) {
+            $data = null;
+            $data['admin_name'] = safe_replace($_POST['admin_name']);
+            $data['password'] = safe_replace($_POST['password']);
+            $data['email'] = safe_replace($_POST['email']);
+            $data['phone'] = safe_replace($_POST['phone']);
+            $data['level'] = safe_replace($_POST['level']);
+
+            $res = $adminModel->addManager($data);
+
+            if ($res){
+                $addManagerRes = '管理员添加成功';
+            }else{
+                $addManagerRes = '管理员添加失败';
+            }
+            $view->assign('addManagerRes', $addManagerRes);
+            $view->display('login_index.tpl');
+
+        }
 
         $view->display('login_index.tpl');
+    }
+
+    /**
+     * 删除管理员
+     */
+    public function managerDel()
+    {
+
+        if (isset($_GET['id']) && !empty($_GET['id'])){
+            $adminModel = new adminModel();
+            $id = safe_replace($_GET['id']);
+
+            $res = $adminModel->managerDel($id);
+            if ($res){
+                $managerDelRes = '删除成功';
+            }else{
+                $managerDelRes = '删除失败';
+            }
+            $_SESSION['managerDel'.HASH_IP] = $managerDelRes;
+            header('location:/index.php?m=admin&c=admin&e=managerList');
+            exit();
+        }
+    }
+
+    /**
+     * 修改管理员信息
+     */
+    public function managerUpdate()
+    {
+        $view = viewEngine();
+        if (isset($_POST['admin_id']) && !empty($_POST['admin_id'])){
+            $data = null;
+            $adminId = $_POST['admin_id'];
+            $data['admin_name'] = $_POST['admin_name'];
+            if(!empty($_POST['password'])) $data['password'] = $_POST['password'];
+            $data['status'] = $_POST['status'];
+            $data['level'] = $_POST['level'];
+            $data['email'] = $_POST['email'];
+            $data['phone'] = $_POST['phone'];
+
+            $adminModel = new adminModel();
+            $res = $adminModel->managerUpdate($data, $adminId);
+
+            if ($res){
+                $managerUpdateRes = '管理员信息修改成功';
+            }else{
+                $managerUpdateRes = '管理员信息修改失败';
+            }
+            $view->assign('managerUpdateRes', $managerUpdateRes);
+            $view->display('login_index.tpl');
+
+        }elseif (isset($_GET['id']) && !empty($_GET['id'])){
+            $id = safe_replace($_GET['id']);
+            $adminModel = new adminModel();
+            $managerRes = $adminModel->getManagerRes($id);
+            $allLevel = $adminModel->getAllLevel();
+//            echo '<pre>';
+//            var_dump($managerRes);
+//            exit();
+            if ($managerRes){
+
+                $view->assign('allLevel',$allLevel);
+                $view->assign('managerRes',$managerRes);
+                $view->display('login_index.tpl');
+            }else{
+                header('location:/index.php?m=admin&c=admin&e=managerList');
+                exit();
+            }
+
+        }else{
+            header('location:/index.php?m=admin&c=admin&e=managerList');
+            exit();
+        }
     }
 }

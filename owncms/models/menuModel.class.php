@@ -50,22 +50,6 @@ class menuModel extends baseModel
     }
 
     /**
-     * 权限等级列表
-     * @return array
-     */
-    public function getAllLevel(){
-        $sql = 'show columns from '.$this->tableName.' like "level"';
-        $res = $this -> db -> query($sql);
-        while ($arr = mysqli_fetch_assoc($res)){
-            $resLevel = $arr['Type'];
-        }
-        $resLevel = str_replace(["enum",")","(","'"],'',$resLevel);
-        $level = explode(',',$resLevel);
-
-        return $level;
-    }
-
-    /**
      * 更新菜单列表session数据
      * @param $level
      */

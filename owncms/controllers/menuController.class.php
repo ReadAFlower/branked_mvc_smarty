@@ -51,7 +51,7 @@ class menuController extends baseController
         $level = $adminModel->getLevel();
         $menuModel = new menuModel();
         $menuList = $menuModel->getMenuList($level);
-        $allLevel = $menuModel->getAllLevel();
+        $allLevel = $adminModel->getAllLevel();
         $view = viewEngine();
         $view->assign('menuList', $menuList);
         $view->assign('allLevel', $allLevel);
@@ -75,18 +75,23 @@ class menuController extends baseController
      * @return string
      */
     public function menuDel(){
-        $id = $_GET['id'];
-        $menuModel = new menuModel();
-        $res = $menuModel->deleteMenu($id);
-        if ($res){
-            $menuModel->updateSessionMenuList($_SESSION['level'.HASH_IP]);
-            $menuDelRes = '删除成功';
-        }else{
-            $menuDelRes = '删除失败';
-        }
+        if (isset($_GET['id']) && !empty($_GET['id'])){
+            $id = safe_replace($_GET['id']);
+            $menuModel = new menuModel();
+            $res = $menuModel->deleteMenu($id);
+            if ($res){
+                $menuModel->updateSessionMenuList($_SESSION['level'.HASH_IP]);
+                $menuDelRes = '删除成功';
+            }else{
+                $menuDelRes = '删除失败';
+            }
             $_SESSION['menuDelRes'.HASH_IP] = $menuDelRes;
-        header('location:/index.php?m=menu&c=menu&e=menuList');
-        exit();
+            header('location:/index.php?m=menu&c=menu&e=menuList');
+            exit();
+        }else{
+            header('location:/index.php?m=menu&c=menu&e=menuList');
+            exit();
+        }
     }
 
     public function menuUpdate(){
@@ -127,7 +132,7 @@ class menuController extends baseController
             $menuList = $menuModel->getMenuList($level);
             $view->assign('menuList', $menuList);
 
-            $allLevel = $menuModel->getAllLevel();
+            $allLevel = $adminModel->getAllLevel();
             $view->assign('allLevel', $allLevel);
 
             $updateData = $menuModel->getOne($id);

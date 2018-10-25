@@ -1,5 +1,5 @@
 <?php
-
+set_time_limit(0);
 /**
  * 数据库基类
  */
@@ -44,6 +44,7 @@ final class db_mysqli
 		if(!is_object($this->link)) {
 			$this->connect();
 		}
+
 
 		$this->lastqueryid = $this->link->query($sql) or $this->halt($this->link->error, $sql);
 
@@ -109,7 +110,10 @@ final class db_mysqli
         $data = implode(',', $field);
 
         $sql = 'SELECT '.$data.' FROM `'.$table.'`'.$where.$group.$order.$limit;
-
+//        if ($table=='user_url'){
+//            var_dump($sql);
+//            exit();
+//        }
         $this->execute($sql);
         $res = $this->fetch_next();
         $this->free_result();
@@ -140,6 +144,7 @@ final class db_mysqli
 		$sql = $cmd.' `'.$table.'`('.$field.') VALUES ('.$value.')';
 
 		$return = $this->execute($sql);
+
 		return $return_insert_id ? $this->insert_id() : $return;
 	}
 
@@ -327,6 +332,7 @@ final class db_mysqli
 	 * @return array
 	 */
 	public function fetch_next($type=MYSQLI_ASSOC) {
+
 		$res = $this->lastqueryid->fetch_array($type);
 		if(!$res) {
 			$this->free_result();
@@ -420,4 +426,11 @@ final class db_mysqli
 	    return $this->config;
     }
 
+    public function resToArr($res){
+        while($row=mysqli_fetch_assoc($res)){
+            $arr[]=$row;
+        }
+        mysqli_free_result($res);
+        return $arr;
+    }
 }

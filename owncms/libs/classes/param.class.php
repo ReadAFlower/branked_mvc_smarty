@@ -30,6 +30,7 @@ class param
      */
     public function getModel(){
         $m = isset($_GET['m']) && !empty($_GET['m']) ? $_GET['m'] : (isset($_POST['m']) && !empty($_POST['m']) ? $_POST['m'] : '');
+        $m = !isset($_GET['e']) || !isset($_GET['c']) ? '' : $m;
         $m = $this->safeDeal($m);
         if (empty($m)) {
             return $this->routeConfig['route']['m'];

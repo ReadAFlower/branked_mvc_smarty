@@ -1,5 +1,4 @@
 <?php
-namespace owncms\libs\classes;
 
 /**
  * Class branked
@@ -113,7 +112,7 @@ class branked
 
             //判断查询到第几页了
             if( $this->nums > $this->pages ){
-                $this->branked = '在指定范围内暂无排名';
+                $this->branked = '';
                 $this->nextURL = false;
                 return false;
             }else{
