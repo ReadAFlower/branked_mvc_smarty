@@ -31,7 +31,7 @@ require_once ('../../../functions/globals.fun.php');
                 <i class="icon iconfont icon-securityCode-b"></i>
                 <input type="text" name="code" id="code" placeholder="验证码">
 
-                <img class="code_img" src="http://mvc.branked.com/api/codeImg.php" onclick="this.src='http://mvc.branked.com/api/codeImg.php?'+Math.random();">
+                <img class="code_img" src="/api.php?op=codeImg" onclick="this.src='/api.php?op=codeImg&rand='+Math.random();">
 
 			</div>
 			<div class="login_input submit">

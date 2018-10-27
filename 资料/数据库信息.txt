@@ -73,6 +73,7 @@ CREATE TABLE keywords(
 
 create table history_branked(
 	id int(12) AUTO_INCREMENT COMMENT 'ID',
+	url_id mediumint(9) NOT NULL COMMENT 'urlID',
 	word_id int(10) NOT NULL COMMENT '关键词ID',
 	old_branked varchar(32) DEFAULT 0 COMMENT '关键词历史排名',
 	updated_at int(11) NOT NULL COMMENT '排名时间',

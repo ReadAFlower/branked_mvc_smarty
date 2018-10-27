@@ -1,5 +1,5 @@
 <?php
-namespace owncms\libs\classes;
+
 /**
  * 自定义验证码生成
  * 默认验证码图片120*45
@@ -21,6 +21,8 @@ class ValidateCode
 	private $CodeValLen;	//验证码库长度
 	private $lineLen;		//干扰线数
 	private $colorArr;		//验证码字符颜色组
+    private $fontFile;      //字体
+    private $fontsize;   //字体大小
 
 	function __construct($arr=[])
 	{	
@@ -36,6 +38,9 @@ class ValidateCode
 		$this->green=(isset($arr['green']) ? $arr['green'] : 255 );
 		$this->blue=(isset($arr['blue']) ? $arr['blue'] : 255 );
 		$this->lineLen=(isset($arr['lineLen']) ? $arr['lineLen'] : 5 );
+        $this->fontFile=(isset($arr['fontFile']) ? $arr['fontFile'] : FONT_PATH.'times.ttf' );
+        $this->fontsize=(isset($arr['fontsize']) ? $arr['fontsize'] : 18 );
+
 
 		//创建验证码库
 		for($i=0;$i<128;$i++){
@@ -58,22 +63,22 @@ class ValidateCode
 
 	//生成验证码并存入session
 	private function getCode(){
-		$tempX=0.05*$this->width;
+
+		$fontWidth = $this->fontsize*0.6;   //12.6
+
+        $step = $this->width/$this->codeLen; //17.9
 
 		for($i=0;$i<$this->codeLen;$i++){
 			$newColor=$this->createColor();
-			$fontsize=5;
+            $fontsize = rand(15,$this->fontsize);
 			$fontcolor=imagecolorallocate($this->img,$newColor['red'],$newColor['green'],$newColor['blue']);
-			$tempX=rand(($tempX+10),$tempX+($this->width-$tempX)/3);
-            $tempY=rand(0.2*$this->height,0.4*$this->height);
-			$valNow=$this->codeVal[rand(0,$this->CodeValLen-1)];
-			imagestring($this->img, $fontsize, $tempX, $tempY, $valNow, $fontcolor);
-            //$fontfile = FONT_PATH.'times.ttf';
-            //$fontfile = 'D:/phpstudy/WWW/mvc.branked.com/style/fonts/times.ttf';
-//            var_dump(imagettftext($this->img, $fontsize, rand(-30,30),$tempX, $tempY, $fontcolor, $fontfile, $valNow));
-//            exit();
-            //imagettftext($this->img, $fontsize, rand(-30,30),$tempX, $tempY, $fontcolor, $fontfile, $valNow);
 
+            $tempX=rand($step*$i,$step*($i+1)-$fontWidth);
+
+            $tempY=rand(0.4*$this->height,0.8*$this->height);
+			$valNow=$this->codeVal[rand(0,$this->CodeValLen-1)];
+
+            imagettftext($this->img, $fontsize, rand(-30,30),$tempX, $tempY, $fontcolor, $this->fontFile, $valNow);
 
 			$this->codeCnt.=$valNow;
 		}

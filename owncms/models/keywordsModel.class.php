@@ -7,6 +7,7 @@ pcBase::loadSysClass('baseModel','models/',0);
 pcBase::loadSysClass('urlModel','models/',0);
 pcBase::loadSysClass('userModel','models/',0);
 pcBase::loadSysClass('branked','',0);
+pcBase::loadSysClass('historyModel','models/',0);
 class keywordsModel extends baseModel
 {
     public static $num;
@@ -102,7 +103,7 @@ class keywordsModel extends baseModel
         }
     }
     /**
-     * 获取同一URL下当天的排名关键词数量
+     * 获取同一URL下的排名关键词数量
      * @param $urlID    urlID
      */
     public function getBrankedWordNum($urlID)
@@ -110,7 +111,7 @@ class keywordsModel extends baseModel
         if (is_numeric($urlID)){
             $urlID = intval(ceil($urlID));
 
-            $where = ' url_id = '.$urlID.' and word_branked>0 and updated_at > '.strtotime(date('Y-m-d',time()));
+            $where = ' url_id = '.$urlID;
             $res = $this->db->select('count(*)',$this->tableName,$where);
             if ($res){
                 return $res['count(*)'];
@@ -123,7 +124,7 @@ class keywordsModel extends baseModel
     }
 
     /**
-     * 获取当天关键词信息
+     * 获取关键词信息
      * @param $urlID
      * @return bool
      */
@@ -132,7 +133,7 @@ class keywordsModel extends baseModel
         if (is_numeric($urlID)){
             $urlID = intval(ceil($urlID));
             $data = 'word_id,word_name,word_status,updated_at,word_branked';
-            $where = ' url_id = '.$urlID.' and updated_at > '.strtotime(date('Y-m-d',time()));
+            $where = ' url_id = '.$urlID;
             $res = $this->db->select($data,$this->tableName,$where);
 
             if ($res){
@@ -160,7 +161,7 @@ class keywordsModel extends baseModel
         $urlModel = new urlModel();
         $oldNum = $urlModel->getWordNum($userID);
 
-        $addWordNum = count(explode(',', $data['word_name']));
+        $addWordNum = count(array_filter(explode(',', $data['word_name'])));
 
         if (($oldNum+$addWordNum)>$limitNum){
             return false;
@@ -181,7 +182,7 @@ class keywordsModel extends baseModel
 
         //$urlID = intval(safe_replace($urlID));
         $word = safe_replace($word);
-        $where = ' url_id = '.$urlID.' word_name = "'.$word.'"';
+        $where = ' url_id = '.$urlID.' and word_name = "'.$word.'"';
 
         $res = $this->db->get_one('word_id', $this->tableName, $where);
 
@@ -252,14 +253,77 @@ class keywordsModel extends baseModel
     }
 
     /**
-     * 通过id获取关键词
+     * 通过userID删除该用户下的所有关键词非历史数据关键词
+     * @param $urlID
+     */
+    public function keywordsDelByUserID($urlID)
+    {
+        $urlID = intval(safe_replace($urlID));
+
+        $where = ' url_id = '.$urlID;
+
+        $res = $this->db->delete($this->tableName, $where);
+
+        if ($res){
+            return $res;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * 通过id获取关键词信息
      * @param $wordID
      */
     public function getWord($wordID){
         $wordID = intval(safe_replace($wordID));
         $where = ' word_id = '.$wordID;
         $res = $this->db->get_one('*', $this->tableName, $where);
+        if ($res){
+            $urlModel = new urlModel();
+            $urlRes = $urlModel->getOneUrl($res['url_id']);
 
-        return $res;
+            if ($urlRes){
+               $wordRes = array_merge($res,$urlRes);
+            }
+        }
+
+        if (isset($wordRes) && !empty($wordRes)){
+            return $wordRes;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * 更新关键词排名
+     * @param $data
+     * @param $wordID
+     * @return bool
+     */
+    public function updateWordBr($data, $wordID){
+
+        if (!isset($data['keywords']) || empty($data['keywords'])) return false;
+
+        $wordID = intval(safe_replace($wordID));
+
+        $where = ' word_id = '.$wordID;
+        $keywordsRes = $this->db->update($data['keywords'],$this->tableName, $where);
+
+        //是否有history数组数据
+        if (isset($data['history']) && !empty($data['history'])){
+            $history = new historyModel();
+            $keywordsHistoryRes = $history->insertWord($data['history']);
+        }
+
+        if ($keywordsRes){
+            if (isset($data['history']) && !$keywordsHistoryRes){
+                return false;
+            }
+            return true;
+        }else{
+            return false;
+        }
+
     }
 }

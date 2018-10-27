@@ -1,6 +1,5 @@
 <?php
 
-define('HASH_IP', str_replace('.', '0' ,$_SERVER['REMOTE_ADDR']));
 define('LOGIN_ADMIN', 'http://'.SITE_URL.'/index.php?m=admin&c=admin&e=login&dosubmit=admin');
 define('LOGIN_USER', 'http://'.SITE_URL.'/index.php?m=user&c=user&e=login&dosubmit=user');
 

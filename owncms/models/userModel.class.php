@@ -6,6 +6,7 @@
 pcBase::loadSysClass('baseModel','models/',0);
 pcBase::loadSysClass('urlModel','models/',0);
 pcBase::loadSysClass('keywordsModel','models/',0);
+pcBase::loadSysClass('historyModel','models/',0);
 class userModel extends baseModel
 {
     public function __construct()
@@ -138,6 +139,11 @@ class userModel extends baseModel
         return intval($num);
     }
 
+    /**
+     * 添加用户
+     * @param $data
+     * @return bool
+     */
     public function addUser($data)
     {
         if (isset($data) && !empty($data)){
@@ -156,6 +162,81 @@ class userModel extends baseModel
 
         }else{
             return false;
+        }
+    }
+
+    /**
+     * 修改用户信息
+     * @param $data
+     * @param $userID
+     */
+    public function userUpdate($data, $userID)
+    {
+        $userID = intval(safe_replace($userID));
+        $urlModel = new urlModel();
+        $isURL = $urlModel->getOneUrlRes($userID);
+        $data['user']['updated_at'] = time();
+        if (isset($data['user']['password']) && !empty($data['user']['password'])) $data['user']['password'] = $this->createPWD($data['user']['password']);
+
+        $where = ' user_id = '.$userID;
+        $userUpdate = $this->db->update($data['user'], $this->tableName, $where);
+
+        if ($isURL){
+            $urlRes = $urlModel->updateUrlByUserID($data['url'],$userID);
+        }else{
+            $data['url']['user_id'] = $userID;
+            $urlRes = $urlModel->addUrl($data['url']);
+        }
+
+        if ($userUpdate && $urlRes){
+
+            return true;
+        }else{
+
+            return false;
+        }
+
+    }
+
+    /**
+     * 删除user
+     * @param $userID
+     */
+    public function userDel($userID)
+    {
+        $userID = intval(safe_replace($userID));
+        $userWhere = ' user_id = '.$userID;
+        $urlModel = new urlModel();
+        $urlRes = $urlModel->getOneUrlRes($userID);
+
+        if ($urlRes){
+
+            //删除相关关键词，包括历史关键词信息
+
+            $historyModel = new historyModel();
+            $historyRes = $historyModel->HistoryDelByUserID($urlRes['url_id']);
+
+            $keywordsModel = new keywordsModel();
+            $keywordsRes = $keywordsModel->keywordsDelByUserID($urlRes['url_id']);
+
+            $urlDelRes = $urlModel->urlDelByUserID($urlRes['url_id']);
+
+            $userDel = $this->db->delete($this->tableName, $userWhere);
+
+            if ($historyRes && $keywordsRes && $urlDelRes && $userDel){
+                return true;
+            }else{
+                return false;
+            }
+
+        }else{
+            $userDel = $this->db->delete($this->tableName, $userWhere);
+
+            if ($userDel){
+                return true;
+            }else{
+                return false;
+            }
         }
     }
 

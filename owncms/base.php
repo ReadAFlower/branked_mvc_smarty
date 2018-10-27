@@ -1,5 +1,7 @@
 <?php
 
+//
+define('IN_OWNCMS', true);
 //框架路径
 define('PC_PATH', str_replace('\\','/',dirname(__FILE__).DIRECTORY_SEPARATOR));
 
@@ -8,6 +10,9 @@ define('SITE_PROTOCOL', isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'
 
 //当前访问的主机名
 define('SITE_URL', (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : ''));
+
+//客户端IP
+define('HASH_IP', str_replace('.', '0' ,$_SERVER['REMOTE_ADDR']));
 
 //来源
 define('HTTP_REFERER', isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '');
@@ -30,7 +35,7 @@ define('IMG_PATH', SITE_URL.'/style/images/');
 //js
 define('JS_PATH', SITE_URL.'/style/js/');
 
-//font
+//font物理路径
 define('FONT_PATH', APP_PATH.'style/fonts/');
 //加载公用函数库
 pcBase::loadGlobalSysFun('functions');

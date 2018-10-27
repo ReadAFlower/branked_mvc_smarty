@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="/style/css/admin.css">
     <script type="text/javascript" src="/style/js/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="/style/js/admin.js"></script>
-
+    <script type="text/javascript" src="/style/js/branked.js"></script>
 </head>
 <body>
     <header class="login_header">
@@ -72,6 +72,8 @@
                     {include 'userList.tpl' }
                 {elseif $smarty.get.e=='userAdd' }
                     {include 'userAdd.tpl' }
+                {elseif $smarty.get.e=='userUpdate' }
+                    {include 'userUpdate.tpl' }
                 {elseif $smarty.get.e=='addURL' }
                     {include 'urlAdd.tpl' }
                 {elseif $smarty.get.e=='wordList' }
@@ -80,7 +82,11 @@
                     {include 'wordAdd.tpl' }
                 {elseif $smarty.get.e=='keywordsList' }
                     {include 'allKeywordsList.tpl' }
+                {elseif $smarty.get.e=='historyBranked' }
+                    {include 'historyKeywordsList.tpl' }
                 {/if}
+
+
             {/if}
             <!--
             <form action="" method="post" id="act_form">

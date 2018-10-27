@@ -433,4 +433,17 @@ final class db_mysqli
         mysqli_free_result($res);
         return $arr;
     }
+
+    public function myQuery($sql){
+        if(!is_object($this->link)) {
+            $this->connect();
+        }
+        $res = mysqli_query($this->link,$sql);
+
+        if ($res){
+            return $res;
+        }else{
+            return false;
+        }
+    }
 }

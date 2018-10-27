@@ -57,7 +57,7 @@ class industryModel extends baseModel
      * 删除分类
      * @param $data
      */
-    public function delIndustryList($where){
+    public function delIndustry($where){
         $res = $this->db->delete($this->tableName, $where);
 
         if ($res){

@@ -8,6 +8,11 @@
     <span class="right_res">{$smarty.session.{$wordDelRes}}</span>
     {myunset var=$wordDelRes}
 {/if}
+{assign var="userDelRes" value='userDelRes'|cat:''|cat:$smarty.session.haship }
+{if isset($smarty.session.{$userDelRes}) && !empty($smarty.session.{$userDelRes})}
+    <span class="right_res">{$smarty.session.{$userDelRes}}</span>
+    {myunset var=$userDelRes}
+{/if}
 {if isset($userListRes) && !empty($userListRes)}
     <span class="right_res">{$userListRes}</span>
 {elseif isset($userList) && !empty($userList)}
@@ -33,7 +38,7 @@
         <td>{if isset($list.word_num) && !empty($list.word_num)}{$list.word_num}{else}0{/if}</td>
         <td>{if isset($list.word_branked_num) && !empty($list.word_branked_num)}{$list.word_branked_num}{else}0{/if}</td>
         <td>{$list.created_at|date_format:"%Y-%m-%d"}</td>
-        <td>{if isset($list.url_name) && !empty($list.url_name)}<a href="/index.php?m=keywords&c=keywords&e=wordList&userID={$list.user_id}">关键词列表</a> | <a href="/index.php?m=keywords&c=keywords&e=wordsAdd&userID={$userBaseRes.user_id}">添加关键词</a> | {/if}<a href="/index.php?m=user&c=user&e=userUpdate&userID={$list.user_id}">修改</a> | <a href="/index.php?m=user&c=user&e=userDel&userID={$list.user_id}">删除</a> </td>
+        <td>{if isset($list.url_name) && !empty($list.url_name)}<a href="/index.php?m=keywords&c=keywords&e=wordList&userID={$list.user_id}">关键词列表</a> | <a href="/index.php?m=keywords&c=keywords&e=wordsAdd&userID={$list.user_id}">添加关键词</a> | {/if}<a href="/index.php?m=user&c=user&e=userUpdate&userID={$list.user_id}">修改</a> | <a href="/index.php?m=user&c=user&e=userDel&userID={$list.user_id}">删除</a> </td>
     </tr>
     {/foreach}
 

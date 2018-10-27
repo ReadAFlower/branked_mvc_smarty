@@ -151,6 +151,7 @@ class keywordsController extends baseController
             $isBranked = intval(safe_replace($_GET['isBranked']));
 
             if ($wordID && !empty($isBranked)){
+
                 $res = $keywordsModel->wordDel($wordID,$isBranked);
             }
         }

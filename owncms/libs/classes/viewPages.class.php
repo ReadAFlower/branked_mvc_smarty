@@ -1,5 +1,4 @@
 <?php
-namespace owncms\libs\classes;
 
 /**
  * 分页类只做分页导航，给定总记录数和每页数完成分页导航，根据当前页重新调整导航
@@ -9,7 +8,7 @@ namespace owncms\libs\classes;
 class viewPages
 {
     private $nums;           //记录总数
-    private $pageSize;      //每页显示数
+    public $pageSize;      //每页显示数
     private $pageNav;       //分页导航
     private $urlRule;       //URL规则 抛开分页参数外的其他参数规则
     private $pagesNum;      //总页数
@@ -23,7 +22,7 @@ class viewPages
     public function __construct($arrPage)
     {
         $this->pageSize = isset($arrPage['pageSize']) ? $arrPage['pageSize'] : 10 ;
-        $this->host = isset($arrPage['host']) ? $arrPage['host'] : '/?';
+        $this->host = isset($arrPage['host']) ? $arrPage['host'] : '/';
         $this->nums = $arrPage['nums'];
         $this->urlRule = $arrPage['urlRuel'];
         $this->prePage = isset($arrPage['prePage']) ? $arrPage['prePage'] : true;

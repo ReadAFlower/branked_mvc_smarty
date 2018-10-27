@@ -84,8 +84,45 @@ class urlModel extends baseModel
      */
     public function updateUrl($data,$urlID)
     {
-        $where = ' url_id = '.$urlID;
+        $where = ' url_id = '.intval(safe_replace($urlID));
         $res = $this->db->update($data, $this->tableName,$where);
+
+        if ($res){
+            return $res;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * 通过userID更新信息
+     * @param $data
+     * @param $userID
+     * @return bool
+     */
+    public function updateUrlByUserID($data,$userID)
+    {
+        $where = ' user_id = '.intval(safe_replace($userID));
+        $res = $this->db->update($data, $this->tableName,$where);
+
+        if ($res){
+            return $res;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * 通过userID删除域名信息
+     * @param $urlID
+     * @return bool
+     */
+    public function urlDelByUserID($urlID)
+    {
+        $urlID = intval(safe_replace($urlID));
+        $where = ' url_id = '.$urlID;
+
+        $res = $this->db->delete($this->tableName, $where);
 
         if ($res){
             return $res;
@@ -126,9 +163,6 @@ class urlModel extends baseModel
     {
         $urlID = intval(safe_replace($urlID));
 
-        $where = ' url_id = '.$urlID;
-        $fielddata = array_keys($data);
-        $valuedata = array_values($data);
 
         $sql = ' update '.$this->tableName.' set ';
         foreach ($data as $key => $value){

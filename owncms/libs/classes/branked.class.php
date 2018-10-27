@@ -18,7 +18,7 @@ class branked
 
     private $nums=0;        //当前查询页数
 
-    public $nextURL;       //搜索结果下一页的URL
+    private $nextURL;       //搜索结果下一页的URL
 
     private $tempContent;   //自然排名内容临时存储，供计算排名用
 

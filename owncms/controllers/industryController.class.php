@@ -78,7 +78,7 @@ class industryController extends baseController
             $industryModel = new industryModel();
             $where = 'type_id = '.intval($typeId);
 
-            $res = $industryModel->delIndustryList($where);
+            $res = $industryModel->delIndustry($where);
 
             if ($res){
                 $industryDelRes = '删除成功';
@@ -93,6 +93,9 @@ class industryController extends baseController
         }
     }
 
+    /**
+     * 行业信息修改
+     */
     public function industryUpdate()
     {
         $industryModel = new industryModel();
