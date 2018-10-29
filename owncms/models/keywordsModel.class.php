@@ -91,10 +91,10 @@ class keywordsModel extends baseModel
     {
         if (is_numeric($urlID)){
             $urlID = intval(ceil($urlID));
-            $where = ' url_id = '.$urlID.' and update_at > '.strtotime(date('Y-m-d',time()));
-            $res = $this->db->select('count(*)',$this->tableName,$where);
-            if ($res){
-                return $res['count(*)'];
+            $where = ' url_id = '.$urlID;
+            $res = $this->db->select('count(*)', $this->tableName, $where);
+            if ($res[0]){
+                return $res[0]['count(*)'];
             }else{
                 return false;
             }
@@ -126,21 +126,21 @@ class keywordsModel extends baseModel
     /**
      * 获取关键词信息
      * @param $urlID
+     * @param $pageNow
+     * @param $pageSize
      * @return bool
      */
-    public function getWordsRes($urlID)
+    public function getWordsRes($urlID, $pageNow, $pageSize = 10)
     {
-        if (is_numeric($urlID)){
-            $urlID = intval(ceil($urlID));
-            $data = 'word_id,word_name,word_status,updated_at,word_branked';
-            $where = ' url_id = '.$urlID;
-            $res = $this->db->select($data,$this->tableName,$where);
+        $urlID = intval($urlID);
+        $data = 'word_id,word_name,word_status,updated_at,word_branked';
+        $where = ' url_id = '.$urlID;
+        $orderBy = ' word_id desc ';
+        $limit = ' '.(intval($pageNow)-1)*$pageSize.','.$pageSize.' ';
+        $res = $this->db->select($data, $this->tableName, $where, $limit, $orderBy);
 
-            if ($res){
-                return $res;
-            }else{
-                return false;
-            }
+        if ($res){
+            return $res;
         }else{
             return false;
         }
@@ -198,13 +198,12 @@ class keywordsModel extends baseModel
      * 获取所有关键词列表
      * @return bool
      */
-    public function getAllkeywords()
+    public function getAllkeywords($pageNow, $pageSize = 10)
     {
         $sql = 'select * from 
                   (select d.user_name,c.* from 
                     (select a.url_id,a.user_id,a.url_name,b.word_id,b.word_name,b.word_status,b.word_branked,b.updated_at from user_url as a left join keywords as b on a.url_id = b.url_id) as c 
-                    left join user as d on c.user_id = d.user_id order by updated_at desc) as e 
-                group by e.word_name';
+                    left join user as d on c.user_id = d.user_id order by updated_at desc) as e where word_id > 0 order by word_id desc limit '.(intval($pageNow)-1)*$pageSize.','.$pageSize.' ';
 
         $res = $this->db->query($sql);
 
@@ -325,5 +324,35 @@ class keywordsModel extends baseModel
             return false;
         }
 
+    }
+
+    /**
+     * @param $wordID
+     * @param $data
+     */
+    public function wordStatus($wordID, $data)
+    {
+        $wordID = intval($wordID);
+        $where = ' word_id = '.$wordID;
+        $res = $this->db->update($data, $this->tableName, $where);
+        if ($res){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * 获取关键词总数量
+     * @return bool
+     */
+    public function nums()
+    {
+        $res = $this->db->select('count(*)', $this->tableName);
+        if ($res[0]['count(*)']){
+            return $res[0]['count(*)'];
+        }else{
+            return false;
+        }
     }
 }

@@ -9,7 +9,7 @@
             <th class="url">域名</th>
             <th class="word_keyword">关键词</th>
             <th class="word_br">排名</th>
-            <th >监控状态</th>
+            <th class="word_status">监控状态</th>
             <th class="upd">更新时间</th>
             <th class="do">操作</th>
         </tr>

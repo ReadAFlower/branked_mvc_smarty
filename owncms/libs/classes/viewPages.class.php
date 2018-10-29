@@ -24,7 +24,7 @@ class viewPages
         $this->pageSize = isset($arrPage['pageSize']) ? $arrPage['pageSize'] : 10 ;
         $this->host = isset($arrPage['host']) ? $arrPage['host'] : '/';
         $this->nums = $arrPage['nums'];
-        $this->urlRule = $arrPage['urlRuel'];
+        $this->urlRule = $arrPage['urlRule'];
         $this->prePage = isset($arrPage['prePage']) ? $arrPage['prePage'] : true;
         $this->nextPage = isset($arrPage['nextPage']) ? $arrPage['nextPage'] : true;
         $this->starPage = isset($arrPage['starPage']) ? $arrPage['starPage'] : true;

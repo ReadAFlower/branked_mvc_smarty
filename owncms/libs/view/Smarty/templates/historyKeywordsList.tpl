@@ -14,13 +14,12 @@
             <th class="upd">时间</th>
             <th class="do">操作</th>
         </tr>
-
         {foreach from=$historyWordRes key=i item=list}
             {if $list.word_id}
             <tr>
                 <td>{$i+1}</td>
 
-                <td>{if empty($list.word_branked)}暂无排名{else}{$list.word_branked}{/if}</td>
+                <td>{if empty($list.old_branked)}暂无排名{else}{$list.old_branked}{/if}</td>
                 <td>{$list.updated_at|date_format:"%Y-%m-%d"}</td>
                 <td>
 
@@ -29,5 +28,4 @@
             {/if}
         {/foreach}
     </table>
-    <div class="list_pages">{$pagesNav}</div>
 {/if}

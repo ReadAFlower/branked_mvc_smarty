@@ -45,14 +45,35 @@ class keywordsController extends baseController
     {
         $view = viewEngine();
         $keywordsModel = new keywordsModel();
-        $res = $keywordsModel->getAllkeywords();
+        if (isset($_GET['pages']) && !empty($_GET['pages'])){
+            $pageNow = $_GET['pages'] > 1 ? intval(safe_replace($_GET['pages'])) : 1;
+        }else{
+            $pageNow = 1;
+        }
+        $pageData['nums'] = $keywordsModel->nums();
 
-        if ($res){
-            $view->assign('allKeyWords',$res);
+
+        if ($pageData['nums']){
+            $pageData['nums'] = intval($pageData['nums']);
+            $pageData['urlRule'] = 'index.php?m=keywords&c=keywords&e=keywordsList';
+            $viewPages = new viewPages($pageData);
+            $pagesNav = $viewPages->getPageNav($pageNow);
+            $res = $keywordsModel->getAllkeywords($pageNow);
+
+            if ($res){
+                $view->assign('allKeyWords',$res);
+                $view->assign('pagesNav',$pagesNav);
+            }else{
+                $getAllKeywordsRes = '关键词数据获取失败';
+            }
         }else{
             $getAllKeywordsRes = '暂无关键词';
+
+        }
+        if (isset($getAllKeywordsRes) && !empty($getAllKeywordsRes)){
             $view->assign('getAllKeywordsRes',$getAllKeywordsRes);
         }
+
         $view->display('login_index.tpl');
     }
 
@@ -64,26 +85,50 @@ class keywordsController extends baseController
         if (isset($_GET['userID']) && !empty($_GET['userID'])){
 
             $view = viewEngine();
+            $keywordsModel = new keywordsModel();
 
+            if (isset($_GET['pages']) && !empty($_GET['pages'])){
+                $pageNow = $_GET['pages'] > 1 ? intval(safe_replace($_GET['pages'])) : 1;
+            }else{
+                $pageNow = 1;
+            }
             $userID = safe_replace($_GET['userID']);
             $userModel = new userModel();
             $userBaseRes = $userModel->getOneUser($userID);
 
+
             if (isset($userBaseRes[0]['url_id']) && !empty($userBaseRes[0]['url_id'])){
                 $urlID = $userBaseRes[0]['url_id'];
-                $keywowrdsModel = new keywordsModel();
-                $wordRes =  $keywowrdsModel->getWordsRes($urlID);
-            }
+                $pageData['nums'] = $keywordsModel->getWordNum($userBaseRes[0]['url_id']);
 
-            if (isset($wordRes) && !empty($wordRes)){
-                $view->assign('wordRes',$wordRes);
+                if ($pageData['nums']){
+                    $pageData['nums'] = intval($pageData['nums']);
+                    $pageData['urlRule'] = 'index.php?m=user&c=user&e=userList';
+                    $viewPages = new viewPages($pageData);
+                    $pagesNav = $viewPages->getPageNav($pageNow);
+
+                    $wordRes =  $keywordsModel->getWordsRes($urlID, $pageNow);
+
+                    if ($wordRes){
+                        $view->assign('userBaseRes',$userBaseRes[0]);
+                        $view->assign('pagesNav',$pagesNav);
+                        $view->assign('wordRes',$wordRes);
+                    }else{
+                        $getWordRes = '关键词信息获取失败';
+                    }
+                }else{
+                    $getWordRes = '暂无关键词信息';
+                }
+
 
             }else{
                 $getWordRes = '暂无关键词信息';
-                $view->assign('getWordRes',$getWordRes);
             }
 
-            $view->assign('userBaseRes',$userBaseRes[0]);
+            if (isset($getWordRes) && !empty($getWordRes)){
+                $view->assign('getWordRes', $getWordRes);
+            }
+
             $view->display('login_index.tpl');
         }else{
             header('location:/index.php?m=user&c=user&e=userIndex');
@@ -164,5 +209,45 @@ class keywordsController extends baseController
         $_SESSION['wordDelRes'.HASH_IP] = $wordDelRes;
 
         header('location:/index.php?m=user&c=user&e=userList');
+    }
+
+    /**
+     * 只能修改监控状态
+     */
+    public function wordUpdate()
+    {
+        $view = viewEngine();
+        $keywordsModel = new keywordsModel();
+        if (isset($_POST['word_id']) && !empty($_POST['word_id'])){
+            $data = null;
+            $wordID =  intval(safe_replace($_POST['word_id']));
+            $data['word_status'] = isset($_POST['word_status']) && !empty($_POST['word_status']) ? intval($_POST['word_status']) : '';
+            if ($data['word_status']){
+                $postRes = $keywordsModel->wordStatus($wordID,$data);
+                if ($postRes){
+                    $wordStatusRes = '修改成功';
+                }else{
+                    $wordStatusRes = '修改失败';
+                }
+            }else{
+                $wordStatusRes = '请选择监控状态';
+            }
+        }elseif (isset($_GET['wordID']) && !empty($_GET['wordID'])){
+            $wordID = intval(safe_replace($_GET['wordID']));
+            $getRes = $keywordsModel->getWord($wordID);
+            $statusRes = $keywordsModel->getEnum('word_status');
+            if ($getRes){
+                $view->assign('wordRes',$getRes);
+                $view->assign('statusRes',$statusRes);
+            }else{
+                $wordStatusRes = '关键词信息获取失败';
+            }
+        }else{
+            $wordStatusRes = '非法请求';
+        }
+        if (isset($wordStatusRes) && !empty($wordStatusRes)){
+            $view->assign('wordStatusRes', $wordStatusRes);
+        }
+        $view->display('login_index.tpl');
     }
 }

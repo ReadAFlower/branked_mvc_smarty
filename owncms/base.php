@@ -1,5 +1,5 @@
 <?php
-
+ini_set('session.gc_maxlifetime', "1800");
 //
 define('IN_OWNCMS', true);
 //框架路径

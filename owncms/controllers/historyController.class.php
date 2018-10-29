@@ -39,14 +39,16 @@ class historyController extends baseController
             }else{
                 $pageNow = 1;
             }
+
             $view = viewEngine();
 
             $pageData['nums'] = $historyModel->nums(' word_id = '.$wordID);
             if ($pageData['nums']){
                 $pageData['nums'] = intval($pageData['nums']);
-                $pageData['urlRuel'] = 'index.php?m=history&c=history&e=historyBranked&smallTime='.$smallTime;
+                $pageData['urlRule'] = 'index.php?m=history&c=history&e=historyBranked&smallTime='.$smallTime;
                 $viewPages = new viewPages($pageData);
                 $pagesNav = $viewPages->getPageNav($pageNow);
+
                 $historyWordRes = $historyModel->getHistoryWordList($wordID, $pageNow, $smallTime);
 
                 if ($historyWordRes){

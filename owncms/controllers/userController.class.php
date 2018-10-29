@@ -43,18 +43,40 @@ class userController extends baseController
      */
     public function userList()
     {
-        $adminModel = new adminModel();
-        $level = $adminModel->getLevel();
-        $levelNum = $adminModel->levelToNum($level);
-        $userModel = new userModel();
-        $userList = $userModel->getUserList($levelNum);
-
         $view = viewEngine();
+        $adminModel = new adminModel();
 
-        if ($userList){
-            $view->assign('userList', $userList);
+        if (isset($_GET['pages']) && !empty($_GET['pages'])){
+            $pageNow = $_GET['pages'] > 1 ? intval(safe_replace($_GET['pages'])) : 1;
         }else{
-            $userListRes = '获取用户列表信息失败';
+            $pageNow = 1;
+        }
+
+        $pageData['nums'] = $adminModel->nums();
+
+        if ($pageData['nums']){
+            $pageData['nums'] = intval($pageData['nums']);
+            $pageData['urlRule'] = 'index.php?m=user&c=user&e=userList';
+            $viewPages = new viewPages($pageData);
+            $pagesNav = $viewPages->getPageNav($pageNow);
+
+            $level = $adminModel->getLevel();
+            $levelNum = $adminModel->levelToNum($level);
+            $userModel = new userModel();
+            $userList = $userModel->getUserList($levelNum,$pageNow);
+
+            if ($userList){
+                $view->assign('userList',$userList);
+                $view->assign('pagesNav',$pagesNav);
+            }else{
+                $userListRes = '用户数据获取失败';
+            }
+
+        }else{
+            $userListRes = '暂无用户数据';
+
+        }
+        if (isset($userListRes) && !empty($userListRes)){
             $view->assign('userListRes', $userListRes);
         }
 

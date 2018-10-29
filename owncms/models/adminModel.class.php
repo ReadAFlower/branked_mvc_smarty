@@ -314,6 +314,20 @@ class adminModel extends baseModel
     }
 
     /**
+     * 获取用户总数
+     * @return bool
+     */
+    public function nums()
+    {
+        $res = $this->db->select('count(*)', $this->tableName);
+        if ($res[0]['count(*)']){
+            return $res[0]['count(*)'];
+        }else{
+            return false;
+        }
+    }
+
+    /**
      * 权限等级列表
      * @return array
      */

@@ -19,15 +19,19 @@ class userModel extends baseModel
     /**
      * 获取用户信息
      * @param $level
+     * @param $pageNow
+     * @param int $pageSize
      * @return bool
      */
-    public function getUserList($level)
+    public function getUserList($level, $pageNow, $pageSize = 10)
     {
         if (is_numeric($level)){
             $level = intval(ceil($level))+1;
             $data = 'user_id,type_num,user_name,level,status,email,phone,created_at';
             $where = ' level >= '.$level;
-            $res = $this->db->select($data,$this->tableName,$where);
+            $orderBy = ' user_id desc ';
+            $limit = ' '.(intval($pageNow)-1)*$pageSize.','.$pageSize.' ';
+            $res = $this->db->select($data, $this->tableName, $where, $limit, $orderBy);
 
             if ($res){
                 //域名关键词信息
@@ -36,7 +40,6 @@ class userModel extends baseModel
                 for ($i=0;$i<$len;$i++){
                     $userID = $res[$i]['user_id'];
                     $urlRes = $urlModel->getOneUrlRes($userID);
-
                     if ($urlRes){
                         $res[$i]['url_id'] = $urlRes['url_id'];
                         $res[$i]['url_name'] = $urlRes['url_name'];
@@ -45,9 +48,7 @@ class userModel extends baseModel
                     }else{
                         continue;
                     }
-
                 }
-
                 return $res;
             }else{
                 return false;

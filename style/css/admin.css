@@ -57,18 +57,18 @@ hr{width:76%;border: 1px double #fff;margin: 10px auto;}
 .table_h{background: #0C96DB;}
 .login_right table tr td{height: 30px;text-align: center;}
 .login_right table .ord{width: 5%;}
-.login_right table .name{width: 15%;}
-.login_right table .url{width: 20%;}
+.login_right table .name{width: 10%;}
+.login_right table .url{width: 15%;}
 .login_right table .word_keyword{width: 10%;}
 .login_right table .word_br{width: 10%;}
 .login_right table .upd,.login_right table .crt{width: 10%;}
 .login_right table .word_br_day,.login_right table .use_word_num{width: 10%;}
-.login_right table .do{width: 20%;}
+.login_right table .do{width: 25%;}
 .login_right table .lev{width: 10%;}
 .login_right table .use_word_br_num{width: 10%;}
 .login_right table .last_time{width: 10%;}
 .login_right table .contact{width: 10%;}
-.login_right table .status{width: 10%;}
+.login_right table .status,.login_right table .word_status{width: 10%;}
 
 .login_right .data_act{width: 50%; margin: 0 auto;}
 .login_right .data_act_ord{width: 10%}
@@ -96,7 +96,7 @@ hr{width:76%;border: 1px double #fff;margin: 10px auto;}
 .login_right .right_menu_add td{border-bottom: solid 1px #eee;}
 .login_right .right_menu_add select,.login_right .right_menu_add option,.login_right .right_menu_add input{height: 30px;line-height: 30px;width: 30%;}
 .login_right .right_menu_add td span{color: red;}
-#menu_add .form_submit{bottom: 100px;left: 20%;}
+.form_submit{bottom: 100px;left: 20%;}
 
 .right_res{display:block;color: #ff0000;font-family: "Adobe 楷体 Std R";text-indent: 1.5em;margin-bottom: 10px;}
 
