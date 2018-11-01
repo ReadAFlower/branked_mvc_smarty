@@ -62,6 +62,15 @@
             <th class="add_title">附加参数</th>
             <td class="add_value"><input type="text" name="data" value="" placeholder="请输入附加参数"></td>
         </tr>
+        <tr>
+            <th class="add_title">是否在菜单栏显示</th>
+            <td class="add_value">
+                <select name="ismenu">
+                    <option value="1" selected>是</option>
+                    <option value="2">否</option>
+                </select>
+            </td>
+        </tr>
     </table>
     <div class="form_submit">
         <input type="reset" name="doreset" class="doreset" value="重置">

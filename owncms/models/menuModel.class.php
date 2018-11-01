@@ -109,7 +109,8 @@ class menuModel extends baseModel
     public function getOne($id)
     {
         $id = safe_replace($id);
-        $where = ' id = '.$id;
+        if(!$id) return false;
+        $where = ' id = '.intval($id);
         $res = $this->db->get_one('*',$this->tableName,$where);
 
         if ($res){

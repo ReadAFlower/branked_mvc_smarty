@@ -21,13 +21,14 @@
     <div class="login_content">
         <div class="login_left">
             <ul class="login_nav">
+                {if $smarty.session.{'level'|cat:""|cat:$smarty.session.haship}==0 && $smarty.session.{'adminid'|cat:""|cat:$smarty.session.haship}}
                 <li><span {if 'menuIndex'==$smarty.get.e}class="login_nav_active"{/if}><a href="/index.php?m=menu&c=menu&e=menuIndex">菜单管理</a><i class="icon iconfont {if 'menu'==$smarty.get.m}icon-zhankai{else}icon-you{/if}"></i></span>
                     <ul class="login_child_nav" {if 'menu'==$smarty.get.m}style="display: block;"{else}icon-you{/if}>
                         <li><span {if 'menuList'==$smarty.get.e}class="login_nav_active"{/if}><a href="/index.php?m=menu&c=menu&e=menuList">菜单列表</a></span></li>
                         <li><span {if 'menuAdd'==$smarty.get.e}class="login_nav_active"{/if}><a href="/index.php?m=menu&c=menu&e=menuAdd">添加菜单</a></span></li>
                     </ul>
                 </li>
-
+                {/if}
                 {foreach from=$smarty.session.{'menu'|cat:""|cat:$smarty.session.haship} key=i item=list}
                     {if $list.parentID==0}
                 <li><span {if $list.e==$smarty.get.e}class="login_nav_active"{/if}><a href="/index.php?m={$list.m}&c={$list.c}&e={$list.e}{$list.data}">{$list.zh_name}</a><i class="icon iconfont {if $list.m==$smarty.get.m}icon-zhankai{else}icon-you{/if}"></i></span>

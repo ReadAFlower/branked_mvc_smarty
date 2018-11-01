@@ -68,6 +68,7 @@ class urlModel extends baseModel
      */
     public function addUrl($data)
     {
+        if (!$data['url_name']) return false;
         $res = $this->db->insert($data, $this->tableName);
 
         if ($res){
@@ -84,6 +85,8 @@ class urlModel extends baseModel
      */
     public function updateUrl($data,$urlID)
     {
+        if (!intval($urlID) || !$data) return false;
+
         $where = ' url_id = '.intval(safe_replace($urlID));
         $res = $this->db->update($data, $this->tableName,$where);
 
@@ -102,6 +105,7 @@ class urlModel extends baseModel
      */
     public function updateUrlByUserID($data,$userID)
     {
+        if (!intval($userID) || !$data) return false;
         $where = ' user_id = '.intval(safe_replace($userID));
         $res = $this->db->update($data, $this->tableName,$where);
 
@@ -119,6 +123,7 @@ class urlModel extends baseModel
      */
     public function urlDelByUserID($urlID)
     {
+        if (!intval($urlID)) return false;
         $urlID = intval(safe_replace($urlID));
         $where = ' url_id = '.$urlID;
 
@@ -161,6 +166,7 @@ class urlModel extends baseModel
      */
     public function addWordUpdate($data,$urlID)
     {
+        if (!$data || !intval($urlID)) return false;
         $urlID = intval(safe_replace($urlID));
 
 

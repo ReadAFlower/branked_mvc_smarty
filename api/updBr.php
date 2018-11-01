@@ -16,6 +16,31 @@ if (isset($_GET['wordID']) && !empty($_GET['wordID'])){
         $arr['newBR'] = '';
     }
     echo json_encode($arr);
+}elseif(isset($_GET['doUpdate']) && $_GET['doUpdate']){
+    if (isset($_GET['all'])){
+        $flgNum = null;     //计数器
+        $TableName = safe_replace($_GET['all']);
+        $keywordsModel = new keywordsModel();
+        $where = ' word_status = 2';
+        $wordIDArr = $keywordsModel->getAllIds($where);
+        if($wordIDArr){
+            $idNum = count($wordIDArr);
+            foreach ($wordIDArr as $item){
+                $newBr = updateBr(intval($item['word_id']));
+                if ($newBr) $flgNum++;
+            }
+        }
+
+        if($flgNum){
+          echo '此次更新共'.count($wordIDArr).'个关键词，其中'.$flgNum.'个关键词更新成功，'.(count($wordIDArr)-intval($flgNum)).'个关键词更新失败或无排名';
+        }else{
+            echo '关键词更新失败';
+            exit();
+        }
+
+    }else{
+        exit();
+    }
 }
 
 function updateBr($wordID){

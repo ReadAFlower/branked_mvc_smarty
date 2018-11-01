@@ -18,7 +18,7 @@ class adminModel extends baseModel
     }
 
     /**
-     * 管理员名验证
+     * 通过用户名获取id和密码
      * adminName验证
      * @param $adminName
      * @return array
@@ -26,9 +26,9 @@ class adminModel extends baseModel
     private function getAdminName($adminName){
         $adminName = safe_replace($adminName);
 
-        $adminId = $this -> db -> get_one('admin_id', $this->tableName, 'admin_name = "'.$adminName.'"');
+        $adminRes = $this -> db -> get_one('admin_id,password', $this->tableName, 'admin_name = "'.$adminName.'"');
 
-        return $adminId;
+        return $adminRes;
     }
 
     /**
@@ -55,14 +55,14 @@ class adminModel extends baseModel
 
         $name = safe_replace($name);
         $password = safe_replace($password);
+        if (!$name || !$password) return false;
         $nameAdminID = $this->getAdminName($name);
-        $passwordAdminID = $this->gerAdminPassword($password);
 
-        if ($nameAdminID==$passwordAdminID){
+        if ($nameAdminID['password']==$this->createPWD($password)){
             $_SESSION['adminid'.HASH_IP] = $nameAdminID['admin_id'];
-            $_SESSION['adminname'.HASH_IP] = $name ;
+            $_SESSION['adminname'.HASH_IP] = $name;
 
-            return $name;
+            return $nameAdminID['admin_name'];
         }else{
             return false;
         }
@@ -114,8 +114,7 @@ class adminModel extends baseModel
             $adminId = $_SESSION['adminid'.HASH_IP];
             $adminName = $_SESSION['adminname'.HASH_IP];
 
-            $adminModel = new adminModel();
-            $adminId = $adminModel->checkLogin($adminId,$adminName);
+            $adminId = $this->checkLogin($adminId,$adminName);
 
             if ($adminId){
                 return $adminId;
@@ -231,6 +230,7 @@ class adminModel extends baseModel
      */
     public function getManagerRes($id)
     {
+        if (!intval($id)) return false;
         $level = $this->getLevel();
         $levelNum = intval($this->levelToNum($level));
         if ($levelNum===0){
@@ -255,6 +255,7 @@ class adminModel extends baseModel
      */
     public function addManager($data)
     {
+        if (!safe_replace($data['admin_name'])) return false;
         if (isset($data) && !empty($data)){
             $data['status'] = 2;
             $data['created_at'] = time();
@@ -343,18 +344,4 @@ class adminModel extends baseModel
         return $level;
     }
 
-    /**
-     * 密码加密生成
-     * @param $pwd
-     * @return bool|string
-     */
-    public function createPWD($pwd)
-    {
-        $pwd = safe_replace($pwd);
-        $pwd = substr(md5($pwd), 12,18);
-        $hash = substr('owmcms', 3, 12);
-        $pwd = substr(md5($pwd.$hash),5,24);
-
-        return $pwd;
-    }
 }

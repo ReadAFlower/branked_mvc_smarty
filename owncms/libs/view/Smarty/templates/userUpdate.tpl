@@ -26,7 +26,7 @@
                 <input type="text" name="url_name" value="{if isset($userRes.url_name) && !empty($userRes.url_name)}{$userRes.url_name}{/if}">
             </td>
         </tr>
-        <tr>
+        {if isset($userRes.level)}<tr>
             <th class="add_title">用户级别</th>
             <td class="add_value">
                 <select name="level">
@@ -36,6 +36,7 @@
                 </select>
             </td>
         </tr>
+        {/if}
         <tr>
             <th class="add_title">用户状态</th>
             <td class="add_value">

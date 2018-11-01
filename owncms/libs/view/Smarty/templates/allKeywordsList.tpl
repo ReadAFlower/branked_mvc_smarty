@@ -27,7 +27,7 @@
                 <td>
                     {if $list.word_status=='监控'}<a href="javascript:;" onclick="updateBR(this,{$list.word_id},5,7)">更新排名</a> |{/if}
                     <a href="/index.php?m=keywords&c=keywords&e=wordUpdate&wordID={$list.word_id}">修改</a> |
-                    <a href="/index.php?m=keywords&c=keywords&e=wordDel&wordID={$list.word_id}&isBranked={if isset($list.word_branked) && !empty($list.word_branked)}1{else}2{/if}">删除</a> |
+                    <a class="doDel" href="/index.php?m=keywords&c=keywords&e=wordDel&wordID={$list.word_id}&isBranked={if isset($list.word_branked) && !empty($list.word_branked)}1{else}2{/if}">删除</a> |
                     <a href="/index.php?m=history&c=history&e=historyBranked&wordID={$list.word_id}&userID={$list.user_id}">历史排名</a>
                 </td>
             </tr>

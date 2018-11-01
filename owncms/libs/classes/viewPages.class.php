@@ -45,27 +45,27 @@ class viewPages
                     if(intval($pageNow) == $i){
                         $this->pageNav .= '<span class="cur">'.$i.'</span>';
                     }else{
-                        $this->pageNav .= '<span><a href="'.$this->host.$this->urlRule.'&page='.$i.'">'.$i.'</a></span>';
+                        $this->pageNav .= '<span><a href="'.$this->host.$this->urlRule.'&pages='.$i.'">'.$i.'</a></span>';
                     }
                 }
                 if($pageNow<$this->pagesNum){
-                    $this->pageNav .= '<span><a href="'.$this->host.$this->urlRule.'&page='.(intval($pageNow)+1).'">下一页</a></span>';
+                    $this->pageNav .= '<span><a href="'.$this->host.$this->urlRule.'&pages='.(intval($pageNow)+1).'">下一页</a></span>';
                 }
                 if ($this->pagesNum>$this->pageNavNum){
-                    $this->pageNav .= '<span><a href="'.$this->host.$this->urlRule.'&page='.$this->pagesNum.'">末页</a></span>';
+                    $this->pageNav .= '<span><a href="'.$this->host.$this->urlRule.'&pages='.$this->pagesNum.'">末页</a></span>';
                 }
             }
         }else{
             if ($this->pagesNum>$this->pageNavNum){
-                $this->pageNav .= '<span><a href="'.$this->host.$this->urlRule.'&page=1">首页</a></span>';
+                $this->pageNav .= '<span><a href="'.$this->host.$this->urlRule.'&pages=1">首页</a></span>';
             }
-            $this->pageNav .= '<span><a href="'.$this->host.$this->urlRule.'&page='.(intval($pageNow)-1).'">上一页</a></span>';
+            $this->pageNav .= '<span><a href="'.$this->host.$this->urlRule.'&pages='.(intval($pageNow)-1).'">上一页</a></span>';
             if(ceil($this->pageNavNum/2)>=$pageNow){
                 for ($i=1;$i<=($this->pagesNum>$this->pageNavNum ? $this->pageNavNum : $this->pagesNum);$i++){
                     if(intval($pageNow) == $i){
                         $this->pageNav .= '<span class="cur">'.$i.'</span>';
                     }else{
-                        $this->pageNav .= '<span><a href="'.$this->host.$this->urlRule.'&page='.$i.'">'.$i.'</a></span>';
+                        $this->pageNav .= '<span><a href="'.$this->host.$this->urlRule.'&pages='.$i.'">'.$i.'</a></span>';
                     }
                 }
             }else{
@@ -75,12 +75,12 @@ class viewPages
                     if(intval($pageNow) == $i){
                         $this->pageNav .= '<span class="cur">'.$i.'</span>';
                     }else{
-                        $this->pageNav .= '<span><a href="'.$this->host.$this->urlRule.'&page='.$i.'">'.$i.'</a></span>';
+                        $this->pageNav .= '<span><a href="'.$this->host.$this->urlRule.'&pages='.$i.'">'.$i.'</a></span>';
                     }
                 }
             }
             if($pageNow<$this->pagesNum){
-                $this->pageNav .= '<span><a href="'.$this->host.$this->urlRule.'&page='.(intval($pageNow)+1).'">下一页</a></span>';
+                $this->pageNav .= '<span><a href="'.$this->host.$this->urlRule.'&pages='.(intval($pageNow)+1).'">下一页</a></span>';
             }
             if ($this->pagesNum>$this->pageNavNum){
                 $this->pageNav .= '<span><a href="'.$this->host.$this->urlRule.'&page='.$this->pagesNum.'">末页</a></span>';

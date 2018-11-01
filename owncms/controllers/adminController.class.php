@@ -65,7 +65,7 @@ class adminController extends baseController
                 }
 
             }else{
-                if (isset($_GET['dosubmit']) && !empty($_GET['dosubmit'])){
+                if (isset($_GET['dosubmit']) && $_GET['dosubmit']=='admin'){
                     $view = viewEngine();
                     $loginType = safe_replace($_GET['dosubmit']);
                     $m = safe_replace($_GET['m']);
@@ -81,12 +81,17 @@ class adminController extends baseController
             }
         }
 
-
     }
 
 
     public function index()
     {
+        $adminModel = new adminModel();
+        $adminId = $adminModel->isLogin();
+        if (!$adminId){
+            header('location:'.LOGIN_ADMIN);
+            exit();
+        }
         $view = viewEngine();
         $adminModel = new adminModel();
         $level = $adminModel->getLevel();

@@ -50,4 +50,15 @@ $(document).ready(function () {
         })
     })
 
+    //删除确认
+    $('.doDel').each(function () {
+        $(this).click(function () {
+            if (confirm('此操作不可逆，是否确定执行')) {
+                return true;
+            }else {
+                return false;
+            }
+        })
+    })
+
 })

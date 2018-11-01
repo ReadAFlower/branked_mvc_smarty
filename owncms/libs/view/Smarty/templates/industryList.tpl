@@ -20,7 +20,7 @@
             <td>{$list.type_id}</td>
             <td class="industry_name">{$list.type_name}</td>
             <td>{$list.type_num}</td>
-            <td><a href="/index.php?m=industry&c=industry&e=industryUpdate&id={$list.type_id}">修改</a> | <a href="/index.php?m=industry&c=industry&e=industryDel&id={$list.type_id}">删除</a></td>
+            <td><a href="/index.php?m=industry&c=industry&e=industryUpdate&id={$list.type_id}">修改</a> | <a class="doDel" href="/index.php?m=industry&c=industry&e=industryDel&id={$list.type_id}">删除</a></td>
         </tr>
             {/foreach}
         {/if}

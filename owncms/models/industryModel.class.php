@@ -29,6 +29,7 @@ class industryModel extends baseModel
      * 返回插入记录ID值
      */
     public function addIndustryList($data){
+        if (!intval($data['type_num'])) return false;
         $res = $this->db->insert($data, $this->tableName);
 
         if ($res){
@@ -43,7 +44,8 @@ class industryModel extends baseModel
      * @param $data
      */
     public function updateIndustryList($data,$typeID){
-        $where = 'type_id = '.intval(safe_replace($typeID));
+        if (!intval($typeID)) return false;
+        $where = 'type_id = '.intval($typeID);
         $res = $this->db->update($data, $this->tableName, $where);
 
         if ($res){
@@ -58,7 +60,7 @@ class industryModel extends baseModel
      * @param $data
      */
     public function delIndustry($where){
-        $res = $this->db->delete($this->tableName, $where);
+        $res = $this->db->delete($this->tableName, safe_replace($where));
 
         if ($res){
             return $res;
@@ -73,7 +75,8 @@ class industryModel extends baseModel
      */
     public function getIndustryRes($typeID)
     {
-        $typeID = intval(safe_replace($typeID));
+        $typeID = intval($typeID);
+        if (!$typeID) return false;
         $where = 'type_id = '.$typeID;
 
         $res = $this->db->get_one('*', $this->tableName, $where);

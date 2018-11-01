@@ -50,7 +50,7 @@ hr{width:76%;border: 1px double #fff;margin: 10px auto;}
 .login_child_nav li{margin: 0;}
 .login_child_nav li a{border: none;margin: 0;text-indent: 2em;}
 
-.login_right_header{clear:both;width: 96%;margin:20px auto;height:30px;line-height: 30px;}
+.login_right_header{clear:both;width: 96%;/*margin:10px auto;line-height: 30px;*/height:10px;}
 .login_right table{font-family: "Adobe 楷体 Std R";width:96%;max-height:300px;margin: 0 auto;border: solid 1px #ccc; font-size: 16px;}
 .login_right table tr{height:30px;width: 100%;}
 .login_right table th{color: #ffffff; font-size: 18px; background: #0C96DB;}
@@ -124,3 +124,10 @@ hr{width:76%;border: 1px double #fff;margin: 10px auto;}
 .login_right .right_manager_add select,.login_right .right_manager_add option,.login_right .right_manager_add input{height: 30px;line-height: 30px;width: 30%;}
 .login_right .right_manager_add td span{color: red;}
 #manager_add .form_submit{bottom: 100px;left: 20%;}
+
+/*userInfo*/
+.login_right .right_userInfo{width: 80%;margin-left: 10px;}
+.login_right .right_userInfo .utitle{width: 20%;}
+.login_right .right_userInfo .uvalue{width: 30%;padding-left:10px;text-align: left;border-bottom: solid 1px #eee;}
+#user_word_add input{height:30px;}
+#user_word_add .add_value{text-align: left;}

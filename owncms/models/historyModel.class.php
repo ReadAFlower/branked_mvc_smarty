@@ -20,9 +20,9 @@ class historyModel extends baseModel
      */
     public function HistoryDelByUserID($urlID)
     {
-        $urlID = intval(safe_replace($urlID));
+        $urlID = intval($urlID);
         $where = ' url_id = '.$urlID;
-
+        if (!$urlID) return false;
         $res = $this->db->delete($this->tableName, $where);
 
         if ($res){
@@ -38,9 +38,10 @@ class historyModel extends baseModel
      */
     public function getNewWordRes($wordID)
     {
-        $wordID = intval(safe_replace($wordID));
+        $wordID = intval($wordID);
         $where = ' word_id = '.$wordID;
         $orderBy = ' updated_at desc';
+        if (!$wordID) return false;
         $newWordRes = $this->db->get_one('*',$this->tableName,$where,$orderBy);
 
         if ($newWordRes){
@@ -56,6 +57,7 @@ class historyModel extends baseModel
      */
     public function insertWord($data)
     {
+        if (!intval($data['url_id'])) return false;
         $res = $this->db->insert($data,$this->tableName);
 
         if ($res){
@@ -75,6 +77,7 @@ class historyModel extends baseModel
      */
     public function getHistoryWordList($wordID, $pageNow=1, $smallTime='', $pageSize = 10)
     {
+        if (!intval($wordID)) return false;
         if (empty($smallTime)){
             $smallTime = strtotime(date('Y-m-d',time()))-3600*24*30;
         }else{
@@ -115,6 +118,7 @@ class historyModel extends baseModel
 
     public function getWordBaseRes($wordID,$userID)
     {
+        if (!intval($wordID) || !intval($userID)) return false;
         $userModel = new userModel();
         $userRes = $userModel->getOneUser(intval($userID));
 

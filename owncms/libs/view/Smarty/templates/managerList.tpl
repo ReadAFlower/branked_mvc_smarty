@@ -27,7 +27,7 @@
         <td>{$list.created_at|date_format:"%Y-%m-%d"}</td>
         <td>{$list.lastlogintime|date_format:"%Y-%m-%d"}</td>
         <td>{if !empty($list.phone)}{$list.phone}/{/if}{$list.email}</td>
-        <td><a href="/index.php?m=admin&c=admin&e=managerUpdate&id={$list.admin_id}">修改</a> | <a href="/index.php?m=admin&c=admin&e=managerDel&id={$list.admin_id}">删除</a></td>
+        <td><a href="/index.php?m=admin&c=admin&e=managerUpdate&id={$list.admin_id}">修改</a> | <a class="doDel" href="/index.php?m=admin&c=admin&e=managerDel&id={$list.admin_id}">删除</a></td>
     </tr>
     {/foreach}
 </table>

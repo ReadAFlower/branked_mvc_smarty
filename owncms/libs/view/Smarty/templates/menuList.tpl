@@ -3,6 +3,11 @@
     <span class="right_res">{$smarty.session.{$menuDelRes}}</span>
     {myunset var=$menuDelRes}
 {/if}
+{assign var="menuUpdateRes" value='menuUpdateRes'|cat:''|cat:$smarty.session.haship }
+{if isset($smarty.session.{$menuUpdateRes}) && !empty($smarty.session.{$menuUpdateRes})}
+    <span class="right_res">{$smarty.session.{$menuUpdateRes}}</span>
+    {myunset var=$menuUpdateRes}
+{/if}
 <div class="menu_box">
     <table class="right_menu_list">
         <tr>
@@ -18,7 +23,7 @@
             <td>{$list.id}</td>
             <td class="menu_name">{$list.zh_name}</td>
             <td>{$list.cn_name}</td>
-            <td><a href="/index.php?m=menu&c=menu&e=menuAdd&id={$list.id}">添加子菜单</a> | <a href="/index.php?m=menu&c=menu&e=menuUpdate&id={$list.id}">修改</a> | <a href="/index.php?m=menu&c=menu&e=menuDel&id={$list.id}">删除</a></td>
+            <td><a href="/index.php?m=menu&c=menu&e=menuAdd&id={$list.id}">添加子菜单</a> | <a href="/index.php?m=menu&c=menu&e=menuUpdate&id={$list.id}">修改</a> | <a class="doDel" href="/index.php?m=menu&c=menu&e=menuDel&id={$list.id}">删除</a></td>
         </tr>
             {foreach from=$menuList key=j item=list2}
             {if $list2.parentID==$list.id}

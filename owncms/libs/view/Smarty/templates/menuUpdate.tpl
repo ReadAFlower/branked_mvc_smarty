@@ -39,9 +39,10 @@
             <td class="update_value">
                 <select name="level">
                     <option value=""></option>
+
                     {if isset($allLevel) && !empty($allLevel)}
                         {foreach $allLevel as $value}
-                            {if $smarty.session.{'level'|cat:""|cat:$smarty.session.haship}<=$value@key}
+                            {if $smarty.session.{'level'|cat:""|cat:$smarty.session.haship}<=$value@key-1}
                                 <option value="{$value@key}" {if $updateDate.level==$value}selected{/if}>{$value}</option>
                             {/if}
                         {/foreach}
@@ -64,6 +65,15 @@
         <tr>
             <th class="update_title">附加参数</th>
             <td class="update_value"><input type="text" name="data" value="{$updateDate.data}"></td>
+        </tr>
+        <tr>
+            <th class="update_title">是否在菜单栏显示</th>
+            <td class="update_value">
+                <select name="ismenu">
+                    <option value="1" {if $updateDate.ismenu=='是'}selected{/if}>是</option>
+                    <option value="2" {if $updateDate.ismenu=='否'}selected{/if}>否</option>
+                </select>
+            </td>
         </tr>
     </table>
     <div class="form_submit">

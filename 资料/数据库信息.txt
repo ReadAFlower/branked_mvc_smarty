@@ -91,6 +91,7 @@ create table menu(
 	c varchar(32) NOT NULL COMMENT '控制器',
 	e varchar(32) NOT NULL COMMENT '方法名',
 	data varchar(32) COMMENT '附加参数',
+	ismenu enum('显示','隐藏') NOT NULL COMMENT '是否在菜单栏显示',
 	PRIMARY KEY(ID),
 	UNIQUE KEY(cn_name)
 )ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='菜单表';

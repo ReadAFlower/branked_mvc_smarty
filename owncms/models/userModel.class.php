@@ -69,7 +69,6 @@ class userModel extends baseModel
             $data = 'user_id,type_num,user_name,level,status,email,phone,created_at';
             $where = ' user_id = '.$userID;
             $res = $this->db->select($data,$this->tableName,$where);
-
             if ($res){
                 //域名关键词信息
                 $urlModel = new urlModel();
@@ -147,7 +146,7 @@ class userModel extends baseModel
      */
     public function addUser($data)
     {
-        if (isset($data) && !empty($data)){
+        if (isset($data['user_name']) && !empty($data['user_name'])){
 
             $data['password'] = $this->createPWD($data['password']);
             $data['created_at'] = time();
@@ -174,6 +173,7 @@ class userModel extends baseModel
     public function userUpdate($data, $userID)
     {
         $userID = intval(safe_replace($userID));
+        if (!$userID) return false;
         $urlModel = new urlModel();
         $isURL = $urlModel->getOneUrlRes($userID);
         $data['user']['updated_at'] = time();
@@ -206,6 +206,7 @@ class userModel extends baseModel
     public function userDel($userID)
     {
         $userID = intval(safe_replace($userID));
+        if (!$userID) return false;
         $userWhere = ' user_id = '.$userID;
         $urlModel = new urlModel();
         $urlRes = $urlModel->getOneUrlRes($userID);

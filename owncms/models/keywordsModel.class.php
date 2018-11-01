@@ -26,7 +26,7 @@ class keywordsModel extends baseModel
     private function addWords($data)
     {
 
-        if(!is_numeric($data['url_id']))return false;
+        if(!is_numeric($data['url_id'])) return false;
         $wordArr = explode(',', $data['word_name']);
         $wordLen = count($wordArr);
 
@@ -43,8 +43,7 @@ class keywordsModel extends baseModel
 
             if ($checkRes)return false;
 
-            //开启事务
-            //$this->db->query('SET AUTOCOMMIT = 0');
+
             $urlModel = new urlModel();
             $urlRes = $urlModel->getOneUrl($data['url_id']);
             $data['word_status'] = 2;
@@ -69,13 +68,6 @@ class keywordsModel extends baseModel
             }else{
                 return false;
             }
-
-//            if ($res && $userUlrUpdateRes){
-//                $this->db->query('COMMIT');
-//               self::$num+=1;
-//            }else{
-//                $this->db->query('ROLLBACK');
-//            }
 
         }
 
@@ -130,9 +122,12 @@ class keywordsModel extends baseModel
      * @param $pageSize
      * @return bool
      */
-    public function getWordsRes($urlID, $pageNow, $pageSize = 10)
+    public function getWordsRes($urlID, $pageNow=1, $pageSize = 10)
     {
+        $pageNow = $pageSize ? intval($pageNow) : 1;
+        $pageSize = $pageSize ? intval($pageSize) : 10;
         $urlID = intval($urlID);
+        if (!$urlID) return false;
         $data = 'word_id,word_name,word_status,updated_at,word_branked';
         $where = ' url_id = '.$urlID;
         $orderBy = ' word_id desc ';
@@ -154,7 +149,8 @@ class keywordsModel extends baseModel
     public function checkWordNum($data,$userID)
     {
 
-        $userID = intval(safe_replace($userID));
+        $userID = intval($userID);
+        if (!$userID) return false;
         $userModel = new userModel();
         $limitNum = $userModel->wordLimitNum($userID);
 
@@ -180,7 +176,7 @@ class keywordsModel extends baseModel
     public function checkWord($word,$urlID)
     {
 
-        //$urlID = intval(safe_replace($urlID));
+        if (intval($urlID)) return false;
         $word = safe_replace($word);
         $where = ' url_id = '.$urlID.' and word_name = "'.$word.'"';
 
@@ -200,6 +196,8 @@ class keywordsModel extends baseModel
      */
     public function getAllkeywords($pageNow, $pageSize = 10)
     {
+        if (!intval($pageNow)) return false;
+
         $sql = 'select * from 
                   (select d.user_name,c.* from 
                     (select a.url_id,a.user_id,a.url_name,b.word_id,b.word_name,b.word_status,b.word_branked,b.updated_at from user_url as a left join keywords as b on a.url_id = b.url_id) as c 
@@ -223,8 +221,10 @@ class keywordsModel extends baseModel
      */
     public function wordDel($wordID,$isBranked)
     {
+
         $wordID = intval(safe_replace($wordID));
         $isBranked = intval(safe_replace($isBranked));
+        if (!$wordID) return false;
         $wordRes = $this->getWord($wordID);
 
         $where = ' word_id = '.$wordID;
@@ -257,6 +257,7 @@ class keywordsModel extends baseModel
      */
     public function keywordsDelByUserID($urlID)
     {
+        if (!intval($urlID)) return false;
         $urlID = intval(safe_replace($urlID));
 
         $where = ' url_id = '.$urlID;
@@ -275,6 +276,7 @@ class keywordsModel extends baseModel
      * @param $wordID
      */
     public function getWord($wordID){
+        if (!intval($wordID)) return false;
         $wordID = intval(safe_replace($wordID));
         $where = ' word_id = '.$wordID;
         $res = $this->db->get_one('*', $this->tableName, $where);
@@ -305,7 +307,7 @@ class keywordsModel extends baseModel
         if (!isset($data['keywords']) || empty($data['keywords'])) return false;
 
         $wordID = intval(safe_replace($wordID));
-
+        if(!$wordID) return false;
         $where = ' word_id = '.$wordID;
         $keywordsRes = $this->db->update($data['keywords'],$this->tableName, $where);
 
@@ -333,6 +335,7 @@ class keywordsModel extends baseModel
     public function wordStatus($wordID, $data)
     {
         $wordID = intval($wordID);
+        if (!$wordID || $data) return false;
         $where = ' word_id = '.$wordID;
         $res = $this->db->update($data, $this->tableName, $where);
         if ($res){
@@ -351,6 +354,21 @@ class keywordsModel extends baseModel
         $res = $this->db->select('count(*)', $this->tableName);
         if ($res[0]['count(*)']){
             return $res[0]['count(*)'];
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * 获取所有关键词id
+     */
+    public function getAllIds($where)
+    {
+
+        $res = $this->db->select('word_id',$this->tableName,safe_replace($where));
+
+        if ($res){
+            return $res;
         }else{
             return false;
         }

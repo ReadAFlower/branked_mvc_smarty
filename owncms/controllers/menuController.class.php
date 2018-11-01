@@ -46,27 +46,34 @@ class menuController extends baseController
     }
 
     public function menuAdd(){
-
-        $adminModel = new adminModel();
-        $level = $adminModel->getLevel();
-        $menuModel = new menuModel();
-        $menuList = $menuModel->getMenuList($level);
-        $allLevel = $adminModel->getAllLevel();
         $view = viewEngine();
-        $view->assign('menuList', $menuList);
-        $view->assign('allLevel', $allLevel);
 
-        if (isset($_POST) && !empty($_POST)){
-            $res = $this->add();
+       if (isset($_SESSION['level'.HASH_IP]) && $_SESSION['level'.HASH_IP] == 0){
+           $adminModel = new adminModel();
+           $level = $adminModel->getLevel();
+           $menuModel = new menuModel();
+           $menuList = $menuModel->getMenuList($level);
+           $allLevel = $adminModel->getAllLevel();
 
-            if ($res){
-                $menuAddRes = '菜单添加成功';
-            }else{
-                $menuAddRes = '菜单添加失败';
-            }
+           $view->assign('menuList', $menuList);
+           $view->assign('allLevel', $allLevel);
+
+           if (isset($_POST) && !empty($_POST)){
+               $res = $this->add();
+
+               if ($res){
+                   $menuAddRes = '菜单添加成功';
+               }else{
+                   $menuAddRes = '菜单添加失败';
+               }
+
+           }
+       }else{
+           $menuAddRes = '无权限执行此操作，请联系站长获取权限';
+       }
+        if (isset($menuAddRes)){
             $view->assign('menuAddRes', $menuAddRes);
         }
-
         $view->display('login_index.tpl');
     }
 
@@ -75,84 +82,86 @@ class menuController extends baseController
      * @return string
      */
     public function menuDel(){
-        if (isset($_GET['id']) && !empty($_GET['id'])){
-            $id = safe_replace($_GET['id']);
-            $menuModel = new menuModel();
-            $res = $menuModel->deleteMenu($id);
-            if ($res){
-                $menuModel->updateSessionMenuList($_SESSION['level'.HASH_IP]);
-                $menuDelRes = '删除成功';
+        if (isset($_SESSION['level'.HASH_IP]) && $_SESSION['level'.HASH_IP] == 0){
+            if (isset($_GET['id']) && !empty($_GET['id'])){
+                $id = safe_replace($_GET['id']);
+                $menuModel = new menuModel();
+                $res = $menuModel->deleteMenu($id);
+                if ($res){
+                    $menuModel->updateSessionMenuList($_SESSION['level'.HASH_IP]);
+                    $menuDelRes = '删除成功';
+                }else{
+                    $menuDelRes = '删除失败';
+                }
+
             }else{
-                $menuDelRes = '删除失败';
+                $menuDelRes = '错误请求，请重新操作';
             }
-            $_SESSION['menuDelRes'.HASH_IP] = $menuDelRes;
-            header('location:/index.php?m=menu&c=menu&e=menuList');
-            exit();
         }else{
-            header('location:/index.php?m=menu&c=menu&e=menuList');
-            exit();
+            $menuDelRes = '无权限执行此操作，请联系站长获取权限';
         }
+        $_SESSION['menuDelRes'.HASH_IP] = $menuDelRes;
+        header('location:/index.php?m=menu&c=menu&e=menuList');
+        exit();
     }
 
     public function menuUpdate(){
         $menuModel = new menuModel();
         $view = viewEngine();
 
-        if (isset($_POST['cn_name']) && !empty($_POST['cn_name'])){
+        if (isset($_SESSION['level'.HASH_IP]) && $_SESSION['level'.HASH_IP] == 0){
+            if (isset($_POST['cn_name']) && !empty($_POST['cn_name'])){
 
-            $data = null;
-            $updateID = safe_replace($_POST['update_id']);
-            $data['parentID'] = safe_replace($_POST['parentID']);
-            $data['zh_name'] = safe_replace($_POST['zh_name']);
-            $data['cn_name'] = safe_replace($_POST['cn_name']);
-            $data['level'] = intval(safe_replace($_POST['level']))+1;
-            $data['m'] = safe_replace($_POST['m']);
-            $data['c'] = safe_replace($_POST['c']);
-            $data['e'] = safe_replace($_POST['e']);
-            $data['data'] = safe_replace($_POST['data']);
+                $data = null;
+                $updateID = safe_replace($_POST['update_id']);
+                $data['parentID'] = safe_replace($_POST['parentID']);
+                $data['zh_name'] = safe_replace($_POST['zh_name']);
+                $data['cn_name'] = safe_replace($_POST['cn_name']);
+                $data['level'] = intval(safe_replace($_POST['level']))+1;
+                $data['m'] = safe_replace($_POST['m']);
+                $data['c'] = safe_replace($_POST['c']);
+                $data['e'] = safe_replace($_POST['e']);
+                $data['data'] = safe_replace($_POST['data']);
+                $data['ismenu'] = intval($_POST['ismenu']);
 
-            $res = $menuModel->updateMenu($data,$updateID);
+                $res = $menuModel->updateMenu($data,$updateID);
+                if($res){
+                    $menuUpdateRes = '修改成功';
+                }else{
+                    $menuUpdateRes = '修改失败';
+                }
+            }elseif (isset($_GET['id']) && !empty($_GET['id'])){
+                $id = intval($_GET['id']);
+                $adminModel = new adminModel();
+                $level = $adminModel->getLevel();
+                $menuList = $menuModel->getMenuList($level);
+                $view->assign('menuList', $menuList);
 
-            if($res){
-                $menuUpdateRes = '修改成功';
+                $allLevel = $menuModel->getEnum('level');
+                $view->assign('allLevel', $allLevel);
+
+                $updateData = $menuModel->getOne($id);
+                if($updateData){
+                    $view->assign('updateDate', $updateData);
+                    $view->display('login_index.tpl');
+                    exit();
+                }else{
+                    $menuUpdateRes = '菜单信息获取失败';
+                }
+
             }else{
-                $menuUpdateRes = '修改失败';
+                $menuUpdateRes = '请求错误，请重新操作';
             }
-
-            $view->assign('menuUpdateRes', $menuUpdateRes);
-
-            $view->display('login_index.tpl');
-
-        }elseif (isset($_GET['id']) && !empty($_GET['id'])){
-
-            $id = intval($_GET['id']);
-
-            $adminModel = new adminModel();
-            $level = $adminModel->getLevel();
-            $menuList = $menuModel->getMenuList($level);
-            $view->assign('menuList', $menuList);
-
-            $allLevel = $adminModel->getAllLevel();
-            $view->assign('allLevel', $allLevel);
-
-            $updateData = $menuModel->getOne($id);
-
-            if($updateData){
-                $view->assign('updateDate', $updateData);
-
-                $view->display('login_index.tpl');
-            }else{
-                header('location:/index.php?m=menu&c=menu&e=menuList');
-                exit();
-            }
-
         }else{
-            header('location:/index.php?m=menu&c=menu&e=menuList');
-            exit();
+            $menuUpdateRes = '无权限执行此操作，请联系站长获取权限';
         }
+
+        $_SESSION['menuUpdateRes'.HASH_IP] = $menuUpdateRes;
+        header('location:/index.php?m=menu&c=menu&e=menuList');
+        exit();
     }
 
-    //添加菜单
+    //添加菜单子方法
     public function add(){
         if($_POST['cn_name']){
             $data = null;

@@ -96,7 +96,6 @@ class keywordsController extends baseController
             $userModel = new userModel();
             $userBaseRes = $userModel->getOneUser($userID);
 
-
             if (isset($userBaseRes[0]['url_id']) && !empty($userBaseRes[0]['url_id'])){
                 $urlID = $userBaseRes[0]['url_id'];
                 $pageData['nums'] = $keywordsModel->getWordNum($userBaseRes[0]['url_id']);

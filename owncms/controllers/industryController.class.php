@@ -49,23 +49,26 @@ class industryController extends baseController
     public function addIndustry()
     {
         $industry = new industryModel();
-
         $view = viewEngine();
 
-        if (isset($_POST) && !empty($_POST)){
-            $data['type_name'] = $_POST['type_name'];
-            $data['type_num'] = $_POST['type_num'];
-            $res = $industry->addIndustryList($data);
+        if (isset($_SESSION['level'.HASH_IP]) && $_SESSION['level'.HASH_IP] == 0){
+            if (isset($_POST['type_num']) && !empty($_POST['type_num'])){
+                $data['type_name'] = $_POST['type_name'];
+                $data['type_num'] = $_POST['type_num'];
+                $res = $industry->addIndustryList($data);
 
-            if ($res){
-                $industryAddRes = '添加行业成功';
-            }else{
-                $industryAddRes = '添加行业失败';
+                if ($res){
+                    $industryAddRes = '添加行业成功';
+                }else{
+                    $industryAddRes = '添加行业失败';
+                }
             }
-
+        }else{
+            $industryAddRes = '无权限执行此操作，请联系站长获取权限';
+        }
+        if (isset($industryAddRes)){
             $view->assign('industryAddRes', $industryAddRes);
         }
-
         $view->display('login_index.tpl');
     }
 
@@ -73,24 +76,29 @@ class industryController extends baseController
      * 删除行业
      */
     public function industryDel(){
-        if (isset($_GET['id']) && !empty($_GET['id'])){
-            $typeId = $_GET['id'];
-            $industryModel = new industryModel();
-            $where = 'type_id = '.intval($typeId);
+        if (isset($_SESSION['level'.HASH_IP]) && $_SESSION['level'.HASH_IP] == 0){
+            if (isset($_GET['id']) && !empty($_GET['id'])){
+                $typeId = $_GET['id'];
+                $industryModel = new industryModel();
+                $where = 'type_id = '.intval($typeId);
 
-            $res = $industryModel->delIndustry($where);
+                $res = $industryModel->delIndustry($where);
 
-            if ($res){
-                $industryDelRes = '删除成功';
+                if ($res){
+                    $industryDelRes = '删除成功';
+                }else{
+                    $industryDelRes = '删除失败';
+                }
+
             }else{
-                $industryDelRes = '删除失败';
+                $industryDelRes = '错误请求，请重新操作';
             }
-            $_SESSION['industryDelRes'.HASH_IP] = $industryDelRes;
-            header('location:/index.php?m=industry&c=industry&e=industryList');
-            exit();
-
-
+        }else{
+            $industryDelRes = '无权限执行此操作，请联系站长获取权限';
         }
+        $_SESSION['industryDelRes'.HASH_IP] = $industryDelRes;
+        header('location:/index.php?m=industry&c=industry&e=industryList');
+        exit();
     }
 
     /**
@@ -100,30 +108,35 @@ class industryController extends baseController
     {
         $industryModel = new industryModel();
         $view = viewEngine();
-        if(isset($_POST['type_id']) && !empty($_POST['type_id'])){
-            $data = null;
-            $typeID = intval(safe_replace($_POST['type_id']));
-            $data['type_name'] = safe_replace($_POST['type_name']);
-            $data['type_num'] = intval(safe_replace($_POST['type_num']));
+        if (isset($_SESSION['level'.HASH_IP]) && $_SESSION['level'.HASH_IP] == 0){
+            if(isset($_POST['type_id']) && !empty($_POST['type_id'])){
+                $data = null;
+                $typeID = intval(safe_replace($_POST['type_id']));
+                $data['type_name'] = safe_replace($_POST['type_name']);
+                $data['type_num'] = intval(safe_replace($_POST['type_num']));
 
-            $res = $industryModel->updateIndustryList($data, $typeID);
+                $res = $industryModel->updateIndustryList($data, $typeID);
 
-            if ($res){
-                $industryUpdateRes = '行业信息修改成功';
-            }else{
-                $industryUpdateRes = '行业信息修改失败';
+                if ($res){
+                    $industryUpdateRes = '行业信息修改成功';
+                }else{
+                    $industryUpdateRes = '行业信息修改失败';
+                }
+
+            }elseif(isset($_GET['id']) && !empty($_GET['id'])){
+                $typeID = intval(safe_replace($_GET['id']));
+
+                $industryRes = $industryModel->getIndustryRes($typeID);
+                if ($industryRes){
+                    $view->assign('industryRes',$industryRes);
+                }else{
+                    $industryUpdateRes = '行业信息获取失败';
+                }
             }
-
-        }elseif(isset($_GET['id']) && !empty($_GET['id'])){
-            $typeID = intval(safe_replace($_GET['id']));
-
-            $industryRes = $industryModel->getIndustryRes($typeID);
-            if ($industryRes){
-                $view->assign('industryRes',$industryRes);
-            }else{
-                $industryUpdateRes = '行业信息获取失败';
-            }
+        }else{
+            $industryUpdateRes = '无权限执行此操作，请联系站长获取权限';
         }
+
         if (isset($industryUpdateRes) && !empty($industryUpdateRes)){
             $view->assign('industryUpdateRes',$industryUpdateRes);
         }

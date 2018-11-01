@@ -1,7 +1,7 @@
 <?php
 
 define('LOGIN_ADMIN', 'http://'.SITE_URL.'/index.php?m=admin&c=admin&e=login&dosubmit=admin');
-define('LOGIN_USER', 'http://'.SITE_URL.'/index.php?m=user&c=user&e=login&dosubmit=user');
+define('LOGIN_PERSONAL', 'http://'.SITE_URL.'/index.php?m=Personal&c=Personal&e=login&dosubmit=user');
 
 class APPlication
 {
