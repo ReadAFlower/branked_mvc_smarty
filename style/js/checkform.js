@@ -116,4 +116,12 @@ $(function(){
 					return false;
 				}
 			})
-		})
+
+    $('#typeAdmin').click(function () {
+        $(window).attr('location','/index.php?m=admin&c=admin&e=login&dosubmit=admin');
+    })
+    $('#typeUser').click(function () {
+        $(window).attr('location','/index.php?m=Personal&c=Personal&e=login&dosubmit=user');
+    })
+
+})

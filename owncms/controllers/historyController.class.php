@@ -7,6 +7,7 @@ pcBase::loadSysClass('adminModel','models/',0);
 pcBase::loadSysClass('viewPages','',0);
 class historyController extends baseController
 {
+
     public function __construct()
     {
         $adminModel = new adminModel();
@@ -15,6 +16,7 @@ class historyController extends baseController
             header('location:'.LOGIN_ADMIN);
             exit();
         }
+
     }
 
     public function historyBranked()
@@ -55,6 +57,8 @@ class historyController extends baseController
                     $view->assign('pagesNav',$pagesNav);
                     $view->assign('historyWordRes',$historyWordRes);
                     $view->assign('wordBaseRes',$wordBaseRes);
+                    $view->display('login_index.tpl');
+                    exit();
                 }else{
                     $getHistoryBranked = '历史数据获取失败';
                 }
@@ -62,14 +66,13 @@ class historyController extends baseController
                 $getHistoryBranked = '暂无历史数据';
             }
 
-            if (isset($getHistoryBranked) && !empty($getHistoryBranked)){
-                $view->assign('getHistoryBranked',$getHistoryBranked);
-            }
-
-            $view->display('login_index.tpl');
         }else{
-            echo '<script>history.go(-1);</script>';
-            exit();
+            $getHistoryBranked = '无效的请求';
         }
+        @$_SESSION['messagesTips']=$getHistoryBranked;
+        $_SESSION['messagesUrl']='/index.php?m=keywords&c=keywords&e=keywordsList';
+        historyModel::showMessages();
+        exit();
+
     }
 }

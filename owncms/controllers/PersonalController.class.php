@@ -12,7 +12,11 @@ class PersonalController extends baseController
 {
     public function __construct()
     {
-
+        $PersonalModel = new PersonalModel();
+        if ($PersonalModel->isLogin()){
+            $this->urlList['index'] = '/index.php?m=Personal&c=Personal&e=index';
+            $this->urlList['wordList'] = '/index.php?m=Personal&c=Personal&e=wordList';
+        }
     }
 
     public function init()
@@ -21,7 +25,7 @@ class PersonalController extends baseController
         $PersonalModel = new PersonalModel();
         $userId = $PersonalModel->isLogin();
         if ($userId){
-            header('location:/index.php?m=Personal&c=Personal&e=index');
+            header( $this->urlList['index']);
             exit();
         }else{
             header('location:'.LOGIN_PERSONAL);
@@ -56,6 +60,7 @@ class PersonalController extends baseController
         $_SESSION['haship'] = HASH_IP;
 
         $view->display('user_index.tpl');
+        exit();
     }
 
     //登录
@@ -64,7 +69,7 @@ class PersonalController extends baseController
 
         $PersonalModel = new PersonalModel();
         if ($PersonalModel->isLogin()){
-            header('location:/index.php?m=Personal&c=Personal&e=index');
+            header( $this->urlList['index']);
             exit();
         }else{
             if(isset($_POST['login_type']) && !empty($_POST['login_type'])){
@@ -81,7 +86,9 @@ class PersonalController extends baseController
                 $userID = $PersonalModel->checkAdmin($userName, $password, $code);
 
                 if ($userID){
-                    header('location:/index.php?m=Personal&c=Personal&e=index');
+                    $_SESSION['messagesTips']='登录成功';
+                    $_SESSION['messagesUrl']='/index.php?m=Personal&c=Personal&e=index';
+                    PersonalModel::showMessages();
                     exit();
                 }else{
                     header('location:'.LOGIN_PERSONAL);
@@ -128,14 +135,22 @@ class PersonalController extends baseController
             if ($wordInfo){
                 $view -> assign('userID', $_SESSION['userid'.HASH_IP]);
                 $view -> assign('wordInfo', $wordInfo);
+                $view->display('user_index.tpl');
+                exit();
             }else{
                 $wordInfoRes = '暂无关键词';
-                $view -> assign('wordInfoRes', $wordInfoRes);
+                $_SESSION['messagesTips'] = $wordInfoRes;
+                $_SESSION['messagesUrl'] = '/index.php?m=Personal&c=Personal&e=index';
+                PersonalModel::showMessages();
+                exit();
             }
-            $view->display('user_index.tpl');
+
         }else{
-            header('location:'.LOGIN_PERSONAL);
+           $_SESSION['messagesTips'] = '请先登录';
+           @$_SESSION['messagesUrl'] = LOGIN_PERSONAL;
+            PersonalModel::showMessages();
             exit();
+
         }
 
     }
@@ -186,6 +201,8 @@ class PersonalController extends baseController
                     $view->assign('pagesNav',$pagesNav);
                     $view->assign('historyWordRes',$historyWordRes);
                     $view->assign('wordBaseRes',$wordBaseRes);
+                    $view->display('user_index.tpl');
+                    exit();
                 }else{
                     $getHistoryBranked = '历史数据获取失败';
                 }
@@ -193,13 +210,14 @@ class PersonalController extends baseController
                 $getHistoryBranked = '暂无历史数据';
             }
 
-            if (isset($getHistoryBranked) && !empty($getHistoryBranked)){
-                $view->assign('getHistoryBranked',$getHistoryBranked);
-            }
-
-            $view->display('user_index.tpl');
-
+        }else{
+            $getHistoryBranked = '非法操作';
         }
+
+        @$_SESSION['messagesTips'] = $getHistoryBranked;
+        @$_SESSION['messagesUrl'] = $this->urlList['goback'];
+        PersonalModel::showMessages();
+        exit();
     }
 
     //添加关键词
@@ -222,13 +240,17 @@ class PersonalController extends baseController
             $res = $keywordsModel->checkWordNum($words,$userID);
 
             if ($res){
-                $_SESSION['userAddWordsRes'.HASH_IP]='关键词添加成功';
+                $userAddWordsRes = '关键词添加成功';
             }else{
-                $_SESSION['userAddWordsRes'.HASH_IP]='关键词添加失败';
+                $userAddWordsRes = '关键词添加失败';
             }
-            header('location:/index.php?m=Personal&c=Personal&e=wordList');
+            @$_SESSION['messagesTips'] = $userAddWordsRes;
+            @$_SESSION['messagesUrl'] = $this->urlList['wordList'];
+            PersonalModel::showMessages();
+            exit();
         }else{
             $view->display('user_index.tpl');
+            exit();
         }
     }
 
@@ -269,6 +291,8 @@ class PersonalController extends baseController
             if ($getRes){
                 $view->assign('wordRes',$getRes);
                 $view->assign('statusRes',$statusRes);
+                $view->display('user_index.tpl');
+                exit();
             }else{
                 $wordStatusRes = '关键词信息获取失败';
             }
@@ -276,10 +300,10 @@ class PersonalController extends baseController
             $wordStatusRes = '非法请求';
         }
 
-        if (isset($wordStatusRes) && !empty($wordStatusRes)){
-            $view->assign('wordStatusRes', $wordStatusRes);
-        }
-        $view->display('user_index.tpl');
+        @$_SESSION['messagesTips'] = $wordStatusRes;
+        @$_SESSION['messagesUrl'] = $this->urlList['wordList'];
+        PersonalModel::showMessages();
+        exit();
     }
 
     /**
@@ -326,14 +350,17 @@ class PersonalController extends baseController
             if($userRes){
                 $view->assign('industryList', $industryList);
                 $view->assign('userRes', $userRes['0']);
+                $view->display('user_index.tpl');
+                exit();
             }else{
                 $userUpdateRes = '信息获取失败';
             }
         }
 
-        if (isset($userUpdateRes) && !empty($userUpdateRes)){
-            $view->assign('userUpdateRes',$userUpdateRes);
-        }
-        $view->display('user_index.tpl');
+        @$_SESSION['messagesTips'] = $userUpdateRes;
+        @$_SESSION['messagesUrl'] = $this->urlList['index'];
+        PersonalModel::showMessages();
+        exit();
+
     }
 }

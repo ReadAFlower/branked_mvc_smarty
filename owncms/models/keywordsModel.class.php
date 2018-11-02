@@ -335,8 +335,9 @@ class keywordsModel extends baseModel
     public function wordStatus($wordID, $data)
     {
         $wordID = intval($wordID);
-        if (!$wordID || $data) return false;
+        if (!$wordID || !$data) return false;
         $where = ' word_id = '.$wordID;
+
         $res = $this->db->update($data, $this->tableName, $where);
         if ($res){
             return true;

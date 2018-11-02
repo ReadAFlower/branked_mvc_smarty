@@ -6,16 +6,21 @@ pcBase::loadSysClass('baseController','controllers/',0);
 pcBase::loadSysClass('adminModel','models/',0);
 pcBase::loadSysClass('urlModel','models/',0);
 pcBase::loadSysClass('userModel','models/',0);
+pcBase::loadSysClass('userController','controllers/',0);
 class keywordsController extends baseController
 {
     public function __construct()
     {
         $adminModel = new adminModel();
-
         if(!$adminModel->isLogin()){
             header('location:'.LOGIN_ADMIN);
             exit();
         }
+        $userController = new userController();
+        $this->urlList['userList'] = $userController->urlList['userList'];
+        $this->urlList['keywordsIndex'] = '/index.php?m=keywords&c=keywords&e=keywordsIndex';
+        $this->urlList['keywordsList'] = '/index.php?m=keywords&c=keywords&e=keywordsList';
+
     }
 
     public function init()
@@ -63,18 +68,20 @@ class keywordsController extends baseController
             if ($res){
                 $view->assign('allKeyWords',$res);
                 $view->assign('pagesNav',$pagesNav);
+                $view->display('login_index.tpl');
+                exit();
             }else{
                 $getAllKeywordsRes = '关键词数据获取失败';
             }
         }else{
             $getAllKeywordsRes = '暂无关键词';
-
         }
-        if (isset($getAllKeywordsRes) && !empty($getAllKeywordsRes)){
-            $view->assign('getAllKeywordsRes',$getAllKeywordsRes);
-        }
+        @$_SESSION['messagesTips'] = $getAllKeywordsRes;
+        @$_SESSION['messagesUrl'] = $this->urlList['goback'];
+        keywordsModel::showMessages();
+        exit();
 
-        $view->display('login_index.tpl');
+
     }
 
     /**
@@ -82,10 +89,10 @@ class keywordsController extends baseController
      */
     public function wordList()
     {
+        $view = viewEngine();
+        $userModel = new userModel();
+        $keywordsModel = new keywordsModel();
         if (isset($_GET['userID']) && !empty($_GET['userID'])){
-
-            $view = viewEngine();
-            $keywordsModel = new keywordsModel();
 
             if (isset($_GET['pages']) && !empty($_GET['pages'])){
                 $pageNow = $_GET['pages'] > 1 ? intval(safe_replace($_GET['pages'])) : 1;
@@ -93,7 +100,7 @@ class keywordsController extends baseController
                 $pageNow = 1;
             }
             $userID = safe_replace($_GET['userID']);
-            $userModel = new userModel();
+
             $userBaseRes = $userModel->getOneUser($userID);
 
             if (isset($userBaseRes[0]['url_id']) && !empty($userBaseRes[0]['url_id'])){
@@ -112,27 +119,25 @@ class keywordsController extends baseController
                         $view->assign('userBaseRes',$userBaseRes[0]);
                         $view->assign('pagesNav',$pagesNav);
                         $view->assign('wordRes',$wordRes);
+                        $view->display('login_index.tpl');
+                        exit();
                     }else{
                         $getWordRes = '关键词信息获取失败';
                     }
                 }else{
                     $getWordRes = '暂无关键词信息';
                 }
-
-
             }else{
                 $getWordRes = '暂无关键词信息';
             }
-
-            if (isset($getWordRes) && !empty($getWordRes)){
-                $view->assign('getWordRes', $getWordRes);
-            }
-
-            $view->display('login_index.tpl');
         }else{
-            header('location:/index.php?m=user&c=user&e=userIndex');
-            exit();
+            $getWordRes = '非法操作';
         }
+
+        @$_SESSION['messagesTips'] = $getWordRes;
+        @$_SESSION['messagesUrl'] = $this->urlList['userList'];
+        keywordsModel::showMessages();
+        exit();
     }
 
     /**
@@ -141,47 +146,48 @@ class keywordsController extends baseController
     public function wordsAdd()
     {
         $view = viewEngine();
+        $keywordsModel = new keywordsModel();
+        $userModel = new userModel();
         if (isset($_POST['url_id']) && !empty($_POST['url_id'])){
-
                 $data = null;
-                $userID = $_GET['userID'];
-                $data['url_id'] = safe_replace($_POST['url_id']);
+                $userID = intval($_GET['userID']);
+                $data['url_id'] = intval($_POST['url_id']);
                 $data['word_name'] = safe_replace($_POST['word_name']);
-                $keywordsModel = new keywordsModel();
-                $res = $keywordsModel->checkWordNum($data,$userID);
 
+                $res = $keywordsModel->checkWordNum($data,$userID);
                 if ($res){
-                    $_SESSION['wordsAdd'.HASH_IP] = $res.'个关键词添加成功';
+                   $wordsAddRes = $res.'个关键词添加成功';
                 }else{
-                    $_SESSION['wordsAdd'.HASH_IP] = '关键词添加失败';
+                    $wordsAddRes = '关键词添加失败';
                 }
-                header('location:/index.php?m=keywords&c=keywords&e=wordList&userID='.$userID);
         }elseif(isset($_GET['userID']) && !empty($_GET['userID'])){
             $wordRes = null;
-            $userID = safe_replace($_GET['userID']);
+            $userID = intval($_GET['userID']);
             $wordRes['userID'] = $userID;
-            $userModel = new userModel();
+
             $res = $userModel->getOneUser($userID);
             if ($res){
                 if (isset($res[0]['url_id']) && !empty($res[0]['url_id'])){
                     $wordRes['userName'] = $res[0]['user_name'];
                     $wordRes['urlID'] = $res[0]['url_id'];
                     $view->assign('wordRes',$wordRes);
+                    $view->display('login_index.tpl');
+                    exit();
                 }else{
-                    $wordAddRes = '请先添加用户域名信息';
+                    $wordsAddRes = '请先添加用户域名信息';
                 }
             }else{
-                $wordAddRes = '用户信息获取失败';
+                $wordsAddRes = '用户信息获取失败';
             }
-            if (isset($wordAddRes) && !empty($wordAddRes)){
-                $view->assign('wordAddRes',$wordAddRes);
-            }
-            $view->display('login_index.tpl');
 
         }else{
-            header('location:/index.php?m=user&c=user&e=userList');
-            exit();
+            $wordsAddRes = '非法操作';
         }
+
+        @$_SESSION['messagesTips'] = $wordsAddRes;
+        @$_SESSION['messagesUrl'] = $this->urlList['userList'];
+        keywordsModel::showMessages();
+        exit();
     }
 
     /**
@@ -189,25 +195,30 @@ class keywordsController extends baseController
      */
     public function wordDel()
     {
-        if (isset($_GET['wordID']) && !empty($_GET['wordID'])){
-            $wordID = intval(safe_replace($_GET['wordID']));
-            $keywordsModel = new keywordsModel();
-            $isBranked = intval(safe_replace($_GET['isBranked']));
+        if (isset($_SESSION['level'.HASH_IP]) && $_SESSION['level'.HASH_IP] == 0){
+            if (isset($_GET['wordID']) && !empty($_GET['wordID'])){
+                $wordID = intval($_GET['wordID']);
+                $keywordsModel = new keywordsModel();
+                $isBranked = intval($_GET['isBranked']);
 
-            if ($wordID && !empty($isBranked)){
+                if ($wordID && $isBranked){
 
-                $res = $keywordsModel->wordDel($wordID,$isBranked);
+                    $res = $keywordsModel->wordDel($wordID,$isBranked);
+                }
             }
-        }
-        if (isset($res) && $res){
-            $wordDelRes = '关键词删除成功';
+            if (isset($res) && $res){
+                $wordDelRes = '关键词删除成功';
+            }else{
+                $wordDelRes = '关键词删除失败';
+            }
         }else{
-            $wordDelRes = '关键词删除失败';
+            $wordDelRes = '暂无权限';
         }
 
-        $_SESSION['wordDelRes'.HASH_IP] = $wordDelRes;
-
-        header('location:/index.php?m=user&c=user&e=userList');
+        @$_SESSION['messagesTips'] = $wordDelRes;
+        @$_SESSION['messagesUrl'] = $this->urlList['userList'];
+        keywordsModel::showMessages();
+        exit();
     }
 
     /**
@@ -219,7 +230,7 @@ class keywordsController extends baseController
         $keywordsModel = new keywordsModel();
         if (isset($_POST['word_id']) && !empty($_POST['word_id'])){
             $data = null;
-            $wordID =  intval(safe_replace($_POST['word_id']));
+            $wordID =  intval($_POST['word_id']);
             $data['word_status'] = isset($_POST['word_status']) && !empty($_POST['word_status']) ? intval($_POST['word_status']) : '';
             if ($data['word_status']){
                 $postRes = $keywordsModel->wordStatus($wordID,$data);
@@ -232,21 +243,24 @@ class keywordsController extends baseController
                 $wordStatusRes = '请选择监控状态';
             }
         }elseif (isset($_GET['wordID']) && !empty($_GET['wordID'])){
-            $wordID = intval(safe_replace($_GET['wordID']));
+            $wordID = intval($_GET['wordID']);
             $getRes = $keywordsModel->getWord($wordID);
             $statusRes = $keywordsModel->getEnum('word_status');
             if ($getRes){
                 $view->assign('wordRes',$getRes);
                 $view->assign('statusRes',$statusRes);
+                $view->display('login_index.tpl');
+                exit();
             }else{
                 $wordStatusRes = '关键词信息获取失败';
             }
         }else{
             $wordStatusRes = '非法请求';
         }
-        if (isset($wordStatusRes) && !empty($wordStatusRes)){
-            $view->assign('wordStatusRes', $wordStatusRes);
-        }
-        $view->display('login_index.tpl');
+
+        @$_SESSION['messagesTips'] = $wordStatusRes;
+        @$_SESSION['messagesUrl'] = $this->urlList['userList'];
+        keywordsModel::showMessages();
+        exit();
     }
 }

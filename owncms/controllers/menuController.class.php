@@ -14,7 +14,8 @@ class menuController extends baseController
             header('location:'.LOGIN_ADMIN);
             exit();
         }
-
+        $this->urlList['menuIndex'] = '/index.php?m=menu&c=menu&e=menuIndex';
+        $this->urlList['menuList'] = '/index.php?m=menu&c=menu&e=menuList';
     }
 
     public function init(){
@@ -29,7 +30,6 @@ class menuController extends baseController
     }
 
     public function menuIndex(){
-        //$this->menuList();
         $view = viewEngine();
         $view->display('login_index.tpl');
         exit();
@@ -40,9 +40,17 @@ class menuController extends baseController
         $level = $adminModel->getLevel();
         $menuModel = new menuModel();
         $menuList = $menuModel->getMenuList($level);
-        $view = viewEngine();
-        $view ->assign('menuList', $menuList);
-        $view->display('login_index.tpl');
+        if ($menuList){
+            $view = viewEngine();
+            $view ->assign('menuList', $menuList);
+            $view->display('login_index.tpl');
+            exit();
+        }else{
+            $_SESSION['messagesTips'] = '菜单列表获取失败';
+            @$_SESSION['messagesUrl'] = $this->urlList['goback'];
+            menuModel::showMessages();
+            exit();
+        }
     }
 
     public function menuAdd(){
@@ -67,14 +75,19 @@ class menuController extends baseController
                    $menuAddRes = '菜单添加失败';
                }
 
+           }else{
+               $view->display('login_index.tpl');
+               exit();
            }
        }else{
            $menuAddRes = '无权限执行此操作，请联系站长获取权限';
        }
-        if (isset($menuAddRes)){
-            $view->assign('menuAddRes', $menuAddRes);
-        }
-        $view->display('login_index.tpl');
+
+        @$_SESSION['messagesTips'] = $menuAddRes;
+        @$_SESSION['messagesUrl'] = $this->urlList['menuList'];
+        menuModel::showMessages();
+        exit();
+
     }
 
     /**
@@ -82,7 +95,7 @@ class menuController extends baseController
      * @return string
      */
     public function menuDel(){
-        if (isset($_SESSION['level'.HASH_IP]) && $_SESSION['level'.HASH_IP] == 0){
+        if (isset($_SESSION['level'.HASH_IP]) && $_SESSION['level'.HASH_IP] == 9){
             if (isset($_GET['id']) && !empty($_GET['id'])){
                 $id = safe_replace($_GET['id']);
                 $menuModel = new menuModel();
@@ -100,8 +113,9 @@ class menuController extends baseController
         }else{
             $menuDelRes = '无权限执行此操作，请联系站长获取权限';
         }
-        $_SESSION['menuDelRes'.HASH_IP] = $menuDelRes;
-        header('location:/index.php?m=menu&c=menu&e=menuList');
+        @$_SESSION['messagesTips'] = $menuDelRes;
+        @$_SESSION['messagesUrl'] = $this->urlList['menuList'];
+        menuModel::showMessages();
         exit();
     }
 
@@ -142,6 +156,7 @@ class menuController extends baseController
 
                 $updateData = $menuModel->getOne($id);
                 if($updateData){
+                    $view->assign('userID', $id);
                     $view->assign('updateDate', $updateData);
                     $view->display('login_index.tpl');
                     exit();
@@ -156,8 +171,9 @@ class menuController extends baseController
             $menuUpdateRes = '无权限执行此操作，请联系站长获取权限';
         }
 
-        $_SESSION['menuUpdateRes'.HASH_IP] = $menuUpdateRes;
-        header('location:/index.php?m=menu&c=menu&e=menuList');
+        @$_SESSION['messagesTips'] = $menuUpdateRes;
+        @$_SESSION['messagesUrl'] = $this->urlList['menuList'];
+        menuModel::showMessages();
         exit();
     }
 

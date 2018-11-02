@@ -4,7 +4,7 @@
 
 {if isset($updateDate) && !empty($updateDate)}
 <form action="" method="post" id="menu_update">
-    <input type="hidden" name="update_id" value="{$smarty.get.id}">
+    <input type="hidden" name="update_id" value="{$userID}">
     <table class="right_menu_update">
         <tr>
             <th class="update_title">上级菜单名</th>

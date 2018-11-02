@@ -31,7 +31,7 @@
             <td>{$list2.id}</td>
             <td class="menu_name">└─ {$list2.zh_name}</td>
             <td>{$list2.cn_name}</td>
-            <td><a href="/index.php?m=menu&c=menu&e=menuAdd&id={$list2.id}">添加子菜单</a> | <a href="/index.php?m=menu&c=menu&e=menuUpdate&id={$list2.id}">修改</a> | <a href="/index.php?m=menu&c=menu&e=menuDel&id={$list2.id}">删除</a></td>
+            <td><a href="/index.php?m=menu&c=menu&e=menuAdd&id={$list2.id}">添加子菜单</a> | <a href="/index.php?m=menu&c=menu&e=menuUpdate&id={$list2.id}">修改</a> | <a class="doDel" href="/index.php?m=menu&c=menu&e=menuDel&id={$list2.id}">删除</a></td>
         </tr>
                 {foreach from=$menuList key=k item=list3}
                     {if $list3.parentID==$list2.id}

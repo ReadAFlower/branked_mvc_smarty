@@ -11,7 +11,13 @@ class adminController extends baseController
 {
     public function __construct()
     {
-
+        $adminModel = new adminModel();
+        $adminId = $adminModel->isLogin();
+        if ($adminId){
+            $this->urlList['index'] = '/index.php?m=admin&c=admin&e=index';
+            $this->urlList['managerIndex'] = '/index.php?m=admin&c=admin&e=managerIndex';
+            $this->urlList['managerList'] = '/index.php?m=admin&c=admin&e=managerList';
+        }
     }
 
     /**
@@ -37,9 +43,10 @@ class adminController extends baseController
      */
     public function login()
     {
+
         $adminModel = new adminModel();
         if ($adminModel->isLogin()){
-            header('location:/index.php?m=admin&c=admin&e=index');
+            header($this->urlList['index']);
             exit();
         }else{
             if(isset($_POST['login_type']) && !empty($_POST['login_type'])){
@@ -55,12 +62,14 @@ class adminController extends baseController
                 $code = safe_replace($_POST['code']);
                 $adminModel = new adminModel();
                 $adminID = $adminModel->checkAdmin($adminName, $password, $code);
-
                 if ($adminID){
-                    header('location:/index.php?m=admin&c=admin&e=index');
+                    $_SESSION['messagesTips']='登录成功';
+                    $_SESSION['messagesUrl']='/index.php?m=admin&c=admin&e=index';
+                    adminModel::showMessages();
                     exit();
                 }else{
-                    header('location:'.LOGIN_ADMIN);
+                    $_SESSION['messagesUrl']=LOGIN_ADMIN;
+                    adminModel::showMessages();
                     exit();
                 }
 
@@ -148,8 +157,11 @@ class adminController extends baseController
         if ($adminList){
             $view ->assign('adminList', $adminList);
         }else{
-            $adminListRes = '对不起，您无权限获取管理员列表';
-            $view->assign('adminListRes',$adminListRes);
+            $_SESSION['messagesTips']='管理员列表获取失败';
+            $_SESSION['messagesUrl']=$this->urlList['goback'];
+            adminModel::showMessages();
+            exit();
+
         }
 
         $view->display('login_index.tpl');
@@ -179,8 +191,13 @@ class adminController extends baseController
             }else{
                 $addManagerRes = '管理员添加失败';
             }
-            $view->assign('addManagerRes', $addManagerRes);
-            $view->display('login_index.tpl');
+
+            $_SESSION['messagesTips']=$addManagerRes;
+            $_SESSION['messagesUrl']=$this->urlList['managerList'];
+            adminModel::showMessages();
+            exit();
+//            $view->assign('addManagerRes', $addManagerRes);
+//            $view->display('login_index.tpl');
 
         }
 
@@ -193,20 +210,28 @@ class adminController extends baseController
     public function managerDel()
     {
 
-        if (isset($_GET['id']) && !empty($_GET['id'])){
-            $adminModel = new adminModel();
-            $id = safe_replace($_GET['id']);
+        if (isset($_SESSION['level'.HASH_IP]) && $_SESSION['level'.HASH_IP] == 0){
+            if (isset($_GET['id']) && !empty($_GET['id'])){
+                $adminModel = new adminModel();
+                $id = safe_replace($_GET['id']);
 
-            $res = $adminModel->managerDel($id);
-            if ($res){
-                $managerDelRes = '删除成功';
+                $res = $adminModel->managerDel($id);
+                if ($res){
+                    $managerDelRes = '删除成功';
+                }else{
+                    $managerDelRes = '删除失败';
+                }
             }else{
-                $managerDelRes = '删除失败';
+                $managerDelRes = '非法操作';
             }
-            $_SESSION['managerDel'.HASH_IP] = $managerDelRes;
-            header('location:/index.php?m=admin&c=admin&e=managerList');
-            exit();
+        }else{
+            $managerDelRes = '暂无权限进行此操作';
         }
+
+        $_SESSION['messagesTips']=$managerDelRes;
+        $_SESSION['messagesUrl']=$this->urlList['managerList'];
+        adminModel::showMessages();
+        exit();
     }
 
     /**
@@ -215,48 +240,52 @@ class adminController extends baseController
     public function managerUpdate()
     {
         $view = viewEngine();
-        if (isset($_POST['admin_id']) && !empty($_POST['admin_id'])){
-            $data = null;
-            $adminId = $_POST['admin_id'];
-            $data['admin_name'] = $_POST['admin_name'];
-            if(!empty($_POST['password'])) $data['password'] = $_POST['password'];
-            $data['status'] = $_POST['status'];
-            $data['level'] = $_POST['level'];
-            $data['email'] = $_POST['email'];
-            $data['phone'] = $_POST['phone'];
+        if (isset($_SESSION['level'.HASH_IP]) && $_SESSION['level'.HASH_IP] == 0){
+            if (isset($_POST['admin_id']) && !empty($_POST['admin_id'])){
+                $data = null;
+                $adminId = $_POST['admin_id'];
+                $data['admin_name'] = $_POST['admin_name'];
+                if(!empty($_POST['password'])) $data['password'] = $_POST['password'];
+                $data['status'] = $_POST['status'];
+                $data['level'] = $_POST['level'];
+                $data['email'] = $_POST['email'];
+                $data['phone'] = $_POST['phone'];
 
-            $adminModel = new adminModel();
-            $res = $adminModel->managerUpdate($data, $adminId);
+                $adminModel = new adminModel();
+                $res = $adminModel->managerUpdate($data, $adminId);
 
-            if ($res){
-                $managerUpdateRes = '管理员信息修改成功';
+                if ($res){
+                    $managerUpdateRes = '管理员信息修改成功';
+                }else{
+                    $managerUpdateRes = '管理员信息修改失败';
+                }
+
+            }elseif (isset($_GET['id']) && !empty($_GET['id'])){
+                $id = safe_replace($_GET['id']);
+                $adminModel = new adminModel();
+                $managerRes = $adminModel->getManagerRes($id);
+                $allLevel = $adminModel->getAllLevel();
+
+                if ($managerRes){
+
+                    $view->assign('allLevel',$allLevel);
+                    $view->assign('managerRes',$managerRes);
+                    $view->display('login_index.tpl');
+                    exit();
+                }else{
+                    $managerUpdateRes = '管理员信息获取失败';
+                }
+
             }else{
-                $managerUpdateRes = '管理员信息修改失败';
+                $managerUpdateRes = '非法操作';
             }
-            $view->assign('managerUpdateRes', $managerUpdateRes);
-            $view->display('login_index.tpl');
-
-        }elseif (isset($_GET['id']) && !empty($_GET['id'])){
-            $id = safe_replace($_GET['id']);
-            $adminModel = new adminModel();
-            $managerRes = $adminModel->getManagerRes($id);
-            $allLevel = $adminModel->getAllLevel();
-//            echo '<pre>';
-//            var_dump($managerRes);
-//            exit();
-            if ($managerRes){
-
-                $view->assign('allLevel',$allLevel);
-                $view->assign('managerRes',$managerRes);
-                $view->display('login_index.tpl');
-            }else{
-                header('location:/index.php?m=admin&c=admin&e=managerList');
-                exit();
-            }
-
         }else{
-            header('location:/index.php?m=admin&c=admin&e=managerList');
-            exit();
+            $managerUpdateRes = '暂无权限';
         }
+
+        $_SESSION['messagesTips']=$managerUpdateRes;
+        $_SESSION['messagesUrl']=$this->urlList['managerList'];
+        adminModel::showMessages();
+        exit();
     }
 }

@@ -13,7 +13,8 @@ class industryController extends baseController
             header('location:'.LOGIN_ADMIN);
             exit();
         }
-
+        $this->urlList['index']='/index.php?m=industry&c=industry&e=industryIndex';
+        $this->urlList['industryList']='/index.php?m=industry&c=industry&e=industryList';
     }
 
     public function industryIndex()
@@ -33,13 +34,16 @@ class industryController extends baseController
         $view = viewEngine();
         if ($industryList){
             $view->assign('industryList', $industryList);
+            $view->display('login_index.tpl');
+            exit();
         }else{
-            $industryListRes = '获取行业分类信息失败';
-            $view->assign('industryListRes', $industryListRes);
+            $_SESSION['messagesTips'] = '获取行业分类信息失败';
+            @$_SESSION['messagesUrl'] = $this->urlList['industryList'];
+            industryModel::showMessages();
+            exit();
         }
 
-        $view->display('login_index.tpl');
-        exit();
+
 
     }
 
@@ -62,14 +66,18 @@ class industryController extends baseController
                 }else{
                     $industryAddRes = '添加行业失败';
                 }
+            }else{
+                $view->display('login_index.tpl');
+                exit();
             }
         }else{
             $industryAddRes = '无权限执行此操作，请联系站长获取权限';
         }
-        if (isset($industryAddRes)){
-            $view->assign('industryAddRes', $industryAddRes);
-        }
-        $view->display('login_index.tpl');
+        @$_SESSION['messagesTips'] = $industryAddRes;
+        @$_SESSION['messagesUrl'] = $this->urlList['industryList'];
+        industryModel::showMessages();
+        exit();
+
     }
 
     /**
@@ -96,8 +104,9 @@ class industryController extends baseController
         }else{
             $industryDelRes = '无权限执行此操作，请联系站长获取权限';
         }
-        $_SESSION['industryDelRes'.HASH_IP] = $industryDelRes;
-        header('location:/index.php?m=industry&c=industry&e=industryList');
+        @$_SESSION['messagesTips'] = $industryDelRes;
+        @$_SESSION['messagesUrl'] = $this->urlList['industryList'];
+        industryModel::showMessages();
         exit();
     }
 
@@ -129,17 +138,22 @@ class industryController extends baseController
                 $industryRes = $industryModel->getIndustryRes($typeID);
                 if ($industryRes){
                     $view->assign('industryRes',$industryRes);
+                    $view->display('login_index.tpl');
+                    exit();
                 }else{
                     $industryUpdateRes = '行业信息获取失败';
                 }
+            }else{
+                $industryUpdateRes = '非法操作';
             }
         }else{
             $industryUpdateRes = '无权限执行此操作，请联系站长获取权限';
         }
 
-        if (isset($industryUpdateRes) && !empty($industryUpdateRes)){
-            $view->assign('industryUpdateRes',$industryUpdateRes);
-        }
-        $view->display('login_index.tpl');
+        @$_SESSION['messagesTips'] = $industryUpdateRes;
+        @$_SESSION['messagesUrl'] = $this->urlList['industryList'];
+        industryModel::showMessages();
+        exit();
+
     }
 }

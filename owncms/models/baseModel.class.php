@@ -57,4 +57,9 @@ class baseModel
         return $pwd;
     }
 
+    public static function showMessages()
+    {
+        require_once PC_PATH.'message.php';
+    }
+
 }

@@ -12,11 +12,12 @@ class urlController extends baseController
     public function __construct()
     {
         $adminModel = new adminModel();
-
+        $userController = new userController();
         if(!$adminModel->isLogin()){
             header('location:'.LOGIN_ADMIN);
             exit();
         }
+        $this->urlList['userList'] = $userController->urlList['userList'];
     }
 
     public function init()
@@ -43,20 +44,24 @@ class urlController extends baseController
             $urlModel = new urlModel();
             $res = $urlModel->addUrl($data);
             if ($res){
-                $_SESSION['urlAdd'.HASH_IP]='域名添加成功';
+                $urlAddRes = '域名添加成功';
             }else{
-                $_SESSION['urlAdd'.HASH_IP]='域名添加失败';
+                $urlAddRes = '域名添加失败';
             }
-            header('location:/index.php?m=user&c=user&e=userList');
-            exit();
+
         }elseif (isset($_GET['userID']) && !empty($_GET['userID'])){
             $userRes['userID'] = safe_replace($_GET['userID']);
             $userRes['userName'] = safe_replace($_GET['userName']);
             $view->assign('userRes',$userRes);
             $view->display('login_index.tpl');
-        }else{
-            header('location:/index.php?m=user&c=user&e=userIndex');
             exit();
+        }else{
+            $urlAddRes = '非法操作';
         }
+
+        @$_SESSION['messagesTips'] = $urlAddRes;
+        @$_SESSION['messagesUrl'] = $this->urlList['userList'];
+        urlModel::showMessages();
+        exit();
     }
 }

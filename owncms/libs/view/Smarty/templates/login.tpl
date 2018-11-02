@@ -1,7 +1,3 @@
-<?php
-
-require_once ('../../../functions/globals.fun.php');
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,11 +30,18 @@ require_once ('../../../functions/globals.fun.php');
                 <img class="code_img" src="/api.php?op=codeImg" onclick="this.src='/api.php?op=codeImg&rand='+Math.random();">
 
 			</div>
+			<div class="login_input type">
+				<label>
+					<span><input type="radio" id="typeAdmin" name="login_type" value="admin" {if $loginType=='admin'}checked{/if}>管 理 员</span>
+					<span><input type="radio" id="typeUser" name="login_type" value="user" {if $loginType=='user'}checked{/if}>普通用户</span>
+				</label>
+			</div>
 			<div class="login_input submit">
 				<input type="submit" name="submit" id="dosubmit" value=" 登 录 ">
 			</div>
 		</form>
 	</div>
-   <!-- <script type="text/javascript" src="/style/js/checkform.js">    </script> -->
+   <script type="text/javascript" src="/style/js/checkform.js"></script>
+
 </body>
 </html>

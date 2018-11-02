@@ -55,15 +55,18 @@ class adminModel extends baseModel
 
         $name = safe_replace($name);
         $password = safe_replace($password);
-        if (!$name || !$password) return false;
+        if (!$name || !$password){
+            $_SESSION['messagesTips']='用户名或密码错误';
+            return false;
+        }
         $nameAdminID = $this->getAdminName($name);
 
         if ($nameAdminID['password']==$this->createPWD($password)){
             $_SESSION['adminid'.HASH_IP] = $nameAdminID['admin_id'];
             $_SESSION['adminname'.HASH_IP] = $name;
-
-            return $nameAdminID['admin_name'];
+            return $name;
         }else{
+            $_SESSION['messagesTips']='用户名或密码错误';
             return false;
         }
     }
@@ -79,6 +82,7 @@ class adminModel extends baseModel
         if (checkCode($code)){
             return $this->checkManager($adminName, $password);
         }else{
+            $_SESSION['messagesTips']='验证码错误';
             return false;
         }
 
