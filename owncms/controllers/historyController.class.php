@@ -10,9 +10,7 @@ class historyController extends baseController
 
     public function __construct()
     {
-        $adminModel = new adminModel();
-
-        if(!$adminModel->isLogin()){
+        if(@!$_SESSION['adminid'.HASH_IP] || @!$_SESSION['adminname'.HASH_IP]){
             header('location:'.LOGIN_ADMIN);
             exit();
         }

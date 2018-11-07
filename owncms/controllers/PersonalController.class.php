@@ -12,8 +12,7 @@ class PersonalController extends baseController
 {
     public function __construct()
     {
-        $PersonalModel = new PersonalModel();
-        if ($PersonalModel->isLogin()){
+        if (@$_SESSION['userid'.HASH_IP] && @$_SESSION['username'.HASH_IP]){
             $this->urlList['index'] = '/index.php?m=Personal&c=Personal&e=index';
             $this->urlList['wordList'] = '/index.php?m=Personal&c=Personal&e=wordList';
         }
@@ -21,10 +20,7 @@ class PersonalController extends baseController
 
     public function init()
     {
-
-        $PersonalModel = new PersonalModel();
-        $userId = $PersonalModel->isLogin();
-        if ($userId){
+        if (@$_SESSION['userid'.HASH_IP] && @$_SESSION['username'.HASH_IP]){
             header( $this->urlList['index']);
             exit();
         }else{
@@ -36,8 +32,7 @@ class PersonalController extends baseController
     public function index()
     {
         $PersonalModel = new PersonalModel();
-        $userId = $PersonalModel->isLogin();
-        if (!$userId){
+        if (@!$_SESSION['userid'.HASH_IP] && @!$_SESSION['username'.HASH_IP]){
             header('location:'.LOGIN_PERSONAL);
             exit();
         }
@@ -68,8 +63,9 @@ class PersonalController extends baseController
     {
 
         $PersonalModel = new PersonalModel();
+
         if ($PersonalModel->isLogin()){
-            header( $this->urlList['index']);
+            header('location:'.$this->urlList['index']);
             exit();
         }else{
             if(isset($_POST['login_type']) && !empty($_POST['login_type'])){

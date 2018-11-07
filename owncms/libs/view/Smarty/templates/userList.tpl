@@ -18,6 +18,7 @@
 {elseif isset($userList) && !empty($userList)}
 
 <!-- user list -->
+<div style="text-align: right;margin-right: 20px;"><a href="javascript:;" onclick="autoUpdate('reCount')">一键重新统计</a> </div>
 <table border="1" cellpadding="0" cellspacing="0">
     <tr class="table_h">
         <th class="ord">序号</th>
@@ -38,7 +39,13 @@
         <td>{if isset($list.word_num) && !empty($list.word_num)}{$list.word_num}{else}0{/if}</td>
         <td>{if isset($list.word_branked_num) && !empty($list.word_branked_num)}{$list.word_branked_num}{else}0{/if}</td>
         <td>{$list.created_at|date_format:"%Y-%m-%d"}</td>
-        <td>{if isset($list.url_name) && !empty($list.url_name)}<a href="/index.php?m=keywords&c=keywords&e=wordList&userID={$list.user_id}">关键词列表</a> | <a href="/index.php?m=keywords&c=keywords&e=wordsAdd&userID={$list.user_id}">添加关键词</a> | {/if}<a href="/index.php?m=user&c=user&e=userUpdate&userID={$list.user_id}">修改</a> | <a class="doDel" href="/index.php?m=user&c=user&e=userDel&userID={$list.user_id}">删除</a> </td>
+        <td>
+            {if isset($list.url_name) && !empty($list.url_name)}
+            <a class="reCount" href="javascript:;" onclick="reCount(this,{$list.user_id},5,6)">重新统计</a> |
+            <a href="/index.php?m=keywords&c=keywords&e=wordList&userID={$list.user_id}">关键词列表</a> |
+            <a href="/index.php?m=keywords&c=keywords&e=wordsAdd&userID={$list.user_id}">添加关键词</a> | {/if}
+            <a href="/index.php?m=user&c=user&e=userUpdate&userID={$list.user_id}">修改</a> |
+            <a class="doDel" href="/index.php?m=user&c=user&e=userDel&userID={$list.user_id}">删除</a> </td>
     </tr>
     {/foreach}
 

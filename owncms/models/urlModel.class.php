@@ -160,7 +160,8 @@ class urlModel extends baseModel
     }
 
     /**
-     * 添加关键词后更新更新关键词数，以及排名关键词数
+     * 1、添加关键词后更新更新关键词数，以及排名关键词数
+     * 2、排名更新后的数据更新
      * @param $data
      * @param $urlID
      */
@@ -188,5 +189,34 @@ class urlModel extends baseModel
         }else{
             return false;
         }
+    }
+
+    /**
+     * 重新统计关键词数以及关键词排名数
+     * @param $userID
+     */
+    public function reCheck($userID)
+    {
+        $userID = intval($userID) ? intval($userID) : '';
+        if (empty($userID)) return false;
+        $urlInfo = $this->getOneUrlRes($userID);
+
+        $keywordsModel = new keywordsModel();
+        $getWordNum = $keywordsModel->getWordNum($urlInfo['url_id']);
+        $getBrankedNum = $keywordsModel->countColumn('word_branked','url_id = '.$urlInfo['url_id'].' and word_status>1 and length(word_branked)>5');
+
+        $data= null;
+        $data['word_num'] = $getWordNum;
+        $data['word_branked_num'] =$getBrankedNum;
+        $res = $this->db->update($data, $this->tableName,' user_id = '.$userID);
+        if ($res){
+            $resDate = null;
+            $resDate['wordNum'] = $getWordNum;
+            $resDate['brankedNum'] = $getBrankedNum;
+            return $resDate;
+        }else{
+            return false;
+        }
+
     }
 }

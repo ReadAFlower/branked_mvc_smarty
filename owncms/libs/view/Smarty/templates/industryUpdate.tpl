@@ -2,7 +2,7 @@
     <span class="right_res">{$industryUpdateRes}</span>
 {/if}
 {if isset($industryRes) && !empty($industryRes)}
-<form action="" method="post" id="menu_add">
+<form action="" method="post" id="industry_update">
     <input type="hidden" name="type_id" value="{$industryRes.type_id}">
     <table class="right_menu_add">
         <tr>

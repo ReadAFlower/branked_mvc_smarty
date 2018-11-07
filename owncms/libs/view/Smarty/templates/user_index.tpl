@@ -7,6 +7,7 @@
     <script type="text/javascript" src="/style/js/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="/style/js/admin.js"></script>
     <script type="text/javascript" src="/style/js/branked.js"></script>
+    <script type="text/javascript" src="/style/js/common.js"></script>
 </head>
 <body>
     <header class="login_header">

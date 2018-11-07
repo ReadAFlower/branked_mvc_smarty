@@ -11,9 +11,7 @@ class userController extends baseController
 {
     public function __construct()
     {
-        $adminModel = new adminModel();
-
-        if(!$adminModel->isLogin()){
+        if(@!$_SESSION['adminid'.HASH_IP] || @!$_SESSION['adminname'.HASH_IP]){
             header('location:'.LOGIN_ADMIN);
             exit();
         }
@@ -23,8 +21,7 @@ class userController extends baseController
 
     public function init()
     {
-        $adminModel = new adminModel();
-        if($adminModel->isLogin()){
+        if(@$_SESSION['adminid'.HASH_IP] && @$_SESSION['adminname'.HASH_IP]){
             return $this->userIndex();
         }else{
             header('location:'.LOGIN_ADMIN);
@@ -173,6 +170,7 @@ class userController extends baseController
                     $view->assign('industryList', $industryList);
                     $view->assign('userRes', $userRes['0']);
                     $view->display('login_index.tpl');
+                    exit();
                 }else{
                     $userUpdateRes = '用户信息获取失败';
                 }

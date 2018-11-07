@@ -8,9 +8,7 @@ class menuController extends baseController
 {
     public function __construct()
     {
-        $adminModel = new adminModel();
-
-        if(!$adminModel->isLogin()){
+        if(@!$_SESSION['adminid'.HASH_IP] || @!$_SESSION['adminname'.HASH_IP]){
             header('location:'.LOGIN_ADMIN);
             exit();
         }
@@ -20,8 +18,7 @@ class menuController extends baseController
 
     public function init(){
 
-        $adminModel = new adminModel();
-        if($adminModel->isLogin()){
+        if(@$_SESSION['adminid'.HASH_IP] && @$_SESSION['adminname'.HASH_IP]){
            return $this->menuIndex();
         }else{
             header('location:'.LOGIN_ADMIN);
@@ -95,7 +92,7 @@ class menuController extends baseController
      * @return string
      */
     public function menuDel(){
-        if (isset($_SESSION['level'.HASH_IP]) && $_SESSION['level'.HASH_IP] == 9){
+        if (isset($_SESSION['level'.HASH_IP]) && $_SESSION['level'.HASH_IP] == 0){
             if (isset($_GET['id']) && !empty($_GET['id'])){
                 $id = safe_replace($_GET['id']);
                 $menuModel = new menuModel();

@@ -7,13 +7,13 @@
 pcBase::loadSysClass('baseController','controllers/',0);
 pcBase::loadSysClass('adminModel','models/',0);
 pcBase::loadSysClass('urlModel','models/',0);
+pcBase::loadSysClass('userController','controllers/',0);
 class urlController extends baseController
 {
     public function __construct()
     {
-        $adminModel = new adminModel();
         $userController = new userController();
-        if(!$adminModel->isLogin()){
+        if(@!$_SESSION['adminid'.HASH_IP] || @!$_SESSION['adminname'.HASH_IP]){
             header('location:'.LOGIN_ADMIN);
             exit();
         }
@@ -22,8 +22,7 @@ class urlController extends baseController
 
     public function init()
     {
-        $adminModel = new adminModel();
-        if($adminModel->isLogin()){
+        if(@$_SESSION['adminid'.HASH_IP] && @$_SESSION['adminname'.HASH_IP]){
             $view = viewEngine();
             $view->display('login_index.tpl');
             exit();
@@ -63,5 +62,26 @@ class urlController extends baseController
         @$_SESSION['messagesUrl'] = $this->urlList['userList'];
         urlModel::showMessages();
         exit();
+    }
+
+    //重新统计
+    public function recount()
+    {
+        $urlModel = new urlModel();
+        if (@intval($_GET['userID'])){
+            $userID = intval($_GET['userID']);
+            $res = $urlModel->reCheck($userID);
+
+            if ($res){
+                echo json_encode($res);
+                exit();
+                return json_encode($res);
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+
     }
 }

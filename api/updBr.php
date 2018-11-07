@@ -26,7 +26,7 @@ if (isset($_GET['wordID']) && !empty($_GET['wordID'])){
         if($wordIDArr){
             $idNum = count($wordIDArr);
             foreach ($wordIDArr as $item){
-                $newBr = updateBr(intval($item['word_id']));
+                $newBr = updateBr($item['word_id']);
                 if ($newBr) $flgNum++;
             }
         }
@@ -56,15 +56,16 @@ function updateBr($wordID){
         $newBr = $branked->getBranked();
 
         $data = null;
-        switch ($newBr){
-            case !$wordRes['word_branked'] && $newBr :
-                $data['url']['word_branked_num'] = 'word_branked_num+1';
-                break;
-            case $wordRes['word_branked'] && !$newBr :
-                $data['url']['word_branked_num'] = 'word_branked_num-1';
-                break;
-            default:break;
+        $data['url_id'] = $wordRes['url_id'];
+
+        if ($newBr && !$wordRes['word_branked']){
+            $data['url']['word_branked_num'] = 'word_branked_num+1';
         }
+
+        if (!$newBr && $wordRes['word_branked']){
+            $data['url']['word_branked_num'] = 'word_branked_num-1';
+        }
+
 
         $data['keywords']['word_branked'] = $newBr;
         $data['keywords']['updated_at'] = time();

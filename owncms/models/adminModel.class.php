@@ -18,7 +18,7 @@ class adminModel extends baseModel
     }
 
     /**
-     * 通过用户名获取id和密码
+     * 通过用户名获取id，密码，用户等级
      * adminName验证
      * @param $adminName
      * @return array
@@ -26,22 +26,9 @@ class adminModel extends baseModel
     private function getAdminName($adminName){
         $adminName = safe_replace($adminName);
 
-        $adminRes = $this -> db -> get_one('admin_id,password', $this->tableName, 'admin_name = "'.$adminName.'"');
+        $adminRes = $this -> db -> get_one('admin_id,password,level', $this->tableName, 'admin_name = "'.$adminName.'"');
 
         return $adminRes;
-    }
-
-    /**
-     * 密码验证
-     * @param $adminPassword
-     * @return array
-     */
-    private function gerAdminPassword($adminPassword){
-        $adminPassword = $this->createPWD($adminPassword);
-
-        $adminId = $this -> db -> get_one('admin_id', $this->tableName, 'password = "'.$adminPassword.'"');
-
-        return $adminId;
     }
 
     /**
@@ -64,6 +51,7 @@ class adminModel extends baseModel
         if ($nameAdminID['password']==$this->createPWD($password)){
             $_SESSION['adminid'.HASH_IP] = $nameAdminID['admin_id'];
             $_SESSION['adminname'.HASH_IP] = $name;
+            $_SESSION['level'.HASH_IP] = $this->levelToNum($nameAdminID['level']);
             return $name;
         }else{
             $_SESSION['messagesTips']='用户名或密码错误';

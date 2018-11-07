@@ -116,6 +116,12 @@ class historyModel extends baseModel
         }
     }
 
+    /**
+     * 获取关键词基础信息
+     * @param $wordID
+     * @param $userID
+     * @return array|bool
+     */
     public function getWordBaseRes($wordID,$userID)
     {
         if (!intval($wordID) || !intval($userID)) return false;
@@ -128,5 +134,25 @@ class historyModel extends baseModel
         return array_merge($userRes[0],$wordRes);
 
 
+    }
+
+    /**
+     * 删除单个关键词的所有历史记录
+     * @param $wordID
+     */
+    public function delWords($wordID)
+    {
+        if (intval($wordID)) $wordID = intval($wordID);
+        $check = $this->db->get_one('id',$this->tableName,' word_id = '.$wordID);
+        if ($check){
+            $delRes = $this->db->delete($this->tableName, ' word_id = '.$wordID);
+            if ($delRes){
+                return $delRes;
+            }else{
+                return false;
+            }
+        }else{
+            return true;
+        }
     }
 }

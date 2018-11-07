@@ -40,7 +40,6 @@ class PersonalModel extends baseModel
         $password = safe_replace($password);
         $UserRes = $this->getUserName($name);
 
-
         if ($UserRes['password']==$this->createPWD($password)){
             $_SESSION['userid'.HASH_IP] = $UserRes['user_id'];
             $_SESSION['userLevel'.HASH_IP] = $UserRes['level'];
@@ -50,6 +49,7 @@ class PersonalModel extends baseModel
             $loginUpdate['lastlogintime'] = time();
             $loginUpdate['lastloginip'] = $_SERVER['REMOTE_ADDR'];
             $updateInfo = $this->updateInfo($UserRes['user_id'],$loginUpdate);
+
             return $updateInfo;
         }else{
             return false;
@@ -201,7 +201,7 @@ class PersonalModel extends baseModel
 
     public function updateInfo($userID,$data)
     {
-        if (!safe_replace($data)) return false;
+        if (!$data) return false;
         $where = ' user_id= '.intval($userID);
         $res = $this->db->update($data, $this->tableName, $where);
         if ($res){

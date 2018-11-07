@@ -7,7 +7,7 @@
     <span class="right_res">{$managerListRes}</span>
 {elseif isset($adminList) && !empty($adminList)}
 <!-- manager list -->
-<table border="1" cellpadding="0" cellspacing="0">
+<table border="1" cellpadding="0" cellspacing="0" class="managerList">
     <tr class="table_h">
         <th class="ord">序号</th>
         <th class="name">管理员名</th>

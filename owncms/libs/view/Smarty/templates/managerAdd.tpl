@@ -6,17 +6,17 @@
         <tr>
             <th class="add_title">管理员名</th>
             <td class="add_value">
-                <input type="text" name="admin_name" id="admin_name" value="" placeholder="请输入管理员登录名"><span>*必填</span>
+                <input type="text" name="admin_name" id="mgr_name" value="" placeholder="请输入管理员登录名"><span>*必填</span>
             </td>
         </tr>
         <tr>
             <th class="add_title">管理员密码</th>
-            <td class="add_value"><input type="text" name="password" value="" placeholder="请输入管理员登录密码"><span>*必填</span></td>
+            <td class="add_value"><input type="text" name="password" id="mgr_password" value="" placeholder="请输入管理员登录密码"><span>*必填</span></td>
         </tr>
         <tr>
             <th class="add_title">管理员级别</th>
             <td class="add_value">
-                <select name="level">
+                <select name="level" id="mgr_Level">
                     <option value=""></option>
                     {if isset($allLevel) && !empty($allLevel)}
                         {foreach $allLevel as $value}
@@ -31,18 +31,18 @@
         </tr>
         <tr>
             <th class="add_title">邮箱</th>
-            <td class="add_value"><input type="text" name="email" value="" placeholder="请输入管理员邮箱"><span>*必填</span></td>
+            <td class="add_value"><input type="text" name="email" id="mgr_email" value="" placeholder="请输入管理员邮箱"><span>*必填</span></td>
         </tr>
         <tr>
             <th class="add_title">手机号码</th>
             <td class="add_value">
-                <input type="text" name="phone" id="phone" value="" placeholder="请输入管理员手机号码"><span>*必填</span>
+                <input type="text" name="phone" id="mgr_phone" value="" placeholder="请输入管理员手机号码"><span>*必填</span>
             </td>
         </tr>
 
     </table>
     <div class="form_submit">
         <input type="reset" name="doreset" class="doreset" value="重置">
-        <input type="submit" name="dosubmit" class="dosubmit" value="提交">
+        <input type="submit" name="dosubmit" id="mgrAddbtn" class="dosubmit" value="提交">
     </div>
 </form>

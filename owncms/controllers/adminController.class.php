@@ -11,9 +11,7 @@ class adminController extends baseController
 {
     public function __construct()
     {
-        $adminModel = new adminModel();
-        $adminId = $adminModel->isLogin();
-        if ($adminId){
+        if (@$_SESSION['adminid'.HASH_IP] && @$_SESSION['adminname'.HASH_IP]){
             $this->urlList['index'] = '/index.php?m=admin&c=admin&e=index';
             $this->urlList['managerIndex'] = '/index.php?m=admin&c=admin&e=managerIndex';
             $this->urlList['managerList'] = '/index.php?m=admin&c=admin&e=managerList';
@@ -25,9 +23,7 @@ class adminController extends baseController
      */
     public function init()
     {
-        $adminModel = new adminModel();
-        $adminId = $adminModel->isLogin();
-        if ($adminId){
+        if (@$_SESSION['adminid'.HASH_IP] && @$_SESSION['adminname'.HASH_IP]){
 
             header('location:/index.php?m=admin&c=admin&e=index');
             exit();
@@ -95,17 +91,14 @@ class adminController extends baseController
 
     public function index()
     {
-        $adminModel = new adminModel();
-        $adminId = $adminModel->isLogin();
-        if (!$adminId){
+        if (@!$_SESSION['adminid'.HASH_IP] || @!$_SESSION['adminname'.HASH_IP]){
             header('location:'.LOGIN_ADMIN);
             exit();
         }
         $view = viewEngine();
-        $adminModel = new adminModel();
-        $level = $adminModel->getLevel();
+
+        $level = $_SESSION['level'.HASH_IP];
         $menuModel = new menuModel();
-        $levelNum = $adminModel->levelToNum($level);
         $menu = $menuModel->getMenuList($level);
         $view -> assign('menu', $menu);
         $m = safe_replace($_GET['m']);
@@ -114,7 +107,7 @@ class adminController extends baseController
         $view -> assign('c', $c);
         $view->assign('level','');
 
-        $_SESSION['level'.HASH_IP] = $levelNum;
+
         $_SESSION['m'.HASH_IP] = $m;
         $_SESSION['c'.HASH_IP] = $c;
         $_SESSION['menu'.HASH_IP] = $menu;
@@ -196,9 +189,6 @@ class adminController extends baseController
             $_SESSION['messagesUrl']=$this->urlList['managerList'];
             adminModel::showMessages();
             exit();
-//            $view->assign('addManagerRes', $addManagerRes);
-//            $view->display('login_index.tpl');
-
         }
 
         $view->display('login_index.tpl');

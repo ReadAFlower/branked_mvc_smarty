@@ -2,7 +2,7 @@
     <span class="right_res">{$managerUpdateRes}</span>
 {/if}
 {if isset($managerRes) && !empty($managerRes)}
-<form action="" method="post" id="manager_add">
+<form action="" method="post" id="manager_update">
     <input type="hidden" name="admin_id" value="{$managerRes.admin_id}">
     <table class="right_manager_add">
         <tr>

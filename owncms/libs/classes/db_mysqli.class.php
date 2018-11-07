@@ -77,6 +77,7 @@ final class db_mysqli
 				$datalist[] = $rs;
 			}
 		}
+
 		$this->free_result();
 		return $datalist;
 	}
@@ -438,6 +439,7 @@ final class db_mysqli
         if(!is_object($this->link)) {
             $this->connect();
         }
+
         $res = mysqli_query($this->link,$sql);
 
         if ($res){

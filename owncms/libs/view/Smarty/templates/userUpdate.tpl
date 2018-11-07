@@ -1,7 +1,7 @@
 {if isset($userUpdateRes) && !empty($userUpdateRes)}
     <span class="right_res">{$userUpdateRes}</span>
 {elseif isset($userRes) && !empty($userRes)}
-<form action="" method="post" id="menu_add">
+<form action="" method="post" id="user_update">
     <input type="hidden" name="user_id" id="user_id" value="{$userRes.user_id}">
     <table class="right_menu_add">
         <tr>
