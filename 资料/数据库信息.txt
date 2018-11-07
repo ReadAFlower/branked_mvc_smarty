@@ -80,7 +80,7 @@ create table history_branked(
 	PRIMARY KEY(id),
         FOREIGN key(word_id) references keywords(word_id)
 )ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='关键词历史排名表';
-
+  
 create table menu(
 	id smallint(6) AUTO_INCREMENT COMMENT '菜单ID',
 	parentID smallint(6) default 0 COMMENT '父级ID',
