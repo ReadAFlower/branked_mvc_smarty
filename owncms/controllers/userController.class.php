@@ -110,10 +110,16 @@ class userController extends baseController
                 $data['phone'] = safe_replace($_POST['phone']);
 
                 $res = $userModel->addUser($data);
-                if ($res){
+
+                if ($res==1){
                     $userAddRes = '用户添加成功';
                 }else{
-                    $userAddRes = '用户添加失败';
+                    if ($res==2){
+                        $userAddRes = '同名管理员或用户已存在';
+                    }else{
+                        $userAddRes = '用户添加失败';
+                    }
+
                 }
             }else{
                 $view->display('login_index.tpl');

@@ -4,7 +4,7 @@
  * admin MODEL
  */
 pcBase::loadSysClass('baseModel','models/',0);
-
+pcBase::loadSysClass('userModel','models/',0);
 class adminModel extends baseModel
 {
     public function __construct()
@@ -26,7 +26,7 @@ class adminModel extends baseModel
     private function getAdminName($adminName){
         $adminName = safe_replace($adminName);
 
-        $adminRes = $this -> db -> get_one('admin_id,password,level', $this->tableName, 'admin_name = "'.$adminName.'"');
+        $adminRes = $this -> db -> get_one('admin_id,password,level,status', $this->tableName, 'admin_name = "'.$adminName.'"');
 
         return $adminRes;
     }
@@ -48,6 +48,10 @@ class adminModel extends baseModel
         }
         $nameAdminID = $this->getAdminName($name);
 
+        if ($nameAdminID['status']!='启用'){
+            $_SESSION['messagesTips']='此管理员账号已被停用';
+            return false;
+        }
         if ($nameAdminID['password']==$this->createPWD($password)){
             $_SESSION['adminid'.HASH_IP] = $nameAdminID['admin_id'];
             $_SESSION['adminname'.HASH_IP] = $name;
@@ -248,22 +252,25 @@ class adminModel extends baseModel
     public function addManager($data)
     {
         if (!safe_replace($data['admin_name'])) return false;
-        if (isset($data) && !empty($data)){
-            $data['status'] = 2;
-            $data['created_at'] = time();
-            $data['updated_at'] = time();
-            $data['password'] = $this->createPWD($data['password']);
-            $data['level'] = $data['level']+1;
+       $userModel = new userModel();
+       $userCheck = $userModel->checkUserName(safe_replace($data['admin_name']));
+       $checkAdmin = $this->checkAdminName(safe_replace($data['admin_name']));
 
-            $res = $this->db->insert($data, $this->tableName);
-            if ($res){
-                return $res;
-            }else{
-                return false;
-            }
+       if ($userCheck || $checkAdmin) return 2;
+
+        $data['status'] = 2;
+        $data['created_at'] = time();
+        $data['updated_at'] = time();
+        $data['password'] = $this->createPWD($data['password']);
+        $data['level'] = $data['level']+1;
+
+        $res = $this->db->insert($data, $this->tableName);
+        if ($res){
+            return 1;
         }else{
             return false;
         }
+
     }
 
     /**
@@ -334,6 +341,23 @@ class adminModel extends baseModel
         $level = explode(',',$resLevel);
 
         return $level;
+    }
+
+    /**
+     * check adminname exist
+     * @param $adminName
+     * @return bool
+     */
+    public function checkAdminName($adminName)
+    {
+        if (!is_string($adminName) || !safe_replace($adminName)) return false;
+        $adminName = safe_replace($adminName);
+        $res = $this->db->get_one('admin_id',$this->tableName, ' admin_name = "'.$adminName.'"');
+        if ($res['admin_id']){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }

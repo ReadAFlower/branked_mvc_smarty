@@ -58,6 +58,7 @@ class adminController extends baseController
                 $code = safe_replace($_POST['code']);
                 $adminModel = new adminModel();
                 $adminID = $adminModel->checkAdmin($adminName, $password, $code);
+
                 if ($adminID){
                     $_SESSION['messagesTips']='登录成功';
                     $_SESSION['messagesUrl']='/index.php?m=admin&c=admin&e=index';
@@ -179,10 +180,14 @@ class adminController extends baseController
 
             $res = $adminModel->addManager($data);
 
-            if ($res){
+            if ($res==1){
                 $addManagerRes = '管理员添加成功';
             }else{
-                $addManagerRes = '管理员添加失败';
+                if ($res==2){
+                    $addManagerRes = '同名管理员或用户已存在';
+                }else{
+                    $addManagerRes = '管理员添加失败';
+                }
             }
 
             $_SESSION['messagesTips']=$addManagerRes;

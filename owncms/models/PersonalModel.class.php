@@ -23,7 +23,7 @@ class PersonalModel extends baseModel
      */
     private function getUserName($userName){
         $userName = safe_replace($userName);
-        $userRes = $this -> db -> get_one('user_id,password,level,lastloginip,lastlogintime', $this->tableName, 'user_name = "'.$userName.'"');
+        $userRes = $this -> db -> get_one('user_id,password,level,status,lastloginip,lastlogintime', $this->tableName, 'user_name = "'.$userName.'"');
 
         return $userRes;
     }
@@ -39,7 +39,10 @@ class PersonalModel extends baseModel
         $name = safe_replace($name);
         $password = safe_replace($password);
         $UserRes = $this->getUserName($name);
-
+        if ($UserRes['status']!='启用'){
+            $_SESSION['messagesTips']='此用户账号已被停用';
+            return false;
+        }
         if ($UserRes['password']==$this->createPWD($password)){
             $_SESSION['userid'.HASH_IP] = $UserRes['user_id'];
             $_SESSION['userLevel'.HASH_IP] = $UserRes['level'];

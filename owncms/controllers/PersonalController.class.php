@@ -87,7 +87,8 @@ class PersonalController extends baseController
                     PersonalModel::showMessages();
                     exit();
                 }else{
-                    header('location:'.LOGIN_PERSONAL);
+                    $_SESSION['messagesUrl']=LOGIN_PERSONAL;
+                    PersonalModel::showMessages();
                     exit();
                 }
 

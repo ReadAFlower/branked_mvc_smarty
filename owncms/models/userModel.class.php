@@ -7,6 +7,7 @@ pcBase::loadSysClass('baseModel','models/',0);
 pcBase::loadSysClass('urlModel','models/',0);
 pcBase::loadSysClass('keywordsModel','models/',0);
 pcBase::loadSysClass('historyModel','models/',0);
+pcBase::loadSysClass('adminModel','models/',0);
 class userModel extends baseModel
 {
     public function __construct()
@@ -148,13 +149,18 @@ class userModel extends baseModel
     {
         if (isset($data['user_name']) && !empty($data['user_name'])){
 
+            $userCheck = $this->checkUserName(safe_replace($data['user_name']));
+            $adminModel = new adminModel();
+            $adminCheck = $adminModel->checkAdminName(safe_replace($data['user_name']));
+            if ($userCheck || $adminCheck) return 2;
+
             $data['password'] = $this->createPWD($data['password']);
             $data['created_at'] = time();
             $data['updated_at'] = time();
             $resUserAdd = $this->db->insert($data, $this->tableName);
 
            if ($resUserAdd){
-               return $resUserAdd;
+               return 1;
            }else{
 
                return false;
@@ -289,6 +295,24 @@ class userModel extends baseModel
             }else{
                 return false;
             }
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * check username exist
+     * @param $userName
+     * @return bool
+     */
+    public function checkUserName($userName)
+    {
+        if (!is_string($userName) || !safe_replace($userName)) return false;
+        $userName = safe_replace($userName);
+        $res = $this->db->get_one('user_id',$this->tableName, ' user_name = "'.$userName.'"');
+
+        if ($res['user_id']){
+            return true;
         }else{
             return false;
         }
