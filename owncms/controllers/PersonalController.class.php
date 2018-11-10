@@ -21,7 +21,7 @@ class PersonalController extends baseController
     public function init()
     {
         if (@$_SESSION['userid'.HASH_IP] && @$_SESSION['username'.HASH_IP]){
-            header( $this->urlList['index']);
+            header( 'location:'.$this->urlList['index']);
             exit();
         }else{
             header('location:'.LOGIN_PERSONAL);
@@ -54,7 +54,8 @@ class PersonalController extends baseController
 
         $_SESSION['haship'] = HASH_IP;
 
-        $view->display('user_index.tpl');
+//        $view->display('user_index.tpl');
+        $view->display('personal/index.tpl');
         exit();
     }
 
@@ -132,7 +133,8 @@ class PersonalController extends baseController
             if ($wordInfo){
                 $view -> assign('userID', $_SESSION['userid'.HASH_IP]);
                 $view -> assign('wordInfo', $wordInfo);
-                $view->display('user_index.tpl');
+//                $view->display('user_index.tpl');
+                $view->display('personal/wordList.tpl');
                 exit();
             }else{
                 $wordInfoRes = '暂无关键词';
@@ -198,7 +200,8 @@ class PersonalController extends baseController
                     $view->assign('pagesNav',$pagesNav);
                     $view->assign('historyWordRes',$historyWordRes);
                     $view->assign('wordBaseRes',$wordBaseRes);
-                    $view->display('user_index.tpl');
+//                    $view->display('user_index.tpl');
+                    $view->display('personal/historyList.tpl');
                     exit();
                 }else{
                     $getHistoryBranked = '历史数据获取失败';
@@ -246,7 +249,8 @@ class PersonalController extends baseController
             PersonalModel::showMessages();
             exit();
         }else{
-            $view->display('user_index.tpl');
+//            $view->display('user_index.tpl');
+            $view->display('personal/addWords.tpl');
             exit();
         }
     }
@@ -288,7 +292,8 @@ class PersonalController extends baseController
             if ($getRes){
                 $view->assign('wordRes',$getRes);
                 $view->assign('statusRes',$statusRes);
-                $view->display('user_index.tpl');
+//                $view->display('user_index.tpl');
+                $view->display('personal/updateWord.tpl');
                 exit();
             }else{
                 $wordStatusRes = '关键词信息获取失败';
@@ -347,7 +352,8 @@ class PersonalController extends baseController
             if($userRes){
                 $view->assign('industryList', $industryList);
                 $view->assign('userRes', $userRes['0']);
-                $view->display('user_index.tpl');
+//                $view->display('user_index.tpl');
+                $view->display('personal/updateUser.tpl');
                 exit();
             }else{
                 $userUpdateRes = '信息获取失败';

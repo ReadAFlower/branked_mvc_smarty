@@ -26,7 +26,8 @@ class keywordsController extends baseController
     {
         if(@$_SESSION['adminid'.HASH_IP] && @$_SESSION['adminname'.HASH_IP]){
             $view = viewEngine();
-            $view->display('login_index.tpl');
+//            $view->display('login_index.tpl');
+            $view->display('keywords/index.tpl');
             exit();
         }else{
             header('location:'.LOGIN_ADMIN);
@@ -37,7 +38,8 @@ class keywordsController extends baseController
     public function keywordsIndex()
     {
         $view = viewEngine();
-        $view->display('login_index.tpl');
+//        $view->display('login_index.tpl');
+        $view->display('keywords/index.tpl');
         exit();
     }
 
@@ -66,7 +68,8 @@ class keywordsController extends baseController
             if ($res){
                 $view->assign('allKeyWords',$res);
                 $view->assign('pagesNav',$pagesNav);
-                $view->display('login_index.tpl');
+//                $view->display('login_index.tpl');
+                $view->display('keywords/list.tpl');
                 exit();
             }else{
                 $getAllKeywordsRes = '关键词数据获取失败';
@@ -117,7 +120,8 @@ class keywordsController extends baseController
                         $view->assign('userBaseRes',$userBaseRes[0]);
                         $view->assign('pagesNav',$pagesNav);
                         $view->assign('wordRes',$wordRes);
-                        $view->display('login_index.tpl');
+//                        $view->display('login_index.tpl');
+                        $view->display('keywords/user_list.tpl');
                         exit();
                     }else{
                         $getWordRes = '关键词信息获取失败';
@@ -169,7 +173,8 @@ class keywordsController extends baseController
                     $wordRes['userName'] = $res[0]['user_name'];
                     $wordRes['urlID'] = $res[0]['url_id'];
                     $view->assign('wordRes',$wordRes);
-                    $view->display('login_index.tpl');
+//                    $view->display('login_index.tpl');
+                    $view->display('keywords/add.tpl');
                     exit();
                 }else{
                     $wordsAddRes = '请先添加用户域名信息';
@@ -247,7 +252,8 @@ class keywordsController extends baseController
             if ($getRes){
                 $view->assign('wordRes',$getRes);
                 $view->assign('statusRes',$statusRes);
-                $view->display('login_index.tpl');
+//                $view->display('login_index.tpl');
+                $view->display('keywords/update.tpl');
                 exit();
             }else{
                 $wordStatusRes = '关键词信息获取失败';

@@ -55,7 +55,8 @@ class historyController extends baseController
                     $view->assign('pagesNav',$pagesNav);
                     $view->assign('historyWordRes',$historyWordRes);
                     $view->assign('wordBaseRes',$wordBaseRes);
-                    $view->display('login_index.tpl');
+//                    $view->display('login_index.tpl');
+                    $view->display('history/history.tpl');
                     exit();
                 }else{
                     $getHistoryBranked = '历史数据获取失败';

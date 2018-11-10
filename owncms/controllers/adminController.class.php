@@ -101,20 +101,27 @@ class adminController extends baseController
         $level = $_SESSION['level'.HASH_IP];
         $menuModel = new menuModel();
         $menu = $menuModel->getMenuList($level);
+
         $view -> assign('menu', $menu);
+//        $_SESSION['menu'.HASH_IP] = $menu;
+
+        $fp = fopen(SMARTY_DIR.'cache/menu.txt','w+');
+        fwrite($fp,json_encode($menu));
+        fclose($fp);
+
         $m = safe_replace($_GET['m']);
         $c = safe_replace($_GET['c']);
         $view -> assign('m', $m);
         $view -> assign('c', $c);
         $view->assign('level','');
 
-
         $_SESSION['m'.HASH_IP] = $m;
         $_SESSION['c'.HASH_IP] = $c;
-        $_SESSION['menu'.HASH_IP] = $menu;
+
         $_SESSION['haship'] = HASH_IP;
 
-        $view->display('login_index.tpl');
+//        $view->display('login_index.tpl');
+        $view->display('admin/index.tpl');
     }
 
     /**
@@ -158,7 +165,8 @@ class adminController extends baseController
 
         }
 
-        $view->display('login_index.tpl');
+//        $view->display('login_index.tpl');
+        $view->display('admin/managerList.tpl');
     }
 
     /**
@@ -196,7 +204,8 @@ class adminController extends baseController
             exit();
         }
 
-        $view->display('login_index.tpl');
+//        $view->display('login_index.tpl');
+        $view->display('admin/managerAdd.tpl');
     }
 
     /**
@@ -265,7 +274,8 @@ class adminController extends baseController
 
                     $view->assign('allLevel',$allLevel);
                     $view->assign('managerRes',$managerRes);
-                    $view->display('login_index.tpl');
+//                    $view->display('login_index.tpl');
+                    $view->display('admin/managerUpdate.tpl');
                     exit();
                 }else{
                     $managerUpdateRes = '管理员信息获取失败';

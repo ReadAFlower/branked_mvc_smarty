@@ -24,7 +24,8 @@ class urlController extends baseController
     {
         if(@$_SESSION['adminid'.HASH_IP] && @$_SESSION['adminname'.HASH_IP]){
             $view = viewEngine();
-            $view->display('login_index.tpl');
+//            $view->display('login_index.tpl');
+            $view->display('url/index.tpl');
             exit();
         }else{
             header('location:'.LOGIN_ADMIN);
@@ -52,7 +53,8 @@ class urlController extends baseController
             $userRes['userID'] = safe_replace($_GET['userID']);
             $userRes['userName'] = safe_replace($_GET['userName']);
             $view->assign('userRes',$userRes);
-            $view->display('login_index.tpl');
+//            $view->display('login_index.tpl');
+            $view->display('url/add.tpl');
             exit();
         }else{
             $urlAddRes = '非法操作';

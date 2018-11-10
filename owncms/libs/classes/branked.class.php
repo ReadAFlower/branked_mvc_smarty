@@ -28,7 +28,7 @@ class branked
     {
         $this->word = $word;
         $this->url = $url;
-        $this->orgiURL = 'https://'.$this->UserAgent.'/s?ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd='.$this->word;
+        $this->orgiURL = 'https://'.$this->UserAgent.'/s?ie=utf-8&f=8&rsv_bp=0&rsv_idx=1&tn=baidu&wd='.$this->word;
 
     }
 
@@ -111,7 +111,7 @@ class branked
             $this->nums+=1;
 
             //判断查询到第几页了
-            if( $this->nums > $this->pages ){
+            if( $this->nums >= $this->pages ){
                 $this->branked = '';
                 $this->nextURL = false;
                 return false;

@@ -9,16 +9,16 @@
                 <select name="parentID" id="parentID">
                     <option value="0">作为一级菜单</option>
                     {if isset($menuList) && !empty($menuList)}
-                    {foreach from=$smarty.session.{'menu'|cat:""|cat:$smarty.session.haship} key=i item=list}
-                        {if $list.parentID==0}
-                    <option value="{$list.id}" {if isset($smarty.get.id) && $smarty.get.id==$list.id}selected{/if}>{$list.zh_name}</option>
-                    {foreach from=$smarty.session.{'menu'|cat:""|cat:$smarty.session.haship} key=j item=list2}
-                    {if $list2.parentID==$list.id}
-                    <option value="{$list2.id}" {if isset($smarty.get.id) && $smarty.get.id==$list2.id}selected{/if}>└{$list2.zh_name}</option>
-                    {/if}
-                    {/foreach}
-                        {/if}
-                    {/foreach}
+                        {foreach from=$smarty.session.{'menu'|cat:""|cat:$smarty.session.haship} key=i item=list}
+                            {if $list.parentID==0}
+                                <option value="{$list.id}" {if isset($smarty.get.id) && $smarty.get.id==$list.id}selected{/if}>{$list.zh_name}</option>
+                                {foreach from=$smarty.session.{'menu'|cat:""|cat:$smarty.session.haship} key=j item=list2}
+                                    {if $list2.parentID==$list.id}
+                                        <option value="{$list2.id}" {if isset($smarty.get.id) && $smarty.get.id==$list2.id}selected{/if}>└{$list2.zh_name}</option>
+                                    {/if}
+                                {/foreach}
+                            {/if}
+                        {/foreach}
                     {/if}
                 </select>
             </td>
@@ -37,11 +37,11 @@
                 <select name="level" id="level">
                     <option value=""></option>
                     {if isset($allLevel) && !empty($allLevel)}
-                    {foreach $allLevel as $value}
-                        {if $smarty.session.{'level'|cat:""|cat:$smarty.session.haship}<=$value@key}
-                    <option value="{$value@key}" {if $smarty.session.{'level'|cat:""|cat:$smarty.session.haship}==$value@key}selected{/if}>{$value}</option>
-                        {/if}
-                    {/foreach}
+                        {foreach $allLevel as $value}
+                            {if $smarty.session.{'level'|cat:""|cat:$smarty.session.haship}<=$value@key}
+                                <option value="{$value@key}" {if $smarty.session.{'level'|cat:""|cat:$smarty.session.haship}==$value@key}selected{/if}>{$value}</option>
+                            {/if}
+                        {/foreach}
                     {/if}
                 </select>
             </td>
@@ -77,4 +77,3 @@
         <input type="submit" name="dosubmit" id="menuAddbtn" class="dosubmit" value="提交">
     </div>
 </form>
-<script type="text/javascript" src="/style/js/user.js"></script>

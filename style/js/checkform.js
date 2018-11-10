@@ -377,6 +377,8 @@ $(document).ready(function () {
     });
     //提交验证
     $("#typeAddbtn").bind("click",function(event){
+        console.log(typeName);
+        console.log(typeNum);
         if(typeName && typeNum){
             return true;
         }else{

@@ -18,7 +18,8 @@ class industryController extends baseController
     public function industryIndex()
     {
         $view = viewEngine();
-        $view->display('login_index.tpl');
+//        $view->display('login_index.tpl');
+        $view->display('industry/index.tpl');
         exit();
     }
 
@@ -32,7 +33,8 @@ class industryController extends baseController
         $view = viewEngine();
         if ($industryList){
             $view->assign('industryList', $industryList);
-            $view->display('login_index.tpl');
+//            $view->display('login_index.tpl');
+            $view->display('industry/list.tpl');
             exit();
         }else{
             $_SESSION['messagesTips'] = '获取行业分类信息失败';
@@ -65,7 +67,8 @@ class industryController extends baseController
                     $industryAddRes = '添加行业失败';
                 }
             }else{
-                $view->display('login_index.tpl');
+//                $view->display('login_index.tpl');
+                $view->display('industry/add.tpl');
                 exit();
             }
         }else{
@@ -136,7 +139,8 @@ class industryController extends baseController
                 $industryRes = $industryModel->getIndustryRes($typeID);
                 if ($industryRes){
                     $view->assign('industryRes',$industryRes);
-                    $view->display('login_index.tpl');
+//                    $view->display('login_index.tpl');
+                    $view->display('industry/update.tpl');
                     exit();
                 }else{
                     $industryUpdateRes = '行业信息获取失败';

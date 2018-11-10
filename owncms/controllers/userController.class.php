@@ -33,7 +33,9 @@ class userController extends baseController
     public function userIndex()
     {
         $view = viewEngine();
-        $view->display('login_index.tpl');
+
+//        $view->display('login_index.tpl');
+        $view->display('user/index.tpl');
         exit();
     }
 
@@ -67,7 +69,8 @@ class userController extends baseController
             if ($userList){
                 $view->assign('userList',$userList);
                 $view->assign('pagesNav',$pagesNav);
-                $view->display('login_index.tpl');
+//                $view->display('login_index.tpl');
+                $view->display('user/list.tpl');
                 exit();
             }else{
                 $userListRes = '用户数据获取失败';
@@ -122,7 +125,8 @@ class userController extends baseController
 
                 }
             }else{
-                $view->display('login_index.tpl');
+//                $view->display('login_index.tpl');
+                $view->display('user/add.tpl');
                 exit();
             }
         }else{
@@ -175,7 +179,8 @@ class userController extends baseController
                     $view->assign('userLevel', $userLevel);
                     $view->assign('industryList', $industryList);
                     $view->assign('userRes', $userRes['0']);
-                    $view->display('login_index.tpl');
+//                    $view->display('login_index.tpl');
+                    $view->display('user/update.tpl');
                     exit();
                 }else{
                     $userUpdateRes = '用户信息获取失败';
