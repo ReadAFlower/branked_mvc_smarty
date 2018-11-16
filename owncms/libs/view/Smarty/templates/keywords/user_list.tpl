@@ -6,6 +6,10 @@
 
     <div class="login_right">
         <div class="login_right_header"></div>
+        <div style="width: 96%;clear: both;margin: 0 auto;font-family: 'Adobe 楷体 Std R';text-align: center;">
+            <h2 style="font-weight: normal;font-size: 14px;">{$userBaseRes.user_name}</h2>
+            <div style="text-align: right;margin-right: 20px;"><a href="/index.php?m=keywords&c=keywords&e=wordsAdd&userID={$userBaseRes.user_id}">添加关键词</a> &nbsp;|&nbsp; <a href="javascript:;" onclick="autoUpdate('update_btn')">批量更新排名</a> &nbsp;|&nbsp; <a href="#">批量删除关键词</a></div>
+        </div>
         <table border="1" cellpadding="0" cellspacing="0">
             <tr class="table_h">
                 <th class="ord">序号</th>

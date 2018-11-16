@@ -54,6 +54,7 @@ hr{width:76%;border: 1px double #fff;margin: 10px auto;}
 .login_right_header{clear:both;width: 96%;/*margin:10px auto;line-height: 30px;*/height:10px;}
 .login_right table{font-family: "Adobe 楷体 Std R";width:96%;max-height:300px;margin: 0 auto;border: solid 1px #ccc; font-size: 16px;}
 .login_right table tr{height:30px;width: 100%;}
+.login_right table tr:hover{background: #03aafd24;}
 .login_right table th{color: #ffffff; font-size: 18px; background: #0C96DB;}
 .table_h{background: #0C96DB;}
 .login_right table tr td{height: 30px;text-align: center;}
@@ -133,3 +134,19 @@ hr{width:76%;border: 1px double #fff;margin: 10px auto;}
 .login_right .right_userInfo .uvalue{width: 30%;padding-left:10px;text-align: left;border-bottom: solid 1px #eee;}
 #user_word_add input{height:30px;}
 #user_word_add .add_value{text-align: left;}
+
+/*baidu search*/
+.login_right .search_form{width: 40%;height: 10%;margin: 15% auto;}
+.login_right .res_form{width: 40%;height: 10%;margin: 5px auto;}
+.login_right .search_form .search_input .input_word,.login_right .res_form .search_input .input_word{width: 75%;height: 30px;line-height: 30px;}
+.login_right .search_form .search_input .dosubmit,.login_right .res_form .search_input .dosubmit{margin-left: 2%;width: 18%;height: 26px;line-height:26px;border: none; background: #0C96DB; box-shadow: 0 0 1px 2px rgba(12,150,219,1); color: #ffffff;cursor: pointer;font-size: 16px;font-weight: bold;}
+.login_right .create_all{width: 96%;margin: 5px auto;overflow: hidden;}
+.login_right .create_all a{float: right; display: block; min-width: 2%; height: 24px;line-height: 24px;margin-right: 2px;border-bottom: 1px solid #3b8cd6;}
+.login_right .res_create{width: 96%;max-height: 450px; }
+.login_right .res_create tr{width: 100%;}
+.login_right .res_create .name{width: 20%;}
+.login_right .res_create .description{width: 50%;}
+.login_right .res_create .url{width: 20%;word-wrap:break-word; word-break:break-all; }
+.login_right .res_create .do{width: 5%;}
+.login_right #part_file{display: block; float: right; border: none;cursor: pointer; margin-right: 10px;height: 24px;line-height: 24px;background: none;font-size: 16px;border-bottom: 1px solid #3b8cd6}
+.login_right .res_create_tab{max-height: 400px; overflow-y: auto; overflow-x: hidden;}

@@ -6,5 +6,6 @@ return array(
     'file'=>[
         'codeImg' => 'codeImg.php',
         'updBr' => 'updBr.php',
+        'searchInfo' => 'searchInfo.php',
     ]
 );

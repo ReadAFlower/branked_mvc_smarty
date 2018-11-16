@@ -234,3 +234,23 @@
         }
         exit;
     }
+
+    /**
+     * 删除指定标签
+     * @param $tags
+     * @param $str
+     */
+    function strip_html_tags($tags,$str){
+        $dHtml=['img','input','br','hr','link','meta','param'];
+        foreach ($tags as $tag) {
+            if (in_array($tag,$dHtml)){
+                $str = preg_replace('/<'.$tag.'([^<>]*)([\/]?)>/','', $str);
+            }elseif ($tag!='script'){
+                $preg = '/<'.$tag.'([^<>]*)>(.*)<\/'.$tag.'>/';
+                $str = preg_replace($preg,'', $str);
+            }else{
+                $str = preg_replace('/<script[\s\S]*?<\/script>/i','', $str);
+            }
+        }
+        return $str;
+    }

@@ -507,7 +507,7 @@ $(document).ready(function () {
     //word add
     var wordsName = null;
     $("#words_name").blur(function(){
-        if(inputCheck('words_name','words',2,30)){
+        if(inputCheck('words_name','zcn',2,30)){
             wordsName=1;
         }else{
             wordsName=0;

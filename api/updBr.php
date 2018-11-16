@@ -1,10 +1,11 @@
 <?php
-defined('IN_OWNCMS') or exit('No permission resources.');
+
 
 pcBase::loadSysClass('keywordsModel','models/',0);
 pcBase::loadSysClass('branked','',0);
 
 if (isset($_GET['wordID']) && !empty($_GET['wordID'])){
+	defined('IN_OWNCMS') or exit('No permission resources.');
     $wordID = intval(safe_replace($_GET['wordID']));
 
     $newBr = updateBr($wordID);
