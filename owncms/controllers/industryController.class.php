@@ -7,8 +7,11 @@ class industryController extends baseController
 {
     public function __construct()
     {
-        if(@!$_SESSION['adminid'.HASH_IP] || @!$_SESSION['adminname'.HASH_IP]){
-            header('location:'.LOGIN_ADMIN);
+        $adminModel = new adminModel();
+        $che = $adminModel->isLogin();
+        if (!$che){
+            $_SESSION['messagesUrl']=LOGIN_ADMIN;
+            industryModel::showMessages();
             exit();
         }
         $this->urlList['index']='/index.php?m=industry&c=industry&e=industryIndex';

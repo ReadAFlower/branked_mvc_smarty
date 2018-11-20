@@ -8,8 +8,11 @@ class menuController extends baseController
 {
     public function __construct()
     {
-        if(@!$_SESSION['adminid'.HASH_IP] || @!$_SESSION['adminname'.HASH_IP]){
-            header('location:'.LOGIN_ADMIN);
+        $adminModel = new adminModel();
+        $che = $adminModel->isLogin();
+        if (!$che){
+            $_SESSION['messagesUrl']=LOGIN_ADMIN;
+            adminModel::showMessages();
             exit();
         }
         $this->urlList['menuIndex'] = '/index.php?m=menu&c=menu&e=menuIndex';

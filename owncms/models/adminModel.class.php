@@ -53,6 +53,7 @@ class adminModel extends baseModel
             return false;
         }
         if ($nameAdminID['password']==$this->createPWD($password)){
+            $_SESSION['time'.HASH_IP] = time();
             $_SESSION['adminid'.HASH_IP] = $nameAdminID['admin_id'];
             $_SESSION['adminname'.HASH_IP] = $name;
             $_SESSION['level'.HASH_IP] = $this->levelToNum($nameAdminID['level']);
@@ -106,19 +107,27 @@ class adminModel extends baseModel
     public function isLogin(){
 
         if(isset($_SESSION['adminid'.HASH_IP]) && !empty($_SESSION['adminid'.HASH_IP])){
-
+            if (time()-$_SESSION['time'.HASH_IP]>30*60){
+                unset($_SESSION);
+                $this->che(-2);
+                return false;
+            }
+            $_SESSION['time'.HASH_IP] = time();
             $adminId = $_SESSION['adminid'.HASH_IP];
             $adminName = $_SESSION['adminname'.HASH_IP];
 
             $adminId = $this->checkLogin($adminId,$adminName);
 
             if ($adminId){
+                $this->che(1);
                 return $adminId;
             }else{
+                $this->che(-3);
                 return false;
             }
 
         }else{
+            $this->che(-1);
             return false;
         }
     }
@@ -360,4 +369,23 @@ class adminModel extends baseModel
         }
     }
 
+    private function che($n)
+    {
+        switch ($n){
+            case 1:
+                break;
+            case -1:
+                $_SESSION['messagesTips']='请先登录后台管理';
+                break;
+            case -2:
+                $_SESSION['messagesTips']='登录超时';
+                break;
+            case -3:
+                $_SESSION['messagesTips']='非法操作';
+                break;
+            default:
+                $_SESSION['messagesTips']='非法请求';
+                break;
+        }
+    }
 }

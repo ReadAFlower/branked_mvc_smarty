@@ -279,7 +279,7 @@ $(document).ready(function () {
                 }
                 break;
             case 'zcn':
-                var preg = "/^[a-zA-Z0-9\u4E00-\u9FA5]{"+minL+","+maxL+"}$/";
+                var preg = "/^[a-zA-Z0-9,\u4E00-\u9FA5]{"+minL+","+maxL+"}$/";
                 if($("#"+id).val().match(eval(preg))){
                     $("#"+id).siblings(".color").remove();
                     return true;
