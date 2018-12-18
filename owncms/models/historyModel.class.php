@@ -105,12 +105,17 @@ class historyModel extends baseModel
      */
     public function nums($where)
     {
-        $where = safe_replace($where);
+//        $where = safe_replace($where);
+//        $res = $this->db->select('count(*)', $this->tableName, $where);
 
-        $res = $this->db->select('count(*)', $this->tableName, $where);
+        $sql = ' SELECT count(*) FROM '.$this->tableName.' WHERE '.$where;
+        $res = $this->db->query($sql);
+        while ($arr=mysqli_fetch_assoc($res)){
+            $nums = $arr['count(*)'];
+        }
 
-        if ($res[0]['count(*)']){
-            return $res[0]['count(*)'];
+        if ($nums){
+            return $nums;
         }else{
             return false;
         }

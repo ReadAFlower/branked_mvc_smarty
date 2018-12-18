@@ -3,15 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="43c9511f-ceef-4afe-86af-80fa23d34f0e" name="默认" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/owncms/controllers/BaiduController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/owncms/controllers/BaiduController.class.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/owncms/controllers/historyController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/owncms/controllers/historyController.class.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/owncms/controllers/industryController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/owncms/controllers/industryController.class.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/owncms/controllers/keywordsController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/owncms/controllers/keywordsController.class.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/owncms/controllers/menuController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/owncms/controllers/menuController.class.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/owncms/controllers/urlController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/owncms/controllers/urlController.class.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/owncms/controllers/userController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/owncms/controllers/userController.class.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/owncms/libs/classes/branked.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/owncms/libs/classes/branked.class.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/owncms/libs/classes/db_mysqli.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/owncms/libs/classes/db_mysqli.class.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/owncms/libs/view/Smarty/cache/menu.txt" beforeDir="false" afterPath="$PROJECT_DIR$/owncms/libs/view/Smarty/cache/menu.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/owncms/models/adminModel.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/owncms/models/adminModel.class.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/style/js/checkform.js" beforeDir="false" afterPath="$PROJECT_DIR$/style/js/checkform.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/owncms/models/historyModel.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/owncms/models/historyModel.class.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,80 +18,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="adminModel.class.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/owncms/models/adminModel.class.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="19">
-              <caret line="20" column="23" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="historyController.class.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/owncms/controllers/historyController.class.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="17" column="19" lean-forward="true" selection-start-line="17" selection-start-column="19" selection-end-line="17" selection-end-column="19" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="industryController.class.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/owncms/controllers/industryController.class.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="9" column="8" selection-start-line="9" selection-start-column="8" selection-end-line="15" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="keywordsController.class.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/owncms/controllers/keywordsController.class.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="165" column="43" selection-start-line="165" selection-start-column="36" selection-end-line="165" selection-end-column="43" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="urlController.class.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/owncms/controllers/urlController.class.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="21" column="9" selection-start-line="21" selection-start-column="9" selection-end-line="21" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="userController.class.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/owncms/controllers/userController.class.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="76">
-              <caret line="4" column="3" lean-forward="true" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="checkform.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/style/js/checkform.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="237">
-              <caret line="278" column="17" lean-forward="true" selection-start-line="278" selection-start-column="17" selection-end-line="278" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="keywordsModel.class.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/owncms/models/keywordsModel.class.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="79">
-              <caret line="148" column="20" selection-start-line="148" selection-start-column="20" selection-end-line="148" selection-end-column="20" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -135,8 +59,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/owncms/libs/view/Smarty/templates/industry/add.tpl" />
-        <option value="$PROJECT_DIR$/owncms/libs/view/Smarty/templates/industry/update.tpl" />
         <option value="$PROJECT_DIR$/owncms/libs/view/Smarty/templates/keywords/index.tpl" />
         <option value="$PROJECT_DIR$/owncms/libs/view/Smarty/templates/keywords/add.tpl" />
         <option value="$PROJECT_DIR$/owncms/libs/view/Smarty/templates/keywords/update.tpl" />
@@ -179,13 +101,15 @@
         <option value="$PROJECT_DIR$/style/css/admin.css" />
         <option value="$PROJECT_DIR$/owncms/controllers/BaiduController.class.php" />
         <option value="$PROJECT_DIR$/owncms/models/adminModel.class.php" />
-        <option value="$PROJECT_DIR$/owncms/controllers/historyController.class.php" />
         <option value="$PROJECT_DIR$/owncms/controllers/industryController.class.php" />
         <option value="$PROJECT_DIR$/owncms/controllers/menuController.class.php" />
         <option value="$PROJECT_DIR$/owncms/controllers/urlController.class.php" />
         <option value="$PROJECT_DIR$/owncms/controllers/userController.class.php" />
         <option value="$PROJECT_DIR$/style/js/checkform.js" />
         <option value="$PROJECT_DIR$/owncms/controllers/keywordsController.class.php" />
+        <option value="$PROJECT_DIR$/owncms/libs/classes/db_mysqli.class.php" />
+        <option value="$PROJECT_DIR$/owncms/models/historyModel.class.php" />
+        <option value="$PROJECT_DIR$/owncms/controllers/historyController.class.php" />
       </list>
     </option>
   </component>
@@ -223,23 +147,6 @@
             <path>
               <item name="mvc.branked.com" type="b2602c69:ProjectViewProjectNode" />
               <item name="mvc.branked.com" type="462c0819:PsiDirectoryNode" />
-              <item name="owncms" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mvc.branked.com" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mvc.branked.com" type="462c0819:PsiDirectoryNode" />
-              <item name="owncms" type="462c0819:PsiDirectoryNode" />
-              <item name="controllers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mvc.branked.com" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mvc.branked.com" type="462c0819:PsiDirectoryNode" />
-              <item name="owncms" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mvc.branked.com" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mvc.branked.com" type="462c0819:PsiDirectoryNode" />
               <item name="style" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -257,7 +164,7 @@
   <component name="PropertiesComponent">
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://D:/phpstudy/WWW/mvc.branked.com/owncms/models/keywordsModel.class.php" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../test" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
@@ -365,11 +272,13 @@
       <workItem from="1542608675805" duration="32000" />
       <workItem from="1542620901805" duration="1132000" />
       <workItem from="1542677992514" duration="1358000" />
+      <workItem from="1544231476667" duration="3632000" />
+      <workItem from="1544404397114" duration="29000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="500439000" />
+    <option name="totallyTimeSpent" value="504100000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1376" height="744" extended-state="6" />
@@ -407,15 +316,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/owncms/libs/view/Smarty/templates/userInfo.tpl" />
-    <entry file="file://$PROJECT_DIR$/owncms/libs/view/Smarty/templates/user/index.tpl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/owncms/libs/view/Smarty/templates/personal/list.tpl" />
     <entry file="file://$PROJECT_DIR$/owncms/libs/view/Smarty/templates/industry/list.tpl">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="76">
@@ -637,13 +537,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/owncms/models/adminModel.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="20" column="23" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/owncms/controllers/industryController.class.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
@@ -651,24 +544,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/owncms/controllers/historyController.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="17" column="19" lean-forward="true" selection-start-line="17" selection-start-column="19" selection-end-line="17" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/style/js/checkform.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="278" column="17" lean-forward="true" selection-start-line="278" selection-start-column="17" selection-end-line="278" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/owncms/models/keywordsModel.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="79">
-          <caret line="148" column="20" selection-start-line="148" selection-start-column="20" selection-end-line="148" selection-end-column="20" />
+        <state relative-caret-position="5282">
+          <caret line="278" column="17" selection-start-line="278" selection-start-column="17" selection-end-line="278" selection-end-column="17" />
         </state>
       </provider>
     </entry>
@@ -695,8 +574,50 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/owncms/controllers/keywordsController.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="165" column="43" selection-start-line="165" selection-start-column="36" selection-end-line="165" selection-end-column="43" />
+        <state relative-caret-position="228">
+          <caret line="171" lean-forward="true" selection-start-line="171" selection-end-line="171" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/owncms/models/baseModel.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="87">
+          <caret line="5" column="25" lean-forward="true" selection-start-line="5" selection-start-column="25" selection-end-line="5" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/owncms/controllers/historyController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="50" column="61" lean-forward="true" selection-start-line="50" selection-start-column="61" selection-end-line="50" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/owncms/libs/classes/db_mysqli.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4213">
+          <caret line="430" column="9" lean-forward="true" selection-start-line="430" selection-start-column="9" selection-end-line="430" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/owncms/models/historyModel.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="383">
+          <caret line="115" lean-forward="true" selection-start-line="115" selection-end-line="115" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/owncms/models/keywordsModel.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="79">
+          <caret line="148" column="20" selection-start-line="148" selection-start-column="20" selection-end-line="148" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/owncms/models/adminModel.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="20" column="23" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="23" />
         </state>
       </provider>
     </entry>

@@ -46,7 +46,7 @@ class BaiduController extends baseController
             if (isset($_SESSION['word'.HASH_IP])) unset($_SESSION['word'.HASH_IP]);
             $baidu = new branked($word);
             $tempInfo = $baidu->getResInfo();
-            if (!$tempInfo[0][0]){
+            if (!isset($tempInfo[0][0])){
                 $_SESSION['messagesTips']='没有搜索结果';
                 $_SESSION['messagesUrl']=$this->urlList['goback'];
                 adminModel::showMessages();

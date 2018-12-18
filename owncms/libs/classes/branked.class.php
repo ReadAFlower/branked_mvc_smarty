@@ -29,7 +29,7 @@ class branked
     public function __construct($word,$url='')
     {
         set_time_limit(0);
-        $this->word = $word;
+        $this->word = urlencode($word);
         $this->url = $url;
         $this->orgiURL = 'https://'.$this->UserAgent.'/s?ie=utf-8&f=8&rsv_bp=0&rsv_idx=1&tn=baidu&wd='.$this->word;
     }
@@ -95,6 +95,8 @@ class branked
 
         preg_match_all('/<div(\s*)id="page"(\s*)>(.*)<div(\s*)id="content_bottom"(\s*)>/Uis',$content,$pagesRES);
 
+        if (!isset($pagesRES[0])) return false;
+        if (!isset($pagesRES[0][0])) return false;
         preg_match_all('/<a href="([^<>]*)" class="n">/Uis',$pagesRES[0][0],$nextUrl);
 
         if($this->nums){

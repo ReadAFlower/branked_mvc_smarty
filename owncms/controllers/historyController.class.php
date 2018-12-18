@@ -25,14 +25,17 @@ class historyController extends baseController
     {
         if (isset($_GET['wordID']) && !empty($_GET['wordID'])){
             $historyModel = new historyModel();
-            $smallTime = isset($_GET['smallTime']) && !empty($_GET['smallTime']) ? intval($_GET['smallTime']) : '';
+            $smallTime = isset($_GET['smallTime']) && !empty($_GET['smallTime']) ? intval($_GET['smallTime']) : 30;
             if(!empty($smallTime)){
                 if (intval($smallTime)==30 || intval($smallTime)==90 || intval($smallTime)==180){
                     $smallTime = intval($smallTime);
                 }else{
                     $smallTime = '';
                 }
+            }else{
+                $smallTime = 30;
             }
+
             $wordID = intval(safe_replace($_GET['wordID']));
             $userID = intval($_GET['userID']);
 
@@ -45,11 +48,12 @@ class historyController extends baseController
             }
 
             $view = viewEngine();
+            $timeWhere = strtotime(date('Y-m-d',time()))-3600*24*$smallTime;
+            $pageData['nums'] = $historyModel->nums(' word_id = '.$wordID.' and updated_at > '.$timeWhere);
 
-            $pageData['nums'] = $historyModel->nums(' word_id = '.$wordID);
             if ($pageData['nums']){
                 $pageData['nums'] = intval($pageData['nums']);
-                $pageData['urlRule'] = 'index.php?m=history&c=history&e=historyBranked&smallTime='.$smallTime;
+                $pageData['urlRule'] = 'index.php?m=history&c=history&e=historyBranked&wordID='.$wordID.'&userID='.$userID.'&smallTime='.$smallTime;
                 $viewPages = new viewPages($pageData);
                 $pagesNav = $viewPages->getPageNav($pageNow);
 

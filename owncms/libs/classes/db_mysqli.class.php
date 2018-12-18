@@ -65,6 +65,7 @@ final class db_mysqli
 		$sql = 'SELECT '.$data.' FROM `'.$table.'`'.$where.$group.$order.$limit;
 
 		$this->execute($sql);
+
 		if(!is_object($this->lastqueryid)) {
 			return $this->lastqueryid;
 		}
@@ -111,10 +112,7 @@ final class db_mysqli
         $data = implode(',', $field);
 
         $sql = 'SELECT '.$data.' FROM `'.$table.'`'.$where.$group.$order.$limit;
-//        if ($table=='user_url'){
-//            var_dump($sql);
-//            exit();
-//        }
+
         $this->execute($sql);
         $res = $this->fetch_next();
         $this->free_result();
