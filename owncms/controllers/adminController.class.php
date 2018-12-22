@@ -120,7 +120,6 @@ class adminController extends baseController
 
         $_SESSION['haship'] = HASH_IP;
 
-//        $view->display('login_index.tpl');
         $view->display('admin/index.tpl');
     }
 
@@ -165,7 +164,6 @@ class adminController extends baseController
 
         }
 
-//        $view->display('login_index.tpl');
         $view->display('admin/managerList.tpl');
     }
 
@@ -204,7 +202,6 @@ class adminController extends baseController
             exit();
         }
 
-//        $view->display('login_index.tpl');
         $view->display('admin/managerAdd.tpl');
     }
 
@@ -274,7 +271,7 @@ class adminController extends baseController
 
                     $view->assign('allLevel',$allLevel);
                     $view->assign('managerRes',$managerRes);
-//                    $view->display('login_index.tpl');
+
                     $view->display('admin/managerUpdate.tpl');
                     exit();
                 }else{

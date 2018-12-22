@@ -30,6 +30,8 @@ a:hover,a:active{color:#ff6600;text-decoration: underline}
 	<script language="javascript">setTimeout("redirect('<?php echo $_SESSION['messagesUrl']; ?>');",1250);</script>
 			        </div>
     <?php
+        $_SESSION['messagesTips'] = '';
+        $_SESSION['messagesUrl'] = '';
         unset($_SESSION['messagesTips']);
         unset($_SESSION['messagesUrl']); ?>
 </div>

@@ -14,6 +14,7 @@ class industryController extends baseController
             industryModel::showMessages();
             exit();
         }
+
         $this->urlList['index']='/index.php?m=industry&c=industry&e=industryIndex';
         $this->urlList['industryList']='/index.php?m=industry&c=industry&e=industryList';
     }
@@ -21,7 +22,6 @@ class industryController extends baseController
     public function industryIndex()
     {
         $view = viewEngine();
-//        $view->display('login_index.tpl');
         $view->display('industry/index.tpl');
         exit();
     }
@@ -36,7 +36,6 @@ class industryController extends baseController
         $view = viewEngine();
         if ($industryList){
             $view->assign('industryList', $industryList);
-//            $view->display('login_index.tpl');
             $view->display('industry/list.tpl');
             exit();
         }else{
@@ -70,7 +69,6 @@ class industryController extends baseController
                     $industryAddRes = '添加行业失败';
                 }
             }else{
-//                $view->display('login_index.tpl');
                 $view->display('industry/add.tpl');
                 exit();
             }
@@ -142,7 +140,6 @@ class industryController extends baseController
                 $industryRes = $industryModel->getIndustryRes($typeID);
                 if ($industryRes){
                     $view->assign('industryRes',$industryRes);
-//                    $view->display('login_index.tpl');
                     $view->display('industry/update.tpl');
                     exit();
                 }else{

@@ -57,7 +57,7 @@ hr{width:76%;border: 1px double #fff;margin: 10px auto;}
 .login_right table tr:hover{background: #03aafd24;}
 .login_right table th{color: #ffffff; font-size: 18px; background: #0C96DB;}
 .table_h{background: #0C96DB;}
-.login_right table tr td{height: 30px;text-align: center;}
+.login_right table tr td{height: 30px;text-align: center;word-wrap:break-word}
 .login_right table .ord{width: 5%;}
 /*.login_right table .name{width: 10%;}*/
 .login_right table .url{width: 15%;}

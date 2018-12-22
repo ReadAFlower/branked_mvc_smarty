@@ -43,6 +43,7 @@ pcBase::loadGlobalSysFun('functions');
 //加载公用函数库
 pcBase::loadGlobalSysClass('classes');
 
+require_once 'libs/phpQuery/phpQuery.php';
 
 class pcBase
 {

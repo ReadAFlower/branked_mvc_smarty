@@ -4,6 +4,7 @@
  * Class branked
  * @package owncms\libs\classes
  */
+
 class branked
 {
     public $pages = 5;   //查询页数
@@ -84,6 +85,7 @@ class branked
         }else{
             $content = $this->requestURL($this->nextURL);
         }
+
 
         //有相关搜索
         preg_match_all('/<div(\s*)id="content_left"(\s*)>(.*)<div(\s*)id="rs"(\s*)>/Uis',$content,$contentRES);

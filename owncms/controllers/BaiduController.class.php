@@ -5,7 +5,8 @@
  * Class BaiduControllers
  */
 pcBase::loadSysClass('baseController','controllers/',0);
-pcBase::loadSysClass('branked','',0);
+pcBase::loadSysClass('PQbranked','',0);
+pcBase::loadSysClass('adminModel','models/',0);
 class BaiduController extends baseController
 {
     public function __construct()
@@ -14,6 +15,7 @@ class BaiduController extends baseController
             header('location:'.LOGIN_ADMIN);
             exit();
         }
+        $this->urlList['goback'] = 'javaScript:history.go(-1);';
     }
 
     /**
@@ -44,19 +46,20 @@ class BaiduController extends baseController
         if (isset($_POST['word']) && !empty($_POST['word'])){
             $word = safe_replace($_POST['word']);
             if (isset($_SESSION['word'.HASH_IP])) unset($_SESSION['word'.HASH_IP]);
-            $baidu = new branked($word);
+            $baidu = new PQbranked($word);
             $tempInfo = $baidu->getResInfo();
-            if (!isset($tempInfo[0][0])){
+            if (count($tempInfo)<1){
                 $_SESSION['messagesTips']='没有搜索结果';
                 $_SESSION['messagesUrl']=$this->urlList['goback'];
                 adminModel::showMessages();
                 exit();
             }
             $searchInfo = [];
-            $len = count($tempInfo);
-            for ($i=0;$i<$len;$i++){
-                $searchInfo = array_merge($searchInfo,$tempInfo[$i]);
-            }
+//            $len = count($tempInfo);
+//            for ($i=0;$i<$len;$i++){
+//                $searchInfo = array_merge($searchInfo,$tempInfo[$i]);
+//            }
+            $searchInfo = $tempInfo;
             $fp = fopen(SMARTY_DIR.'cache/searchInfo.txt','w+');
             fwrite($fp,json_encode($searchInfo));
             fclose($fp);
