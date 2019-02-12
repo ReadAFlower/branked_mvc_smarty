@@ -17,7 +17,7 @@ hr{width:76%;border: 1px double #fff;margin: 10px auto;}
 .iconfont{display: inline-block;width: 45px;height: 45px;line-height: 45px;font-size: 24px;text-align: center;position: absolute;left: 0;top: 0;}
 .submit{width: 80%;text-align: center;}
 .submit input{font-size: 21px;padding-left: 0;color: #fff;background: #3b8cd6;}
-.code input{width: 70%;vertical-align:middle;}
+.code input{width: 69%;vertical-align:middle;}
 .code_img{height: 45px;width: 28.5%;vertical-align:middle}
 .color{color:#ff736b;font-size: 12px;}
 .type {height: 15px;}
@@ -39,13 +39,13 @@ hr{width:76%;border: 1px double #fff;margin: 10px auto;}
 .login_right{border:none;margin-left:0.2%;float:left;width: 89.8%;height: 100%;box-shadow: 0 0 1px 1px rgba(226,233,234,1) inset;overflow: hidden;}
 
 .login_nav{width: 100%;margin: 0 auto;font-family: "Adobe 楷体 Std R";font-size: 16px;}
-.login_nav li{clear:both;width: 100%;min-height: 30px;line-height: 30px;margin: 10px auto;text-indent: 0.8em;}
+.login_nav li{clear:both;width: 100%;min-height: 30px;line-height: 30px;margin: 10px auto;text-indent: 0.5em;}
 .login_nav li span{display:block;width: 100%;height: 30px;line-height: 30px;}
 .login_nav li span:hover{background: #4d91db;color:#fff;}
 .login_nav li span a:hover{color:#fff;}
 .login_nav_active{background: #4d91db;color:#fff;}
 .login_nav_active a{background: #4d91db;color:#fff;}
-.login_nav li a{display:block;float:left;height: 30px;width: 75%;border-bottom: #eee 1px solid;margin-bottom: 10px;}
+.login_nav li a{display:block;float:left;height: 30px;width: 78%;border-bottom: #eee 1px solid;margin-bottom: 10px;}
 .icon-zhankai,.icon-you{display: block;float:left;height: 30px;line-height:30px;width: 20%;position: unset; vertical-align:middle;font-size: 18px;}
 .login_child_nav{width:100%;clear:both;display: none;font-size: 14px;background: #fff;}
 .login_child_nav li{margin: 0;}
