@@ -82,7 +82,7 @@ class PersonalModel extends baseModel
      * @return bool|string
      */
     public function checkLogin($userID,$username){
-        $userID = safe_replace($userID);
+        $userID = intval($userID);
         $username = safe_replace($username);
         $checkID = $this->getUserName($username);
 
@@ -179,11 +179,12 @@ class PersonalModel extends baseModel
      */
     public function getWordList($userID,$pageNow = 1,$pageSize = 10)
     {
+        $userID = intval($userID);
         if (!$userID) return false;
         $pageNow = $pageSize ? intval($pageNow) : 1;
         $pageSize = $pageSize ? intval($pageSize) : 10;
         $urlModel = new urlModel();
-        $urlID = $urlModel->getOneUrlRes(intval($userID));
+        $urlID = $urlModel->getOneUrlRes($userID);
         $keywordsModel = new keywordsModel();
         $wordList = $keywordsModel->getWordsRes($urlID['url_id'],$pageNow,$pageSize);
 

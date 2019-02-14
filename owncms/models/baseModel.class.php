@@ -23,7 +23,8 @@ class baseModel
      */
     public function getEnum($column)
     {
-        if (!safe_replace($column)) return false;
+        if (!$column) return false;
+        $column = safe_replace($column);
         $sql = ' show columns from '.$this->tableName.' like "'.$column.'" ';
 
         $res = $this->db->query($sql);

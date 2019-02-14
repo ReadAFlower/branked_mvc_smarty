@@ -60,7 +60,7 @@ class BaiduController extends baseController
 //                $searchInfo = array_merge($searchInfo,$tempInfo[$i]);
 //            }
             $searchInfo = $tempInfo;
-            $fp = fopen(SMARTY_DIR.'cache/searchInfo.txt','w+');
+            @$fp = fopen(SMARTY_DIR.'cache/searchInfo.txt','w+');
             fwrite($fp,json_encode($searchInfo));
             fclose($fp);
             $_SESSION['word'.HASH_IP] = $word;
@@ -92,7 +92,7 @@ class BaiduController extends baseController
             $flg = false;
             for ($i=0;$i<$len;$i++){
                 if (isset($tempInfo[$arrID[$i]])){
-                    $resInfo[] = $tempInfo[$arrID[$i]];
+                    $resInfo[] = $tempInfo[intval($arrID[$i])];
                     $flg = true;
                 }
             }

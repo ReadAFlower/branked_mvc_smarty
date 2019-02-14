@@ -129,7 +129,7 @@ class historyModel extends baseModel
      */
     public function getWordBaseRes($wordID,$userID)
     {
-        if (!intval($wordID) || !intval($userID)) return false;
+        if (!$wordID || !$userID) return false;
         $userModel = new userModel();
         $userRes = $userModel->getOneUser(intval($userID));
 

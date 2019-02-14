@@ -175,14 +175,14 @@ class PersonalController extends baseController
                 $wordBaseRes = $keywordsModel->getWord($wordID);
 
                 if (isset($_GET['pages']) && !empty($_GET['pages'])){
-                    $pageNow = $_GET['pages'] > 1 ? intval(safe_replace($_GET['pages'])) : 1;
+                    $pageNow = $_GET['pages'] > 1 ? intval($_GET['pages']) : 1;
                 }else{
                     $pageNow = 1;
                 }
 
                 $smallTime = isset($_GET['smallTime']) && !empty($_GET['smallTime']) ? intval($_GET['smallTime']) : '';
                 if(!empty($smallTime)){
-                    if (intval($smallTime)==30 || intval($smallTime)==90 || intval($smallTime)==180){
+                    if ($smallTime==30 || $smallTime==90 || $smallTime==180){
                         $smallTime = intval($smallTime);
                     }else{
                         $smallTime = '';
@@ -272,7 +272,7 @@ class PersonalController extends baseController
         $keywordsModel = new keywordsModel();
         if (isset($_POST['word_id']) && !empty($_POST['word_id'])){
             $data = null;
-            $wordID =  intval(safe_replace($_POST['word_id']));
+            $wordID =  intval($_POST['word_id']);
             $data['word_status'] = isset($_POST['word_status']) && !empty($_POST['word_status']) ? intval($_POST['word_status']) : '';
             if ($data['word_status']){
                 $postRes = $keywordsModel->wordStatus($wordID,$data);
@@ -286,7 +286,7 @@ class PersonalController extends baseController
             }
         }elseif (isset($_GET['wordID']) && !empty($_GET['wordID'])){
 
-            $wordID = intval(safe_replace($_GET['wordID']));
+            $wordID = intval($_GET['wordID']);
             $getRes = $keywordsModel->getWord($wordID);
             $statusRes = $keywordsModel->getEnum('word_status');
             if ($getRes){
@@ -324,14 +324,14 @@ class PersonalController extends baseController
         $userModel = new userModel();
         if (isset($_POST['user_id']) && !empty($_POST['user_id'])){
             $data = null;
-            $userID = intval(safe_replace($_POST['user_id']));
+            $userID = intval($_POST['user_id']);
             $data['user']['user_name'] = safe_replace($_POST['user_name']);
             $data['user']['type_num'] = safe_replace($_POST['type_num']);
             if(isset($_POST['password']) && !empty($_POST['password'])) $data['user']['password'] = $_POST['password'];
             $data['user']['email'] = safe_replace($_POST['email']);
             $data['user']['phone'] = safe_replace($_POST['phone']);
             $data['url']['url_name'] = safe_replace($_POST['url_name']);
-            $data['user']['status'] = intval(safe_replace($_POST['status']));
+            $data['user']['status'] = intval($_POST['status']);
             $updateRes = $userModel->userUpdate($data,$userID);
 
             if ($updateRes){

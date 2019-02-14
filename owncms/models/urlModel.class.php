@@ -85,9 +85,10 @@ class urlModel extends baseModel
      */
     public function updateUrl($data,$urlID)
     {
-        if (!intval($urlID) || !$data) return false;
+        $urlID = intval($urlID);
+        if (!$urlID || !$data) return false;
 
-        $where = ' url_id = '.intval(safe_replace($urlID));
+        $where = ' url_id = '.intval($urlID);
         $res = $this->db->update($data, $this->tableName,$where);
 
         if ($res){
@@ -105,8 +106,9 @@ class urlModel extends baseModel
      */
     public function updateUrlByUserID($data,$userID)
     {
-        if (!intval($userID) || !$data) return false;
-        $where = ' user_id = '.intval(safe_replace($userID));
+        $userID = intval($userID);
+        if (!$userID || !$data) return false;
+        $where = ' user_id = '.intval($userID);
         $res = $this->db->update($data, $this->tableName,$where);
 
         if ($res){
@@ -123,8 +125,9 @@ class urlModel extends baseModel
      */
     public function urlDelByUserID($urlID)
     {
-        if (!intval($urlID)) return false;
-        $urlID = intval(safe_replace($urlID));
+        $urlID = intval($urlID);
+        if (!$urlID) return false;
+
         $where = ' url_id = '.$urlID;
 
         $res = $this->db->delete($this->tableName, $where);
@@ -144,7 +147,7 @@ class urlModel extends baseModel
     public function getWordNum($userID)
     {
         if (is_numeric($userID)){
-            $userID = intval(safe_replace($userID));
+            $userID = intval($userID);
             $data = 'word_num';
             $where = ' user_id = '.$userID;
             $res = $this->db->get_one($data, $this->tableName, $where);
@@ -167,9 +170,8 @@ class urlModel extends baseModel
      */
     public function addWordUpdate($data,$urlID)
     {
-        if (!$data || !intval($urlID)) return false;
-        $urlID = intval(safe_replace($urlID));
-
+        $urlID = intval($urlID);
+        if (!$data || !$urlID) return false;
 
         $sql = ' update '.$this->tableName.' set ';
         foreach ($data as $key => $value){

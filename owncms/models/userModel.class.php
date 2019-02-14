@@ -66,6 +66,7 @@ class userModel extends baseModel
     public function getOneUser($userID)
     {
         if (is_numeric($userID)){
+            $userID = intval($userID);
             $level = intval(ceil($userID))+1;
             $data = 'user_id,type_num,user_name,level,status,email,phone,created_at';
             $where = ' user_id = '.$userID;
@@ -178,7 +179,7 @@ class userModel extends baseModel
      */
     public function userUpdate($data, $userID)
     {
-        $userID = intval(safe_replace($userID));
+        $userID = intval($userID);
         if (!$userID) return false;
         $urlModel = new urlModel();
         $isURL = $urlModel->getOneUrlRes($userID);
@@ -211,7 +212,7 @@ class userModel extends baseModel
      */
     public function userDel($userID)
     {
-        $userID = intval(safe_replace($userID));
+        $userID = intval($userID);
         if (!$userID) return false;
         $userWhere = ' user_id = '.$userID;
         $urlModel = new urlModel();
@@ -270,7 +271,7 @@ class userModel extends baseModel
     public function wordLimitNum($userID)
     {
         if (is_numeric($userID)){
-            $userID = intval(safe_replace($userID));
+            $userID = intval($userID);
             $data = 'level';
             $where = ' user_id = '.$userID;
             $res = $this->db->get_one($data, $this->tableName, $where);
@@ -307,8 +308,8 @@ class userModel extends baseModel
      */
     public function checkUserName($userName)
     {
-        if (!is_string($userName) || !safe_replace($userName)) return false;
         $userName = safe_replace($userName);
+        if (!is_string($userName) || !$userName) return false;
         $res = $this->db->get_one('user_id',$this->tableName, ' user_name = "'.$userName.'"');
 
         if ($res['user_id']){

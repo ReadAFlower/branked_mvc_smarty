@@ -23,7 +23,7 @@ class menuModel extends baseModel
             $adminModel = new adminModel();
             $num = $adminModel->levelToNum($level);
         }
-        $menuData = $this->db -> select('*', $this->tableName, 'level > '.intval($num));
+        $menuData = $this->db -> select('*', $this->tableName, 'level > '.$num);
 
         return $menuData;
     }
@@ -108,9 +108,9 @@ class menuModel extends baseModel
      */
     public function getOne($id)
     {
-        $id = safe_replace($id);
+        $id = intval($id);
         if(!$id) return false;
-        $where = ' id = '.intval($id);
+        $where = ' id = '.$id;
         $res = $this->db->get_one('*',$this->tableName,$where);
 
         if ($res){

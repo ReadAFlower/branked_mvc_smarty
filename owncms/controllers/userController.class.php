@@ -51,7 +51,7 @@ class userController extends baseController
         $adminModel = new adminModel();
 
         if (isset($_GET['pages']) && !empty($_GET['pages'])){
-            $pageNow = $_GET['pages'] > 1 ? intval(safe_replace($_GET['pages'])) : 1;
+            $pageNow = $_GET['pages'] > 1 ? intval($_GET['pages']) : 1;
         }else{
             $pageNow = 1;
         }
@@ -110,7 +110,7 @@ class userController extends baseController
                 $data = null;
                 $data['user_name'] = safe_replace($_POST['user_name']);
                 $data['type_num'] = safe_replace($_POST['type_num']);
-                $data['level'] = (isset($_POST['level']) && !empty($_POST['level'])) ? safe_replace($_POST['level']) : 3;
+                $data['level'] = (isset($_POST['level']) && intval($_POST['level']))>0 ? intval($_POST['level']) : 3;
                 $data['password'] = safe_replace($_POST['password']);
                 $data['email'] = safe_replace($_POST['email']);
                 $data['phone'] = safe_replace($_POST['phone']);
@@ -153,15 +153,15 @@ class userController extends baseController
         if (isset($_SESSION['level'.HASH_IP]) && $_SESSION['level'.HASH_IP] == 0){
             if (isset($_POST['user_id']) && !empty($_POST['user_id'])){
                 $data = null;
-                $userID = intval(safe_replace($_POST['user_id']));
+                $userID = intval($_POST['user_id']);
                 $data['user']['user_name'] = safe_replace($_POST['user_name']);
                 $data['user']['type_num'] = safe_replace($_POST['type_num']);
-                $data['user']['level'] = intval(safe_replace($_POST['level']));
+                $data['user']['level'] = intval($_POST['level']);
                 if(isset($_POST['password']) && !empty($_POST['password'])) $data['user']['password'] = $_POST['password'];
                 $data['user']['email'] = safe_replace($_POST['email']);
                 $data['user']['phone'] = safe_replace($_POST['phone']);
                 $data['url']['url_name'] = safe_replace($_POST['url_name']);
-                $data['user']['status'] = intval(safe_replace($_POST['status']));
+                $data['user']['status'] = intval($_POST['status']);
                 $updateRes = $userModel->userUpdate($data,$userID);
 
                 if ($updateRes){
@@ -171,7 +171,7 @@ class userController extends baseController
                 }
 
             }elseif (isset($_GET['userID']) && !empty($_GET['userID'])){
-                $userID = intval(safe_replace($_GET['userID']));
+                $userID = intval($_GET['userID']);
                 $userRes = $userModel->getOneUser($userID);
 
                 $industryModel = new industryModel();
@@ -208,7 +208,7 @@ class userController extends baseController
     {
         if (isset($_SESSION['level'.HASH_IP]) && $_SESSION['level'.HASH_IP] == 0){
             if (isset($_GET['userID']) && !empty($_GET['userID'])){
-                $userID = intval(safe_replace($_GET['userID']));
+                $userID = intval($_GET['userID']);
                 $userModel = new userModel();
                 $res = $userModel->userDel($userID);
                 if ($res){

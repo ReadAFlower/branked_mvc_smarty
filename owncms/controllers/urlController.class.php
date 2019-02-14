@@ -41,7 +41,7 @@ class urlController extends baseController
     {
         $view = viewEngine();
         if (isset($_POST['user_id']) && !empty($_POST['user_id'])){
-            $data['user_id'] = safe_replace($_POST['user_id']);
+            $data['user_id'] = intval($_POST['user_id']);
             $data['url_name'] = safe_replace($_POST['url_name']);
 
             $urlModel = new urlModel();
@@ -53,7 +53,7 @@ class urlController extends baseController
             }
 
         }elseif (isset($_GET['userID']) && !empty($_GET['userID'])){
-            $userRes['userID'] = safe_replace($_GET['userID']);
+            $userRes['userID'] = intval($_GET['userID']);
             $userRes['userName'] = safe_replace($_GET['userName']);
             $view->assign('userRes',$userRes);
 //            $view->display('login_index.tpl');
@@ -73,13 +73,13 @@ class urlController extends baseController
     public function recount()
     {
         $urlModel = new urlModel();
-        if (@intval($_GET['userID'])){
+        if (@$_GET['userID']){
             $userID = intval($_GET['userID']);
             $res = $urlModel->reCheck($userID);
 
             if ($res){
-                echo json_encode($res);
-                exit();
+//                echo json_encode($res);
+//                exit();
                 return json_encode($res);
             }else{
                 return false;

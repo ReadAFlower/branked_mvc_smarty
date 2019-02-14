@@ -54,7 +54,7 @@ class keywordsController extends baseController
         $view = viewEngine();
         $keywordsModel = new keywordsModel();
         if (isset($_GET['pages']) && !empty($_GET['pages'])){
-            $pageNow = $_GET['pages'] > 1 ? intval(safe_replace($_GET['pages'])) : 1;
+            $pageNow = $_GET['pages'] > 1 ? intval($_GET['pages']) : 1;
         }else{
             $pageNow = 1;
         }
@@ -99,11 +99,11 @@ class keywordsController extends baseController
         if (isset($_GET['userID']) && !empty($_GET['userID'])){
 
             if (isset($_GET['pages']) && !empty($_GET['pages'])){
-                $pageNow = $_GET['pages'] > 1 ? intval(safe_replace($_GET['pages'])) : 1;
+                $pageNow = $_GET['pages'] > 1 ? intval($_GET['pages']) : 1;
             }else{
                 $pageNow = 1;
             }
-            $userID = safe_replace($_GET['userID']);
+            $userID = intval($_GET['userID']);
 
             $userBaseRes = $userModel->getOneUser($userID);
 

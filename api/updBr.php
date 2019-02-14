@@ -6,7 +6,7 @@ pcBase::loadSysClass('branked','',0);
 
 if (isset($_GET['wordID']) && !empty($_GET['wordID'])){
 	defined('IN_OWNCMS') or exit('No permission resources.');
-    $wordID = intval(safe_replace($_GET['wordID']));
+    $wordID = intval($_GET['wordID']);
 
     $newBr = updateBr($wordID);
     $arr = null;
@@ -45,7 +45,7 @@ if (isset($_GET['wordID']) && !empty($_GET['wordID'])){
 }
 
 function updateBr($wordID){
-    $wordID = intval(safe_replace($wordID));
+    $wordID = intval($wordID);
     $keywordsModel = new keywordsModel();
 
     $wordRes = $keywordsModel->getWord($wordID);

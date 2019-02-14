@@ -226,8 +226,8 @@ class keywordsModel extends baseModel
     public function wordDel($wordID,$isBranked)
     {
 
-        $wordID = intval(safe_replace($wordID));
-        $isBranked = intval(safe_replace($isBranked));
+        $wordID = intval($wordID);
+        $isBranked = intval($isBranked);
         if (!$wordID) return false;
         $wordRes = $this->getWord($wordID);
 
@@ -279,8 +279,8 @@ class keywordsModel extends baseModel
      */
     public function keywordsDelByUserID($urlID)
     {
-        if (!intval($urlID)) return false;
-        $urlID = intval(safe_replace($urlID));
+        $urlID = intval($urlID);
+        if (!$urlID) return false;
 
         $where = ' url_id = '.$urlID;
 
@@ -298,8 +298,9 @@ class keywordsModel extends baseModel
      * @param $wordID
      */
     public function getWord($wordID){
-        if (!intval($wordID)) return false;
-        $wordID = intval(safe_replace($wordID));
+        $wordID = intval($wordID);
+        if (!$wordID) return false;
+
         $where = ' word_id = '.$wordID;
         $res = $this->db->get_one('*', $this->tableName, $where);
         if ($res){
@@ -328,7 +329,7 @@ class keywordsModel extends baseModel
 
         if (!isset($data['keywords']) || empty($data['keywords'])) return false;
 
-        $wordID = intval(safe_replace($wordID));
+        $wordID = intval($wordID);
         if(!$wordID) return false;
         $where = ' word_id = '.$wordID;
         $keywordsRes = $this->db->update($data['keywords'],$this->tableName, $where);
@@ -371,7 +372,7 @@ class keywordsModel extends baseModel
         $wordInfo = $this->getWord($wordID);
         $wordStatus = $this->getEnum('word_status');
 
-        if ($wordStatus[intval($data['word_status'])]==$wordInfo['word_status']){
+        if ($wordStatus[$data['word_status']]==$wordInfo['word_status']){
             return false;
         }else{
             $urlData = null;
@@ -460,8 +461,8 @@ class keywordsModel extends baseModel
      */
     public function countColumn($column,$where)
     {
-        if (!preg_match('/[a-zA-Z]{1}[\w_]/',safe_replace($column))) return false;
         $column = safe_replace($column);
+        if (!preg_match('/[a-zA-Z]{1}[\w_]/',$column)) return false;
 
         $data = 'count('.$column.')';
         $res = $this->db->select($data,$this->tableName,$where);

@@ -104,7 +104,7 @@ class menuController extends baseController
     public function menuDel(){
         if (isset($_SESSION['level'.HASH_IP]) && $_SESSION['level'.HASH_IP] == 0){
             if (isset($_GET['id']) && !empty($_GET['id'])){
-                $id = safe_replace($_GET['id']);
+                $id = intval($_GET['id']);
                 $menuModel = new menuModel();
                 $res = $menuModel->deleteMenu($id);
                 if ($res){

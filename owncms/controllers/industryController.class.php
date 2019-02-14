@@ -88,9 +88,9 @@ class industryController extends baseController
     public function industryDel(){
         if (isset($_SESSION['level'.HASH_IP]) && $_SESSION['level'.HASH_IP] == 0){
             if (isset($_GET['id']) && !empty($_GET['id'])){
-                $typeId = $_GET['id'];
+                $typeId = intval($_GET['id']);
                 $industryModel = new industryModel();
-                $where = 'type_id = '.intval($typeId);
+                $where = 'type_id = '.$typeId;
 
                 $res = $industryModel->delIndustry($where);
 
@@ -122,9 +122,9 @@ class industryController extends baseController
         if (isset($_SESSION['level'.HASH_IP]) && $_SESSION['level'.HASH_IP] == 0){
             if(isset($_POST['type_id']) && !empty($_POST['type_id'])){
                 $data = null;
-                $typeID = intval(safe_replace($_POST['type_id']));
+                $typeID = intval($_POST['type_id']);
                 $data['type_name'] = safe_replace($_POST['type_name']);
-                $data['type_num'] = intval(safe_replace($_POST['type_num']));
+                $data['type_num'] = intval($_POST['type_num']);
 
                 $res = $industryModel->updateIndustryList($data, $typeID);
 
@@ -135,7 +135,7 @@ class industryController extends baseController
                 }
 
             }elseif(isset($_GET['id']) && !empty($_GET['id'])){
-                $typeID = intval(safe_replace($_GET['id']));
+                $typeID = intval($_GET['id']);
 
                 $industryRes = $industryModel->getIndustryRes($typeID);
                 if ($industryRes){

@@ -235,7 +235,7 @@ class adminModel extends baseModel
      */
     public function getManagerRes($id)
     {
-        if (!intval($id)) return false;
+        if (!$id) return false;
         $level = $this->getLevel();
         $levelNum = intval($this->levelToNum($level));
         if ($levelNum===0){
@@ -260,7 +260,7 @@ class adminModel extends baseModel
      */
     public function addManager($data)
     {
-        if (!safe_replace($data['admin_name'])) return false;
+        if (!$data['admin_name']) return false;
        $userModel = new userModel();
        $userCheck = $userModel->checkUserName(safe_replace($data['admin_name']));
        $checkAdmin = $this->checkAdminName(safe_replace($data['admin_name']));

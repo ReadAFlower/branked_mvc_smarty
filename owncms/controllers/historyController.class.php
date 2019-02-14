@@ -27,7 +27,7 @@ class historyController extends baseController
             $historyModel = new historyModel();
             $smallTime = isset($_GET['smallTime']) && !empty($_GET['smallTime']) ? intval($_GET['smallTime']) : 30;
             if(!empty($smallTime)){
-                if (intval($smallTime)==30 || intval($smallTime)==90 || intval($smallTime)==180){
+                if ($smallTime==30 || $smallTime==90 || $smallTime==180){
                     $smallTime = intval($smallTime);
                 }else{
                     $smallTime = '';
@@ -36,13 +36,13 @@ class historyController extends baseController
                 $smallTime = 30;
             }
 
-            $wordID = intval(safe_replace($_GET['wordID']));
+            $wordID = intval($_GET['wordID']);
             $userID = intval($_GET['userID']);
 
             $wordBaseRes = $historyModel->getWordBaseRes($wordID,$userID);
 
             if (isset($_GET['pages']) && !empty($_GET['pages'])){
-                $pageNow = $_GET['pages'] > 1 ? intval(safe_replace($_GET['pages'])) : 1;
+                $pageNow = $_GET['pages'] > 1 ? intval($_GET['pages']) : 1;
             }else{
                 $pageNow = 1;
             }

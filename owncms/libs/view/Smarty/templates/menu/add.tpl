@@ -14,10 +14,10 @@
                         <select name="parentID" id="parentID">
                             <option value="0">作为一级菜单</option>
                             {if isset($menuList) && !empty($menuList)}
-                                {foreach from=$smarty.session.{'menu'|cat:""|cat:$smarty.session.haship} key=i item=list}
+                                {foreach from=$menuList key=i item=list}
                                     {if $list.parentID==0}
                                         <option value="{$list.id}" {if isset($smarty.get.id) && $smarty.get.id==$list.id}selected{/if}>{$list.zh_name}</option>
-                                        {foreach from=$smarty.session.{'menu'|cat:""|cat:$smarty.session.haship} key=j item=list2}
+                                        {foreach from=$menuList key=j item=list2}
                                             {if $list2.parentID==$list.id}
                                                 <option value="{$list2.id}" {if isset($smarty.get.id) && $smarty.get.id==$list2.id}selected{/if}>└{$list2.zh_name}</option>
                                             {/if}

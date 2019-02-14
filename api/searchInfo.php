@@ -6,7 +6,7 @@ if (!session_start()){
 }
 
 if (isset($_POST['resID']) || isset($_GET['resID'])){
-    $resID = $_GET['resID'];
+    $resID = @$_GET['resID'] ? safe_replace($_GET['resID']) : $_POST['resID'];
 
     $search = new BaiduController();
     $resInfo = $search->getFile($resID);

@@ -22,7 +22,7 @@ class ValidateCode
 	private $lineLen;		//干扰线数
 	private $colorArr;		//验证码字符颜色组
     private $fontFile;      //字体
-    private $fontsize;   //字体大小
+    private $fontsize;      //字体大小
 
 	function __construct($arr=[])
 	{	
@@ -30,25 +30,28 @@ class ValidateCode
 				session_start();
 		}
 
+		if (isset($arr['fontFile']) && preg_match('/([(){}%&\*\'\"$#@~\?])/',@$arr['fontFile'])){
+            $arr['fontFile'] = FONT_PATH.'times.ttf';
+        }
 
-		$this->width=(isset($arr['width']) ? $arr['width'] : 120 );
-		$this->height=(isset($arr['height']) ? $arr['height'] : 45 );
-		$this->codeLen=(isset($arr['codeLen']) ? $arr['codeLen'] : 6 );
-		$this->red=(isset($arr['red']) ? $arr['red'] : 255 );
-		$this->green=(isset($arr['green']) ? $arr['green'] : 255 );
-		$this->blue=(isset($arr['blue']) ? $arr['blue'] : 255 );
-		$this->lineLen=(isset($arr['lineLen']) ? $arr['lineLen'] : 5 );
+		$this->width=(isset($arr['width']) ? intval($arr['width']) : 120 );
+		$this->height=(isset($arr['height']) ? intval($arr['height']) : 45 );
+		$this->codeLen=(isset($arr['codeLen']) ? intval($arr['codeLen']) : 6 );
+		$this->red=(isset($arr['red']) ? intval($arr['red']) : 255 );
+		$this->green=(isset($arr['green']) ? intval($arr['green']) : 255 );
+		$this->blue=(isset($arr['blue']) ? intval($arr['blue']) : 255 );
+		$this->lineLen=(isset($arr['lineLen']) ? intval($arr['lineLen']) : 5 );
         $this->fontFile=(isset($arr['fontFile']) ? $arr['fontFile'] : FONT_PATH.'times.ttf' );
-        $this->fontsize=(isset($arr['fontsize']) ? $arr['fontsize'] : 18 );
+        $this->fontsize=(isset($arr['fontsize']) ? intval($arr['fontsize']) : 18 );
 
 
 		//创建验证码库
 		for($i=0;$i<128;$i++){
 			if(preg_match('/^[0-9a-z]/i', chr($i))){
-				$this->codeVal[]=chr($i);
+				$this->CodeVal[]=chr($i);
 			}
 		}
-		$this->CodeValLen=count($this->codeVal);
+		$this->CodeValLen=count($this->CodeVal);
 	}
 
 	//创建画布
@@ -76,7 +79,7 @@ class ValidateCode
             $tempX=rand($step*$i,$step*($i+1)-$fontWidth);
 
             $tempY=rand(0.4*$this->height,0.8*$this->height);
-			$valNow=$this->codeVal[rand(0,$this->CodeValLen-1)];
+			$valNow=$this->CodeVal[rand(0,$this->CodeValLen-1)];
 
             imagettftext($this->img, $fontsize, rand(-30,30),$tempX, $tempY, $fontcolor, $this->fontFile, $valNow);
 
